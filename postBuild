@@ -1,0 +1,1 @@
+python -c "from nilearn import datasets; datasets.fetch_development_fmri(n_subjects=20)"

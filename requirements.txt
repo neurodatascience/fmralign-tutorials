@@ -1,0 +1,6 @@
+matplotlib
+nibabel
+git+git://github.com/nilearn/nilearn@9ab767ec41cad0e41e05854ac3141adfdcb634a3
+numpy
+scipy
+scikit-learn
