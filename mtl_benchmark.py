@@ -75,7 +75,7 @@ mtl = fetch_mtl_fmri(n_subjects=2, n_runs=2)
 # %matplotlib inline
 from nilearn import (datasets, image, plotting)
 
-haxby_dataset = datasets.fetch_haxby()
+haxby_dataset = datasets.fetch_haxby(subjects=[])
 mask_filename = haxby_dataset.mask_vt[0]
 resampled_mask = image.resample_to_img(
     mask_filename, mtl.func[0], interpolation="nearest")
