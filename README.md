@@ -17,3 +17,34 @@ For more information on the acquisition of this data set, please see their paper
 
 Data were pre-processed using [fMRIPrep](https://fmriprep.readthedocs.io) version 1.5.0rc1.
 For a full description of the pipeline, please see the Open Science Framework [README](https://osf.io/479pt/).
+
+## Installation
+
+To access this material locally, you can download this repository and install the requirements using `pip`.
+We recommend that you install these requirements within a virtual environment;
+for example, the following commands will create a conda environment and install all necessary packages:
+
+```bash
+git clone https://github.com/neurodatascience/fmralign-tutorials
+cd fmralign-tutorials
+conda create --name fmralign-tutorials python=3.6
+source activate fmralign-tutorials
+pip install -r requirements.txt
+```
+
+You can render main tutorial using [`Jupytext`](https://jupytext.readthedocs.io/en/latest/), which provides a convenient means to sync the user-friendly notebook interface with a git-friendly plain-text Python script.
+
+To do so, simply run:
+
+```bash
+jupytext mtl_benchmark.py --to notebook
+jupytext sync mtl_benchmark.py mtl_benchmark.ipynb
+```
+
+You can then launch the notebook using:
+
+```bash
+jupyter notebook mtl_benchmark.ipynb
+```
+
+All changes you make there will be automatically updated in the associated Python script.
