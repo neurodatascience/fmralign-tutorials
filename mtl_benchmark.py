@@ -115,12 +115,6 @@ data = dict(zip(keys, files))
 # In this case, we'll set the number of parcels such that each contains approximately 200 voxels.
 
 # %%
-import numpy as np
-
-n_voxels = roi_masker.mask_img_.get_data().sum()
-n_pieces = np.int(np.round(n_voxels / 200))
-
-# %%
 import warnings
 warnings.simplefilter(action='ignore', category=(DeprecationWarning,
                                                  FutureWarning,
@@ -131,7 +125,7 @@ from fmralign._utils import voxelwise_correlation
 methods = ['identity', 'scaled_orthogonal', 'ridge_cv']
 
 for method in methods:
-    alignment_estimator = PairwiseAlignment(alignment_method=method, n_pieces=n_pieces,
+    alignment_estimator = PairwiseAlignment(alignment_method=method, n_pieces=1,
                                             clustering='rena', mask=roi_masker)
     alignment_estimator.fit(data['source_train'], data['target_train'])
     target_pred = alignment_estimator.transform(data['source_test'])
