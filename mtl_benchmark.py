@@ -8,9 +8,9 @@
 #       format_version: '1.2'
 #       jupytext_version: 1.2.4
 #   kernelspec:
-#     display_name: Python [conda env:fmralign] *
+#     display_name: Python 3
 #     language: python
-#     name: conda-env-fmralign-py
+#     name: python3
 # ---
 
 # %% [markdown]
@@ -72,17 +72,17 @@ mtl = fetch_mtl_fmri(n_subjects=2, n_runs=2)
 # We'll access this ROI with Nilearn.
 
 # %%
-# %matplotlib inline
 from nilearn import (datasets, image, plotting)
 
 atlas_schaefer_2018 = datasets.fetch_atlas_schaefer_2018(
-    n_rois=1000, yeo_networks=17, resolution_mm=2)
+    n_rois=800, yeo_networks=17, resolution_mm=2)
 atlas = image.load_img(atlas_schaefer_2018.maps)
-mask = image.new_img_like(atlas, atlas.get_data() == 1)
+mask = image.new_img_like(atlas, atlas.get_data() == 5)
 resampled_mask = image.resample_to_img(
-    mask, mtl.func[0], interpolation="nearest")
+    mask, image.mean_img(mtl.func[0]), interpolation="nearest")
 
 # %%
+# %matplotlib inline
 from nilearn.input_data import NiftiMasker
 
 roi_masker = NiftiMasker(mask_img=resampled_mask).fit()
