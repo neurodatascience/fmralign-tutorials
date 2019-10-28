@@ -75,8 +75,9 @@ mtl = fetch_mtl_fmri(n_subjects=2, n_runs=2)
 # %matplotlib inline
 from nilearn import (datasets, image, plotting)
 
-atlas_yeo_2011 = datasets.fetch_atlas_yeo_2011()
-atlas = image.load_img(atlas_yeo_2011.thick_17)
+atlas_schaefer_2018 = datasets.fetch_atlas_schaefer_2018(
+    n_rois=1000, yeo_networks=17, resolution_mm=2)
+atlas = image.load_img(atlas_schaefer_2018.maps)
 mask = image.new_img_like(atlas, atlas.get_data() == 1)
 resampled_mask = image.resample_to_img(
     mask, mtl.func[0], interpolation="nearest")
@@ -121,7 +122,9 @@ n_pieces = np.int(np.round(n_voxels / 200))
 
 # %%
 import warnings
-warnings.simplefilter(action='ignore', category=(DeprecationWarning, FutureWarning, UserWarning))
+warnings.simplefilter(action='ignore', category=(DeprecationWarning,
+                                                 FutureWarning,
+                                                 UserWarning))
 
 from fmralign.pairwise_alignment import PairwiseAlignment
 from fmralign._utils import voxelwise_correlation

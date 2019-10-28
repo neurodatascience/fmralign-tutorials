@@ -1,1 +1,1 @@
-python -c "from nilearn import datasets; datasets.fetch_atlas_yeo_2011()"
+python -c "from nilearn import datasets; datasets.fetch_atlas_schaefer_2018(n_rois=1000, yeo_networks=17, resolution_mm=2)"
