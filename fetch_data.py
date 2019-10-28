@@ -83,7 +83,7 @@ def _fetch_mtl_fmri_functional(n_subjects, n_runs, data_dir, url, verbose):
 
     confounds = 'subj-{0}_task-movie_run-{1}_desc-reducedConfounds_regressors.tsv'
     func = ('subj-{0}_task-movie_run-{1}' +
-            'space-MNI152NLin2009cAsym_desc-postproc_bold.nii.gz')
+            '_space-MNI152NLin2009cAsym_desc-postproc_bold.nii.gz')
 
     # The gzip contains unique download keys per Nifti file and confound
     # pre-extracted from OSF. Required for downloading files.
@@ -109,17 +109,20 @@ def _fetch_mtl_fmri_functional(n_subjects, n_runs, data_dir, url, verbose):
         for f in subj_files:
             # Download regressors
             confound_url = url.format(f['key_r'])
-            regressor_file = [(confounds.format(subj, f['run_num']),
-                            confound_url,
-                            {'move': confounds.format(subj, f['run_num'])})]
+            regressor_file = [(confounds.format(f['participant_id'], f['run_num']),
+                               confound_url,
+                               {'move': confounds.format(f['participant_id'],
+                                                         f['run_num'])}
+                               )]
             path_to_regressor = _fetch_files(data_dir, regressor_file,
                                             verbose=verbose)
             regressors.append(path_to_regressor)
 
             # Download bold images
             func_url = url.format(f['key_b'])
-            func_file = [(func.format(subj, f['run_num']), func_url,
-                        {'move': func.format(subj, f['run_num'])})]
+            func_file = [(func.format(f['participant_id'], f['run_num']), func_url,
+                          {'move': func.format(f['participant_id'], f['run_num'])}
+                          )]
             path_to_func = _fetch_files(data_dir, func_file, verbose=verbose)[0]
             funcs.append(path_to_func)
     return funcs, regressors

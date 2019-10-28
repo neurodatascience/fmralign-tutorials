@@ -80,7 +80,6 @@ atlas = image.load_img(atlas_yeo_2011.thick_17)
 mask = image.new_img_like(atlas, atlas.get_data() == 1)
 resampled_mask = image.resample_to_img(
     mask, mtl.func[0], interpolation="nearest")
-plotting.plot_roi(resampled_mask, cmap='autumn');
 
 # %%
 from nilearn.input_data import NiftiMasker
@@ -94,9 +93,11 @@ roi_masker.generate_report()
 # We'll need to define our `source` and `target` datasets for alignment.
 # Since we'd like to learn about the relative accuracy of the different methods being compared,
 # we'll also define a `train` and `test` loop.
+#
+# To keep our investigations computationally tractable, we'll only use the first ten volumes for each image,
+# indexed using Nilearn's `index_img` function.
 
 # %%
-import pprint
 import fmralign
 
 files = []
@@ -106,8 +107,6 @@ for i, k in enumerate(keys):
     files.append(image.index_img(mtl.func[i], index=slice(0,10)))
     
 data = dict(zip(keys, files))
-pp = pprint.PrettyPrinter(indent=2)
-pp.pprint(data)
 
 # %% [markdown]
 # Alignment is performed in local neighborhoods, so we'll first parcellate our functional scans using [ReNA clustering](https://arxiv.org/abs/1609.04608).
@@ -121,6 +120,9 @@ n_voxels = roi_masker.mask_img_.get_data().sum()
 n_pieces = np.int(np.round(n_voxels / 200))
 
 # %%
+import warnings
+warnings.simplefilter(action='ignore', category=(DeprecationWarning, FutureWarning, UserWarning))
+
 from fmralign.pairwise_alignment import PairwiseAlignment
 from fmralign._utils import voxelwise_correlation
 methods = ['identity', 'scaled_orthogonal', 'ridge_cv']
@@ -134,3 +136,5 @@ for method in methods:
     aligned_score = voxelwise_correlation(data['target_test'], target_pred, roi_masker)
     display = plotting.plot_stat_map(aligned_score,
                                      title=f"Correlation of prediction after {method} alignment")
+
+# %%
