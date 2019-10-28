@@ -87,8 +87,7 @@ def _fetch_mtl_fmri_functional(n_subjects, n_runs, data_dir, url, verbose):
 
     # The gzip contains unique download keys per Nifti file and confound
     # pre-extracted from OSF. Required for downloading files.
-    # tutorial_directory = os.path.dirname(os.path.abspath(__file__))
-    tutorial_directory = '/home/emdupre/Desktop/dissertation/simulations'
+    tutorial_directory = os.path.dirname(os.path.abspath(__file__))
     dtype = [('participant_id', 'U12'), ('run_num', 'U12'),
              ('key_bold', 'U24'), ('key_regressor', 'U24')]
     names = ['participant_id', 'run_num', 'key_b', 'key_r']
