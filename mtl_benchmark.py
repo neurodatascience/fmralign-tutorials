@@ -75,10 +75,11 @@ mtl = fetch_mtl_fmri(n_subjects=2, n_runs=2)
 # %matplotlib inline
 from nilearn import (datasets, image, plotting)
 
-haxby_dataset = datasets.fetch_haxby(subjects=[])
-mask_filename = haxby_dataset.mask_vt[0]
+atlas_yeo_2011 = datasets.fetch_atlas_yeo_2011()
+atlas = image.load_img(atlas_yeo_2011.thick_17)
+mask = image.new_img_like(atlas, atlas.get_data() == 1)
 resampled_mask = image.resample_to_img(
-    mask_filename, mtl.func[0], interpolation="nearest")
+    mask, mtl.func[0], interpolation="nearest")
 plotting.plot_roi(resampled_mask, cmap='autumn');
 
 # %%
