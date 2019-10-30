@@ -6,4 +6,5 @@ numpy
 scipy
 scikit-learn
 fmralign
+seaborn
 
