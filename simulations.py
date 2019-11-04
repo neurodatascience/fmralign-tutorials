@@ -14,7 +14,7 @@
 # ---
 
 # %% [markdown]
-# ## Simulating functional alignment performance
+# # Simulating functional alignment performance
 #
 # In this notebook, we'd like to simulate functional alignment in small regions of interest (ROIs) across cortex. 
 # To do so, we'll generate a matrix with highly correlated "intrinsic" activity.
@@ -33,9 +33,13 @@
 # We generate a new "stimulus bound" sparse pattern which is shared across participants.
 # We can then apply the generate transformation from the previous sparse pattern and perform a "voxelwise correlation" of the transformed ROIs.
 #
-# # Some initial findings
-# From initial testing with Procrustes alignment, the size of the blur impacts the accuracy of resulting alignment in an inverted-U relationship.
-# The "ideal" amount of smoothing for Procrustes alignment is approximately 10 sigma, with 25% sparsity.
+# ## Some initial findings
+#
+# Standardizing the data is *very* important. [Scipy recommends](https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.procrustes.html#scipy.spatial.procrustes) centering the data and setting $tr(AA^T) = 1$. [PyMVPA z-scores](https://github.com/PyMVPA/PyMVPA/blob/5b01da5529c8653da948e9e03c9361168d954482/mvpa2/algorithms/hyperalignment.py#L162) the data. 
+#
+# Smoothing seems to dramatically impair the "reconstruction ratio," yielding drastically different ranges than seen in experimental work from Bazeille and colleagues. 
+# Unsmoothed data performs similarly to the experimental data.
+# This is somewhat surprising, as fMRI data does show some smoothing due to the hemodynamic response.
 
 # %%
 # %matplotlib inline
@@ -44,6 +48,28 @@ import matplotlib.pyplot as plt
 def draw_heatmap(img):
     plt.imshow(img, cmap='viridis', interpolation='nearest')
     plt.show()
+
+
+# %%
+def standardize_data(mtx1, mtx2):
+    """
+    Copied from scipy.spatial.procrustes
+    """
+    # translate all the data to the origin
+    mtx1 -= np.mean(mtx1, 0)
+    mtx2 -= np.mean(mtx2, 0)
+
+    norm1 = np.linalg.norm(mtx1)
+    norm2 = np.linalg.norm(mtx2)
+
+    if norm1 == 0 or norm2 == 0:
+        raise ValueError("Input matrices must contain >1 unique points")
+
+    # change scaling of data (in rows) such that trace(mtx*mtx') = 1
+    mtx1 /= norm1
+    mtx2 /= norm2
+    
+    return mtx1, mtx2
 
 
 # %%
@@ -77,7 +103,7 @@ draw_heatmap(p.A)
 # We can shift this pattern a bit, to mimic functional variability in the structure of these representations across participants.
 
 # %%
-draw_heatmap(np.roll(p.A, shift=2))  # we could also try np.rot90
+draw_heatmap(np.rot90(p.A))  # we could also try np.roll
 
 # %% [markdown]
 # Now we can add the shared response and stimulus-bound response together to get an idealized response within the ROI to some particular stimulus.
@@ -87,12 +113,12 @@ resp = rv + p.A
 draw_heatmap(resp)
 
 # %% [markdown]
-# We'll then blur it slightly with a small gaussian filter to account for the hemodynamic spread.
+# We can then blur it slightly with a small gaussian filter to account for the hemodynamic spread.
 
 # %%
 from scipy.ndimage import filters
 
-smooth_resp = filters.gaussian_filter(resp, sigma=1)
+smooth_resp = filters.gaussian_filter(resp, sigma=2)
 draw_heatmap(smooth_resp)
 
 # %% [markdown]
@@ -103,11 +129,11 @@ draw_heatmap(smooth_resp)
 # %%
 rvs1 = uniform.rvs(size=np.array([10, 10]))
 mtx1 = rvs1 + p.A
-mtx1 = filters.gaussian_filter(mtx1, sigma=1)
+mtx1 = filters.gaussian_filter(mtx1, sigma=2)
 
 rvs2 = uniform.rvs(size=np.array([10, 10]))
-mtx2 = rvs2 + np.roll(p.A, shift=2)
-mtx2 = filters.gaussian_filter(mtx2, sigma=1)
+mtx2 = rvs2 + np.rot90(p.A)
+mtx2 = filters.gaussian_filter(mtx2, sigma=2)
 
 # %%
 f, (ax1, ax2) = plt.subplots(ncols=2, sharey=True)
@@ -117,6 +143,7 @@ ax1.imshow(mtx1, cmap='viridis', interpolation='nearest');
 ax2.imshow(mtx2, cmap='viridis', interpolation='nearest');
 
 # %%
+mtx1, mtx2 = standardize_data(mtx1, mtx2)
 R, sc = scaled_procrustes(mtx1, mtx2)
 f, (ax1, ax2) = plt.subplots(ncols=2, sharey=True)
 ax1.set_title('Procrustes-aligned responses for two example "subjects"', loc='left', pad=12)
@@ -129,7 +156,6 @@ ax2.imshow(mtx2, cmap='viridis', interpolation='nearest');
 # A naive method might be to take the voxelwise correlation of the aligned patterns:
 
 # %%
-# Since this comes bundled with Procrustes, let's also try a voxelwise correlation:
 corr_mat = np.corrcoef(R @ mtx1, mtx2)
 draw_heatmap(corr_mat)
 
@@ -146,13 +172,14 @@ p2 = sparse.random(10, 10, density=0.25)
 rvs1 = uniform.rvs(size=np.array([10, 10]))
 rvs2 = uniform.rvs(size=np.array([10, 10]))
 
-def generate_train_test(dis1, dis2, pattern, sigma=2):
+def generate_train_test(dis1, dis2, pattern, sigma=0):
     # generate first distribution
     dis1 = dis1 + pattern.A
     dis1 = filters.gaussian_filter(dis1, sigma=sigma)
     # generate second distribution
-    dis2 = dis2 + np.roll(pattern.A, shift=2)
+    dis2 = dis2 + np.rot90(pattern.A)
     dis2 = filters.gaussian_filter(dis2, sigma=sigma)
+    standardize_data(dis1, dis2)
     
     return dis1, dis2
 
@@ -183,7 +210,7 @@ ax2.imshow(train2, cmap='viridis', interpolation='nearest');
 # We'll first visualize the voxelwise correlation of this approach:
 
 # %%
-R, sc = scaled_procrustes(train1, train2)
+# R, sc = scaled_procrustes(train1, train2)
 pred_test2 = R @ test1
 
 corr_mat = np.corrcoef(pred_test2, test2)
@@ -244,14 +271,14 @@ reconstruction_ratio(test2, R, test1)
 # that is, the best performance we can expect to achieve if our true patterns are exactly the same. 
 
 # %%
-def simulate_alignment(size=np.array([10, 10]), density=0.25):
+def simulate_alignment(size=np.array([10, 10]), density=0.25, sigma=0):
     p1 = sparse.random(10, 10, density=density)
     p2 = sparse.random(10, 10, density=density)
     rvs1 = uniform.rvs(size=size)
     rvs2 = uniform.rvs(size=size)
 
-    train1, train2 = generate_train_test(rvs1, rvs2, p1)
-    test1, test2   = generate_train_test(rvs1, rvs2, p2)
+    train1, train2 = generate_train_test(rvs1, rvs2, p1, sigma=sigma)
+    test1, test2   = generate_train_test(rvs1, rvs2, p2, sigma=sigma)
     R, sc = scaled_procrustes(train1, train2)
     return reconstruction_ratio(test2, R, test1)
 
