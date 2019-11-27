@@ -22,7 +22,7 @@
 #
 # For full details on the data and methods used here, please refer to their work!
 #
-# In order to match their results as closely as possible, we'll use the exact same dataset of [Individual Brain Charting (IBC)](https://project.inria.fr/IBC/) subject-level contrast maps which they have generously [shared on OSF](https://osf.io/69wvq/).
+# In order to match their results as closely as possible, we'll use the same dataset of [Individual Brain Charting (IBC)](https://project.inria.fr/IBC/) subject-level contrast maps which the authors have generously [shared on OSF](https://osf.io/69wvq/).
 #
 # Since it was unclear which parcellation was adopted in calculating local functional alignment transformations, we'll use the [Bootstrap Analysis of Stable Clustering (BASC) multiscale parcellation](https://nilearn.github.io/modules/generated/nilearn.datasets.fetch_atlas_basc_multiscale_2015.html) distributed through [_Nilearn_](https://nilearn.github.io).
 # We'll use the finest scale of this parcellation, with 444 defined clusters.
@@ -37,15 +37,29 @@ from fmralign.fetch_example_data import fetch_ibc_subjects_contrasts
 basc = datasets.fetch_atlas_basc_multiscale_2015()
 basc_444 = basc['scale444']
 
-files, df, mask = fetch_ibc_subjects_contrasts(subjects=['sub-01', 'sub-02', 'sub-04',
-                                                         'sub-05', 'sub-06', 'sub-07',
-                                                         'sub-08', 'sub-09', 'sub-11', 
-                                                         'sub-12', 'sub-13', 'sub-14',
-                                                         'sub-15'])
+files, df, mask = fetch_ibc_subjects_contrasts(subjects="all")
+
+# %% [markdown]
+# This is a rich dataset, with 53 unique conditions acquired in both poster-to-anterior (PA) and anterior-to-posterior (AP) phase-encoding sessions.
+# We'd like to compare functional alignment accuracy across all of these contrast maps.
+#
+# Here, we'll also focus on results derived from pairwise alignment.
+# Since there are 13 unique subjects, we have ${13 \choose 2} = 78$ possible subject pairs.
+# We'll randomly select 20 pairs to mimic the randomly chosen 20 subject pairs of the original paper.
+
+# %%
+import random
+random.seed(a=18)
+
+condition_list = df.condition.unique()
+subject_list = df.subject.unique()
+possible_pairs = list(itertools.combinations(subject_list, 2))
+pairs = random.sample(possible_pairs, 20)
+pairs
 
 
 # %% [markdown]
-# Following Bazeille and colleagues, we'll also define a "reconstruction error;" that is, the error of the functional alignment predicted signal in reconstructing or matching the target subject.
+# Following Bazeille and colleagues, we'll define a "reconstruction error" to assess the quality of our alignment; that is, the error of the functional alignment predicted signal in reconstructing or matching the target subject.
 #
 # It can be mathematically expressed as:
 #
@@ -53,7 +67,7 @@ files, df, mask = fetch_ibc_subjects_contrasts(subjects=['sub-01', 'sub-02', 'su
 # {\eta}^2_*(Y, Y_i, X) = 1 - \dfrac{\Sigma^n_{i=1}(Y_i - R_iX)^2}{\Sigma^n_{i=1}Y^2_i}
 # $$
 #
-# where $*$ indicates the alignment method of interest such as `scaled_orthogonal` alignment.
+# where $Y$ is the target data, $X$ is the source data, $R$ is the derived transformation matrix, and $*$ indicates the alignment method of interest such as `scaled_orthogonal` alignment.
 
 # %%
 def reconstruction_error(truth, pred):
@@ -63,88 +77,37 @@ def reconstruction_error(truth, pred):
     colleagues (2019).
     
     A perfect prediction yields a value of 1.
+    
+    Parameters
+    ----------
+    truth : str
+        A file path to the true target subject
+    pred : nib.Nifti1Image
+        In-memory nifti-image of the target
+        subject predicted by functional alignment
     """
+    # load and reshape the data
     truth = nib.load(truth).get_fdata()
     pred = np.squeeze(pred.get_fdata())
+    
+    # calculate the reconstruction error
     num = np.sum((truth - pred)**2)
     den = np.sum(truth**2)
     return 1 - (num / den)
 
 
 # %% [markdown]
-# In this notebook, we'd like to replicate part of _Figure 4a_ (reproduced below).
-# Specifically, we'd like to replicate the range of reconstruction errors seen for each alignment method.
-# In order to be sure that we're defining everything correctly, we'll first start with the `scaled orthogonal` alignment since this is computationally efficient.
-#
-# <img src='./Bazeille_2019_fig4a.png' width='500'>
-
-# %% [markdown]
-# To do so, we need to define an additional metric.
-# Because considering the reconstruction error in isolation may not give us full insight into the increase in prediction gained by functional alignment, we may want to compare it against an `identity` alignment, where we predict that the target subject will exactly match the source subject.
-# This is the "reconstruction ratio" defined by Bazeille and colleagues (2019):
-#
-# $$
-# R_{{\eta}^2_*}(Y, R, X) = 1 - \dfrac{\Sigma^n_{i=1}(Y_i - R_iX)^2}{\Sigma^n_{i=1}(Y_i - X_i)^2} = 1 - \dfrac{1 - {\eta}^2_*(Y, R_i, X)}{1 - {\eta}^2_{id}(Y, Id, X)}
-# $$
-#
-# Here, the ratio is greater than zero if voxels are predicted better by aligned data than by raw data.
+# With this metric defined, we can calculate the reconstruction error for a given set of data, with a given functional alignment method and a defined parcellation.
 
 # %%
-from fmralign.pairwise_alignment import PairwiseAlignment
-
-def orthogonal_alignment(source_train, target_train,
-                         source_test, target_test,
-                         clustering=basc_444):
-    alignment_estimator = PairwiseAlignment(alignment_method='scaled_orthogonal',
-                                            clustering=clustering,
-                                            standardize=True)
-    alignment_estimator.fit(source_train, target_train)
-    target_pred = alignment_estimator.transform(source_test)
-    orthogonal_error = reconstruction_error(target_test, target_pred)
-    return orthogonal_error
-
-
-# %%
-def identity_alignment(source_train, target_train,
-                       source_test, target_test,
-                       clustering=basc_444):
-    alignment_estimator = PairwiseAlignment(alignment_method='identity',
-                                            clustering=clustering,
-                                            standardize=True)
-    alignment_estimator.fit(source_train, target_train)
-    target_pred = alignment_estimator.transform(source_test)
-    identity_error = reconstruction_error(target_test, target_pred)
-    return identity_error
-
-
-# %%
-def reconstruction_ratio(aligned_error, identity_error):
+def create_data_dicts(pairs, condition_list):
     """
-    Calculates the reconstruction error
-    as defined by Bazeille and
-    colleagues (2019).
-    
-    A value greater than 0 indicates that
-    voxels are predicted better by aligned data
-    than by raw data.
+    There has to be a more elegant way to do this.
     """
-    num = 1 - aligned_error
-    den = 1 - identity_error
-    return 1 - (num / den)
-
-
-# %% [markdown]
-# Now, with everything defined, we're ready to run our replication!
-
-# %%
-def run_experiment(df):
-    condition_list = df.condition.unique()
-    subject_list = df.subject.unique()
-    pairs = list(itertools.combinations(subject_list, 2))
-    
-    vals = []
+    data_dicts = []
     for p in pairs:
         for c in condition_list:
+            data = {}
             source_train = df[(df.subject == p[0]) &
                           (df.acquisition == 'ap') &
                           (df.condition == c)].path.values.item()
@@ -157,18 +120,104 @@ def run_experiment(df):
             target_test = df[(df.subject == p[1]) &
                              (df.acquisition == 'pa') &
                              (df.condition == c)].path.values.item()
+            data['source_train'] = source_train
+            data['target_train'] = target_train
+            data['source_test'] = source_test
+            data['target_test'] = target_test
+            data_dicts.append(data)
+    return data_dicts
 
-            orthogonal_error = orthogonal_alignment(source_train, target_train,
-                                                    source_test, target_test)
-            identity_error = identity_alignment(source_train, target_train,
-                                                source_test, target_test)
-            vals.append(reconstruction_ratio(orthogonal_error, identity_error))
+
+# %%
+from fmralign.pairwise_alignment import PairwiseAlignment
+
+def calculate_method_error(data, method, clustering=basc_444):
+    """
+    Derive the reconstruction error for a given alignment method
+    over the provided data set.
+    
+    Parameters
+    ----------
+    data : dict
+        A dictionary with defined 'source_train',
+        'target_train', 'source_test', and 'target_test'
+        keys whose values should be file paths
+    method : str
+        A method for functional alignment. Valid
+        methods are 'scaled_orthogonal', 'ridge_cv',
+        'optimal_transport', and 'identity'
+    clustering : nib.Nifti1Image 
+        A defined parcellation. Default is the BASC
+        multi-scale parcellation at 444 region
+        resolution.
+    """
+    alignment_estimator = PairwiseAlignment(alignment_method=method,
+                                            clustering=clustering,
+                                            standardize=True)
+    alignment_estimator.fit(data["source_train"],
+                            data["target_train"])
+    target_pred = alignment_estimator.transform(data["source_test"])
+    method_error = reconstruction_error(data["target_test"],
+                                            target_pred)
+    return method_error
+
+
+# %% [markdown]
+# To make comparisons across methods, we need to define an additional metric.
+# Because considering the reconstruction error in isolation may not give us full insight into the increase in prediction gained by functional alignment, we may want to compare it against an `identity` alignment, where we predict that the target subject will exactly match the source subject.
+# This is the "reconstruction ratio" defined by Bazeille and colleagues (2019):
+#
+# $$
+# R_{{\eta}^2_*}(Y, R, X) = 1 - \dfrac{\Sigma^n_{i=1}(Y_i - R_iX)^2}{\Sigma^n_{i=1}(Y_i - X_i)^2} = 1 - \dfrac{1 - {\eta}^2_*(Y, R_i, X)}{1 - {\eta}^2_{id}(Y, Id, X)}
+# $$
+#
+# Here, the ratio is greater than zero if voxels are predicted better by aligned data than by raw data.
+
+# %%
+def reconstruction_ratio(aligned_error, identity_error):
+    """
+    Calculates the reconstruction error
+    as defined by Bazeille and
+    colleagues (2019).
+    
+    A value greater than 0 indicates that
+    voxels are predicted better by aligned data
+    than by raw data.
+    
+    Parameters
+    ----------
+    aligned_error : float64
+        The reconstruction error from a given
+        functional alignment method
+    identity error :  float64
+        The reconstruction error from predicting
+        the target subject as the source subject
+    """
+    num = 1 - aligned_error
+    den = 1 - identity_error
+    return 1 - (num / den)
+
+
+# %% [markdown]
+# Now, with everything defined, we're ready to run our replication!
+
+# %%
+def run_experiment(pairs, condition_list):
+    """
+    """
+    data_dicts = create_data_dicts(pairs, condition_list)
+    vals = []
+
+    for d in data_dicts:
+        orthogonal_error = calculate_method_error(d, 'scaled_orthogonal')
+        identity_error = calculate_method_error(d, 'identity')
+        vals.append(reconstruction_ratio(orthogonal_error, identity_error))
     return vals
 
 
 # %%
 # This is computationally intensive, and won't run on mybinder
-# vals = run_experiment(df)
+# vals = run_experiment(pairs, condition_list)
 
 # Instead, we can load a file containing the values
 # these were generated by running the above code on my local machine
@@ -182,9 +231,14 @@ sns.set(style="whitegrid")
 ax = sns.violinplot(x=vals)
 
 # %% [markdown]
-# The derived values do not match those seen by Bazeille and colleagues.
-# Notably, although we have a similar central tendency, we have no negative reconstruction ratio values.
+# In this notebook, we'd like to replicate part of _Figure 4a_ (reproduced below).
+# Specifically, we'd like to replicate the range of reconstruction errors seen for each alignment method.
+# In order to be sure that we're defining everything correctly, we'll first start with the `scaled orthogonal` alignment since this is computationally efficient.
 #
-# Possible sources of the discrepancy are that we ran this for all 78 possible IBC subject pairs, rather than a randomly selected 20 pairs.
+# <img src='./Bazeille_2019_fig4a.png' width='500'>
+
+# %% [markdown]
+# The derived values do not match those seen by Bazeille and coauthors.
+# Notably, although we have a similar central tendency, we have no negative reconstruction ratio values.
 
 # %%
