@@ -24,8 +24,8 @@
 #
 # In order to match their results as closely as possible, we'll use the same dataset of [Individual Brain Charting (IBC)](https://project.inria.fr/IBC/) subject-level contrast maps which the authors have generously [shared on OSF](https://osf.io/69wvq/).
 #
-# Since it was unclear which parcellation was adopted in calculating local functional alignment transformations, we'll use the [Bootstrap Analysis of Stable Clustering (BASC) multiscale parcellation](https://nilearn.github.io/modules/generated/nilearn.datasets.fetch_atlas_basc_multiscale_2015.html) distributed through [_Nilearn_](https://nilearn.github.io).
-# We'll use the finest scale of this parcellation, with 444 defined clusters.
+# Since it was unclear which parcellation was adopted in calculating local functional alignment transformations, we'll use the [schaefer multiscale parcellation](https://nilearn.github.io/modules/generated/nilearn.datasets.fetch_atlas_schaefer_2018.html) distributed through [_Nilearn_](https://nilearn.github.io).
+# We'll use the finest scale of this parcellation, with 1000 defined clusters.
 
 # %%
 import itertools
@@ -34,9 +34,9 @@ import nibabel as nib
 from nilearn import datasets
 from fmralign.fetch_example_data import fetch_ibc_subjects_contrasts
 
-basc = datasets.fetch_atlas_basc_multiscale_2015()
-basc_444 = basc['scale444']
-
+schaefer = datasets.fetch_atlas_schaefer_2018(n_rois=1000,
+                                              yeo_networks=17,
+                                              resolution_mm=2)
 files, df, mask = fetch_ibc_subjects_contrasts(subjects="all")
 
 # %% [markdown]
@@ -56,6 +56,65 @@ subject_list = df.subject.unique()
 possible_pairs = list(itertools.combinations(subject_list, 2))
 pairs = random.sample(possible_pairs, 20)
 pairs
+
+
+# %% [markdown]
+# For each subject pair, we now need to define our training and test set for each of the 53 unique conditions.
+# We'll then be able to loop through these and derive functional alignment transformations for each subject pair for all considered conditions.
+
+# %%
+def create_data(pair, condition):
+    """
+    Creates a single data dictionary for analysis.
+    
+    Parameters
+    ----------
+    pair : tuple
+        A subject pair to functionally align
+    condition : string
+    
+    Returns
+    -------
+    data : dict
+        A dictionary with source_train, target_train,
+        source_test, and target_test fields
+    """
+    data = {}
+    data['source_train'] = df[(df.subject == pair[0]) & (df.acquisition == 'ap') &
+                              (df.condition == condition)].path.values.item()
+    data['target_train'] = df[(df.subject == pair[1]) & (df.acquisition == 'ap') &
+                              (df.condition == condition)].path.values.item()
+    data['source_test'] = df[(df.subject == pair[0]) & (df.acquisition == 'pa') &
+                             (df.condition == condition)].path.values.item()
+    data['target_test'] = df[(df.subject == pair[1]) & (df.acquisition == 'pa') &
+                             (df.condition == condition)].path.values.item()
+    return data
+
+
+
+def create_data_dicts(pairs, condition_list):
+    """
+    Creates a list of data dictionaries for analysis.
+    
+    Parameters
+    ----------
+    pairs : list
+        A list of tuples denoting individual subject pairs
+    condition_list : list
+        A list of strings denoting different experimental
+        conditions
+    
+    Returns
+    -------
+    data_dicts : list
+        A list of data dictionaries
+    """
+    data_dicts = []
+    for p in pairs:
+        for c in condition_list:
+            data = create_data(p, c)
+            data_dicts.append(data)
+    return data_dicts
 
 
 # %% [markdown]
@@ -100,38 +159,9 @@ def reconstruction_error(truth, pred):
 # With this metric defined, we can calculate the reconstruction error for a given set of data, with a given functional alignment method and a defined parcellation.
 
 # %%
-def create_data_dicts(pairs, condition_list):
-    """
-    There has to be a more elegant way to do this.
-    """
-    data_dicts = []
-    for p in pairs:
-        for c in condition_list:
-            data = {}
-            source_train = df[(df.subject == p[0]) &
-                          (df.acquisition == 'ap') &
-                          (df.condition == c)].path.values.item()
-            target_train = df[(df.subject == p[1]) &
-                              (df.acquisition == 'ap') &
-                              (df.condition == c)].path.values.item()
-            source_test = df[(df.subject == p[0]) &
-                             (df.acquisition == 'pa') &
-                             (df.condition == c)].path.values.item()
-            target_test = df[(df.subject == p[1]) &
-                             (df.acquisition == 'pa') &
-                             (df.condition == c)].path.values.item()
-            data['source_train'] = source_train
-            data['target_train'] = target_train
-            data['source_test'] = source_test
-            data['target_test'] = target_test
-            data_dicts.append(data)
-    return data_dicts
-
-
-# %%
 from fmralign.pairwise_alignment import PairwiseAlignment
 
-def calculate_method_error(data, method, clustering=basc_444):
+def calculate_method_error(data, method, clustering=schaefer):
     """
     Derive the reconstruction error for a given alignment method
     over the provided data set.
@@ -147,8 +177,8 @@ def calculate_method_error(data, method, clustering=basc_444):
         methods are 'scaled_orthogonal', 'ridge_cv',
         'optimal_transport', and 'identity'
     clustering : nib.Nifti1Image 
-        A defined parcellation. Default is the BASC
-        multi-scale parcellation at 444 region
+        A defined parcellation. Default is the Schaefer
+        multi-scale parcellation at 1000 region
         resolution.
     """
     alignment_estimator = PairwiseAlignment(alignment_method=method,
@@ -202,35 +232,47 @@ def reconstruction_ratio(aligned_error, identity_error):
 # Now, with everything defined, we're ready to run our replication!
 
 # %%
-def run_experiment(pairs, condition_list):
+def run_replication(pairs, condition_list):
     """
+    Run a replication of Bazeille et al 2019.
+    
+    Parameters
+    ----------
+    pairs : list
+        A list of tuples denoting individual subject pairs
+    condition_list : list
+        A list of strings denoting different experimental
+        conditions
+    
+    Returns
+    -------
+    vals : list
+        A list of derived reconstruction ratio values
     """
     data_dicts = create_data_dicts(pairs, condition_list)
     vals = []
 
     for d in data_dicts:
         orthogonal_error = calculate_method_error(d, 'scaled_orthogonal')
-        ridge_error = calculate_method_error(d, 'ridge_cv')
         identity_error = calculate_method_error(d, 'identity')
-        vals.append(reconstruction_ratio(ridge_error, identity_error))
+        vals.append(reconstruction_ratio(orthogonal_error, identity_error))
     return vals
 
 
 # %%
 # This is computationally intensive, and won't run on mybinder
-# vals = run_experiment(pairs, condition_list)
+vals = run_replication(pairs, condition_list)
 
 # Instead, we can load a file containing the values
 # these were generated by running the above code on my local machine
-orth_vals = np.loadtxt('./orthogonal_ibc_reconstruction_ratios.txt')
-ridge_vals = np.loadtxt('./ridge_ibc_reconstruction_ratios.txt')
+# orth_vals = np.loadtxt('./orthogonal_ibc_reconstruction_ratios.txt')
 
 # %%
 # %matplotlib inline
 import seaborn as sns
 sns.set(style="ticks")
 
-ax = sns.violinplot(orth_vals, palette="Paired")
+ax = sns.violinplot(vals, palette="Paired")
 ax.set_xlim(-1, 1)
 ax.axvline(0, color="black");
 
