@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # ---
 # jupyter:
 #   jupytext:
@@ -24,20 +25,22 @@
 #
 # In order to match their results as closely as possible, we'll use the same dataset of [Individual Brain Charting (IBC)](https://project.inria.fr/IBC/) subject-level contrast maps which the authors have generously [shared on OSF](https://osf.io/69wvq/).
 #
-# Since it was unclear which parcellation was adopted in calculating local functional alignment transformations, we'll use the [schaefer multiscale parcellation](https://nilearn.github.io/modules/generated/nilearn.datasets.fetch_atlas_schaefer_2018.html) distributed through [_Nilearn_](https://nilearn.github.io).
-# We'll use the finest scale of this parcellation, with 1000 defined clusters.
+# First, we'll need to define region(s) of the brain over which to perform functional alignment.
+# Luckily, the IBC data set comes with a pre-computed gray matter mask.
 
 # %%
 import itertools
 import numpy as np
 import nibabel as nib
-from nilearn import datasets
+from nilearn import datasets, input_data
 from fmralign.fetch_example_data import fetch_ibc_subjects_contrasts
 
-schaefer = datasets.fetch_atlas_schaefer_2018(n_rois=1000,
-                                              yeo_networks=17,
-                                              resolution_mm=2)
 files, df, mask = fetch_ibc_subjects_contrasts(subjects="all")
+masker = input_data.NiftiMasker(mask_img=mask)
+
+# we'll do an empty fit just so we can see what the mask looks like
+masker.fit()
+masker.generate_report()
 
 # %% [markdown]
 # This is a rich dataset, with 53 unique conditions acquired in both poster-to-anterior (PA) and anterior-to-posterior (AP) phase-encoding sessions.
@@ -63,57 +66,34 @@ pairs
 # We'll then be able to loop through these and derive functional alignment transformations for each subject pair for all considered conditions.
 
 # %%
-def create_data(pair, condition):
+def create_data_dicts(pairs):
     """
     Creates a single data dictionary for analysis.
     
     Parameters
     ----------
-    pair : tuple
-        A subject pair to functionally align
-    condition : string
-    
-    Returns
-    -------
-    data : dict
-        A dictionary with source_train, target_train,
-        source_test, and target_test fields
-    """
-    data = {}
-    data['source_train'] = df[(df.subject == pair[0]) & (df.acquisition == 'ap') &
-                              (df.condition == condition)].path.values.item()
-    data['target_train'] = df[(df.subject == pair[1]) & (df.acquisition == 'ap') &
-                              (df.condition == condition)].path.values.item()
-    data['source_test'] = df[(df.subject == pair[0]) & (df.acquisition == 'pa') &
-                             (df.condition == condition)].path.values.item()
-    data['target_test'] = df[(df.subject == pair[1]) & (df.acquisition == 'pa') &
-                             (df.condition == condition)].path.values.item()
-    return data
-
-
-
-def create_data_dicts(pairs, condition_list):
-    """
-    Creates a list of data dictionaries for analysis.
-    
-    Parameters
-    ----------
     pairs : list
-        A list of tuples denoting individual subject pairs
-    condition_list : list
-        A list of strings denoting different experimental
-        conditions
+        A list of tuples denoting individual subject pairs to
+        functionally align.
     
     Returns
     -------
     data_dicts : list
-        A list of data dictionaries
+        A list of dictionaries, each with defined source_train,
+        target_train, source_test, and target_test fields.
     """
     data_dicts = []
     for p in pairs:
-        for c in condition_list:
-            data = create_data(p, c)
-            data_dicts.append(data)
+        data = {}
+        data["source_train"] = df[(df.subject == p[0]) &
+                                  (df.acquisition == 'ap')].path.values
+        data["target_train"] = df[(df.subject == p[1]) &
+                                  (df.acquisition == 'ap')].path.values
+        data["source_test"] = df[(df.subject == p[0]) &
+                                 (df.acquisition == 'pa')].path.values
+        data["target_test"] = df[(df.subject == p[1]) &
+                                 (df.acquisition == 'pa')].path.values
+        data_dicts.append(data)
     return data_dicts
 
 
@@ -129,30 +109,104 @@ def create_data_dicts(pairs, condition_list):
 # where $Y$ is the target data, $X$ is the source data, $R$ is the derived transformation matrix, and $*$ indicates the alignment method of interest such as `scaled_orthogonal` alignment.
 
 # %%
-def reconstruction_error(truth, pred):
+from scipy.stats import pearsonr
+from sklearn.metrics import r2_score
+
+
+def score_table(loss, X_gt, X_pred, multioutput='raw_values'):
     """
-    Calculates the reconstruction error
-    as defined by Bazeille and
-    colleagues (2019).
+    
+    Parameters
+    ----------
+    loss : str in ['R2', 'corr', 'n_reconstruction_err']
+        The loss function used in scoring. Default is normalized
+        reconstruction error.
+        'R2' :
+            The R2 distance between source and target arrays.
+        'corr' :
+            The correlation between source and target arrays.
+        'n_reconstruction_err' :
+            The normalized reconstruction error.
+    X_gt : arr
+        The ground truth array.
+    X_pred : arr
+        The predicted array
+    multioutput: str in [‘raw_values’, ‘uniform_average’]
+        Defines aggregating of multiple output scores. Default is raw values.
+        ‘raw_values’ :
+            Returns a full set of scores in case of multioutput input.
+        ‘uniform_average’ :
+            Scores of all outputs are averaged with uniform weight.
+
+    Returns
+    -------
+    score : float or ndarray of floats
+        The score or ndarray of scores if ‘multioutput’ is ‘raw_values’.
+    """
+    if loss is "R2":
+        score = r2_score(X_gt, X_pred, multioutput=multioutput)
+    elif loss is "n_reconstruction_err":
+        score = normalized_reconstruction_error(
+            X_gt, X_pred, multioutput=multioutput)
+    elif loss is "corr":
+        score = np.array([pearsonr(X_gt[:, vox], X_pred[:, vox])[0]  #pearsonr returns both rho and p
+                          for vox in range(X_pred.shape[1])])
+    else:
+        raise NameError(
+            "Unknown loss. Recognized values are 'R2', 'corr', or 'reconstruction_err'")
+    # if the calculated score is less than -1, return -1
+    return np.maximum(score, -1)
+
+
+def normalized_reconstruction_error(y_true, y_pred, multioutput='raw_values'):
+    """
+    Calculates the normalized reconstruction error
+    as defined by Bazeille and colleagues (2019).
     
     A perfect prediction yields a value of 1.
     
     Parameters
     ----------
-    truth : str
-        A file path to the true target subject
-    pred : nib.Nifti1Image
-        In-memory nifti-image of the target
-        subject predicted by functional alignment
-    """
-    # load and reshape the data
-    truth = nib.load(truth).get_fdata()
-    pred = np.squeeze(pred.get_fdata())
+    y_true : arr
+        The ground truth array.
+    y_pred : arr
+        The predicted array.
+    multioutput: str in [‘raw_values’, ‘uniform_average’]
+    Defines aggregating of multiple output scores. Default is raw values.
+    ‘raw_values’ :
+        Returns a full set of scores in case of multioutput input.
+    ‘uniform_average’ :
+        Scores of all outputs are averaged with uniform weight.
     
-    # calculate the reconstruction error
-    num = np.sum((truth - pred)**2)
-    den = np.sum(truth**2)
-    return 1 - (num / den)
+    Returns
+    -------
+    score : float or ndarray of floats
+        The score or ndarray of scores if ‘multioutput’ is ‘raw_values’.
+    """
+    if y_true.ndim == 1:
+        y_true = y_true.reshape((-1, 1))
+
+    if y_pred.ndim == 1:
+        y_pred = y_pred.reshape((-1, 1))
+
+    numerator = ((y_true - y_pred) ** 2).sum(axis=0, dtype=np.float64)
+    denominator = ((y_true) ** 2).sum(axis=0, dtype=np.float64)
+    
+    # Include only non-zero values
+    nonzero_denominator = (denominator != 0)
+    nonzero_numerator = (numerator != 0)
+    valid_score = (nonzero_denominator & nonzero_numerator)
+    
+    # Calculate reconstruction error
+    output_scores = np.ones([y_true.shape[1]])
+    output_scores[valid_score] = 1 - (numerator[valid_score] /
+                                      denominator[valid_score])
+    if multioutput == 'raw_values':
+        # return scores individually
+        return output_scores
+    elif multioutput == 'uniform_average':
+        # passing None as weights yields uniform average
+        return np.average(output_scores, weights=None)
 
 
 # %% [markdown]
@@ -161,9 +215,12 @@ def reconstruction_error(truth, pred):
 # %%
 from fmralign.pairwise_alignment import PairwiseAlignment
 
-def calculate_method_error(data, method, clustering=schaefer):
+
+def calculate_pairwise_error(data, method, masker,
+                             clustering='hierarchical_kmeans',
+                             n_pieces=200, n_jobs=5):
     """
-    Derive the reconstruction error for a given alignment method
+    Derive the reconstruction error and ratio for a given alignment method
     over the provided data set.
     
     Parameters
@@ -172,23 +229,38 @@ def calculate_method_error(data, method, clustering=schaefer):
         A dictionary with defined 'source_train',
         'target_train', 'source_test', and 'target_test'
         keys whose values should be file paths
-    method : str
-        A method for functional alignment. Valid
-        methods are 'scaled_orthogonal', 'ridge_cv',
-        'optimal_transport', and 'identity'
-    clustering : nib.Nifti1Image 
-        A defined parcellation. Default is the Schaefer
-        multi-scale parcellation at 1000 region
-        resolution.
+    method : str in ['scaled_orthogonal', 'ridge_cv',
+                     'optimal_transport', 'identity']
+        A method for functional alignment.
+    masker : instance of NiftiMasker or MultiNiftiMasker
+        Masker to be used on the data. For more information see:
+        http://nilearn.github.io/manipulating_images/masker_objects.html
+    clustering : str or 3D Niimg-like object
+        Method used to perform parcellation of data.
+        Supported methods are ['hierarchical_kmeans', 'kmeans', 'rena', 'ward']
+        If 3D Niimg, image used as predefined clustering.
+        Default is 'hierarchical_kmeans'.
+    n_pieces : int
+        Number of regions in which the data is parcellated for alignment.
+        Default is 200.
+    n_jobs : int
+        The number of CPUs to use to do the computation. -1 means
+        'all CPUs'.
     """
-    alignment_estimator = PairwiseAlignment(alignment_method=method,
-                                            clustering=clustering,
-                                            standardize=True)
-    alignment_estimator.fit(data["source_train"],
-                            data["target_train"])
-    target_pred = alignment_estimator.transform(data["source_test"])
-    method_error = reconstruction_error(data["target_test"],
-                                            target_pred)
+    if method is 'identity':  # no need to calculate alignment; base off input data
+        method_error = score_table(loss='n_reconstruction_err',
+                                   X_gt=masker.transform(data["target_test"]),
+                                   X_pred=masker.transform(data["source_test"]))
+    else:
+        alignment_estimator = PairwiseAlignment(alignment_method=method,
+                                                n_pieces=n_pieces, mask=masker,
+                                                n_jobs=n_jobs)
+        alignment_estimator.fit(data["source_train"],
+                                data["target_train"])
+        target_pred = alignment_estimator.transform(data["source_test"])
+        method_error = score_table(loss='n_reconstruction_err',
+                                         X_gt=masker.transform(data["target_test"]),
+                                         X_pred=masker.transform(target_pred))
     return method_error
 
 
@@ -232,49 +304,67 @@ def reconstruction_ratio(aligned_error, identity_error):
 # Now, with everything defined, we're ready to run our replication!
 
 # %%
-def run_replication(pairs, condition_list):
+def calculate_group_error(pairs, methods, clustering='hierarchical_kmeans'):
     """
-    Run a replication of Bazeille et al 2019.
     
     Parameters
     ----------
     pairs : list
         A list of tuples denoting individual subject pairs
-    condition_list : list
-        A list of strings denoting different experimental
-        conditions
+    methods : list
+        A list of strings for functiona alignment. Supported
+        methods are ['scaled_orthogonal', 'ridge_cv',
+        'optimal_transport', 'identity']
+    clustering : str or 3D Niimg-like object
+        Method used to perform parcellation of data.
+        Supported methods are ['hierarchical_kmeans', 'kmeans', 'rena', 'ward']
+        If 3D Niimg, image used as predefined clustering.
+        Default is 'hierarchical_kmeans'.
     
     Returns
     -------
-    vals : list
-        A list of derived reconstruction ratio values
+    errors : dictionary
+        A dictionary of derived reconstruction error values
+        for each method
     """
-    data_dicts = create_data_dicts(pairs, condition_list)
-    vals = []
+    data_dicts = create_data_dicts(pairs)
+    errors = {}
 
-    for d in data_dicts:
-        orthogonal_error = calculate_method_error(d, 'scaled_orthogonal')
-        identity_error = calculate_method_error(d, 'identity')
-        vals.append(reconstruction_ratio(orthogonal_error, identity_error))
-    return vals
+    for method in methods:
+        method_error = []
+        for d in data_dicts:
+            method_error.append(calculate_pairwise_error(d, method, masker, clustering=clustering, n_jobs=2))
+        errors["{}_reconstruction_error".format(method)] = method_error
+    return errors
 
 
 # %%
-# This is computationally intensive, and won't run on mybinder
-vals = run_replication(pairs, condition_list)
+methods = ['scaled_orthogonal', 'ridge_cv', 'optimal_transport', 'identity']
+reconstruction_errors = calculate_group_error(pairs, methods=methods, clustering='kmeans')
 
-# Instead, we can load a file containing the values
-# these were generated by running the above code on my local machine
-# orth_vals = np.loadtxt('./orthogonal_ibc_reconstruction_ratios.txt')
+reconstruction_ratios = []
+identity_errors = reconstruction_errors.pop('identity_reconstruction_error')
+identity_errors = np.asarray(identity_errors).flatten()
+for keys, vals in reconstruction_errors.items():
+    method_errors = np.asarray(vals).flatten()
+    method_ratios = reconstruction_ratio(method_errors, identity_errors)
+    reconstruction_ratios.append(method_ratios)
 
 # %%
 # %matplotlib inline
-import seaborn as sns
-sns.set(style="ticks")
+import matplotlib.pyplot as plt
 
-ax = sns.violinplot(vals, palette="Paired")
-ax.set_xlim(-1, 1)
-ax.axvline(0, color="black");
+methods.remove('identity')
+
+plt.figure(figsize=(5, 5))
+plt.violinplot(reconstruction_ratios, vert=False, showextrema=False,
+               showmeans=False, showmedians=True, points=800, widths=0.8)
+plt.tick_params(axis='y', labelsize=20)
+plt.xlim(left=-1, right=1)
+plt.xlabel(r'$R_{\eta^2}$', fontsize=24, rotation="horizontal")
+plt.axvline(x=0, color='dimgrey')
+plt.tight_layout()
+plt.yticks(range(1, len(methods) + 1), methods);
 
 # %% [markdown]
 # In this notebook, we'd like to replicate part of _Figure 4a_ (reproduced below).
