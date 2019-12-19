@@ -43,6 +43,14 @@ masker.fit()
 masker.generate_report()
 
 # %% [markdown]
+# In this notebook, we'd like to replicate part of _Figure 4a_ (reproduced below).
+# Specifically, we'd like to replicate the range of reconstruction ratios $R_{\eta^2}$ seen for each alignment method.
+#
+# <img src='./Bazeille_2019_fig4a.png' width='500'>
+#
+# We'll define this metric a little later in the tutorial.
+
+# %% [markdown]
 # This is a rich dataset, with 53 unique conditions acquired in both poster-to-anterior (PA) and anterior-to-posterior (AP) phase-encoding sessions.
 # We'd like to compare functional alignment accuracy across all of these contrast maps.
 #
@@ -367,17 +375,15 @@ plt.tight_layout()
 plt.yticks(range(1, len(methods) + 1), methods);
 
 # %% [markdown]
-# In this notebook, we'd like to replicate part of _Figure 4a_ (reproduced below).
-# Specifically, we'd like to replicate the range of reconstruction errors seen for each alignment method.
-# In order to be sure that we're defining everything correctly, we'll first start with the `scaled orthogonal` alignment since this is computationally efficient.
+# Let's revisit _Figure 4a_ to compare our derived reconstruction ratios:
 #
-# <img src='./Bazeille_2019_fig4a.png' width='500'>
+# <img src='./Bazeille_2019_fig4a.png' width='550' align='left'>
 
 # %% [markdown]
-# The derived values do not match those seen by Bazeille and coauthors.
-# Notably, although we have a similar central tendency, we have no negative reconstruction ratio values.
-
-# %%
+# Interestingly, the **Ridge** and **Scaled Orthogonal** methods have very similar (though not identical) distributions to those seen in the paper.
+# **Optimal transport**, however, shows a very different distribution and central tendency.
+#
+# These differences are likely coming from one of two places; either (1) our running without subjects 3 and 10 (since these aren't distributed on OSF), or (2) a difference on dependency versions. 
 
 # %%
 
