@@ -111,7 +111,7 @@ for n in networks:
     mapping[n] = image.new_img_like(atlas, data)
 
 # %%
-%matplotlib inline
+# %matplotlib inline
 import matplotlib.pyplot as plt
 
 resample_vis_clustering = image.resample_to_img(
@@ -157,14 +157,17 @@ data_dict = dict(zip(data_folds, indexed_fdata))
 from fmralign._utils import voxelwise_correlation
 from fmralign.pairwise_alignment import PairwiseAlignment
 
-alignment_estimator = PairwiseAlignment(
-    clustering=resample_vis_clustering, mask=masker,
-    alignment_method='scaled_orthogonal')
-alignment_estimator.fit(data_dict['source_train'], data_dict['target_train'])
-target_pred = alignment_estimator.transform(data_dict['source_test'])
-aligned_score = voxelwise_correlation(data_dict['target_test'], target_pred, masker)
+methods = ['identity', 'scaled_orthogonal', 'ridge_cv']
 
-# And we can plot the outcomes
-title = "Correlation of prediction after Procrustes alignment"
-display = plotting.plot_stat_map(aligned_score, display_mode="z",
-                                 vmax=1, title=title)
+for method in methods:
+    alignment_estimator = PairwiseAlignment(
+        clustering=resample_vis_clustering, mask=masker,
+        alignment_method=method)
+    alignment_estimator.fit(data_dict['source_train'], data_dict['target_train'])
+    target_pred = alignment_estimator.transform(data_dict['source_test'])
+    aligned_score = voxelwise_correlation(data_dict['target_test'], target_pred, masker)
+
+    # And we can plot the outcomes
+    title = "Correlation of prediction after {} alignment".format(method)
+    display = plotting.plot_stat_map(aligned_score, display_mode="z",
+                                     vmax=1, title=title)
