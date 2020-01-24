@@ -1,7 +1,6 @@
 import os
 import numbers
 import warnings
-import numpy as np
 from sklearn.datasets.base import Bunch
 
 from nilearn._utils.numpy_conversions import csv_to_array
@@ -79,7 +78,7 @@ def _fetch_mtl_fmri_functional(n_subjects, n_runs, data_dir, url, verbose):
                                 verbose=verbose)
 
     if url is None:
-        url = 'https://osf.io/download/{}'
+        url = 'https://osf.io/download/{}/'
 
     confounds = 'subj-{0}_task-movie_run-{1}_desc-reducedConfounds_regressors.tsv'
     func = ('subj-{0}_task-movie_run-{1}' +
@@ -169,7 +168,7 @@ def fetch_mtl_fmri(n_subjects=None, n_runs=None,
     This fetcher downloads downsampled data that are available on Open
     Science Framework (OSF). Located here: https://osf.io/vgj7w/files/
     Preprocessing details: https://osf.io/479pt/
-    
+
     References
     ----------
     Please cite this paper if you are using this dataset:
@@ -198,7 +197,7 @@ def fetch_mtl_fmri(n_subjects=None, n_runs=None,
                       "value will be used instead n_subjects={1}"
                       .format(n_subjects, max_subjects))
         n_subjects = max_subjects
-    
+
     if (isinstance(n_runs, numbers.Number) and
                 ((n_runs > 3) or (n_runs < 1))):
         warnings.warn("Wrong value for n_runs={0}. The maximum "

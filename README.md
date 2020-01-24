@@ -47,7 +47,7 @@ For example, for the `mtl_benchmark` tutorial, simply run:
 
 ```bash
 jupytext mtl_benchmark.py --to notebook
-jupytext sync mtl_benchmark.py mtl_benchmark.ipynb
+jupytext --sync mtl_benchmark.py mtl_benchmark.ipynb
 ```
 
 You can then launch the notebook using:
