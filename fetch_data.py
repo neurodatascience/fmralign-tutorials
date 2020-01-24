@@ -1,14 +1,14 @@
 import os
 import numbers
 import warnings
-from sklearn.datasets.base import Bunch
+from sklearn.utils import Bunch
 
 from nilearn._utils.numpy_conversions import csv_to_array
 from nilearn.datasets.utils import (_get_dataset_dir, _fetch_files)
 
 
-def _fetch_mtl_fmri_participants(data_dir, url, verbose):
-    """Helper function to fetch_mtl_fmri.
+def _fetch_aly_2018_participants(data_dir, url, verbose):
+    """Helper function to fetch_aly_2018.
     This function helps in downloading participant data from .tsv file
     uploaded on Open Science Framework (OSF).
 
@@ -27,7 +27,7 @@ def _fetch_mtl_fmri_participants(data_dir, url, verbose):
     participants : numpy.ndarray
         Details each subject's sex and age.
     """
-    dataset_name = 'mtl_fmri'
+    dataset_name = 'aly_2018'
     data_dir = _get_dataset_dir(dataset_name, data_dir=data_dir,
                                 verbose=verbose)
 
@@ -45,8 +45,8 @@ def _fetch_mtl_fmri_participants(data_dir, url, verbose):
     return participants
 
 
-def _fetch_mtl_fmri_functional(n_subjects, n_runs, data_dir, url, verbose):
-    """Helper function to fetch_mtl_fmri.
+def _fetch_aly_2018_functional(n_subjects, n_runs, data_dir, url, verbose):
+    """Helper function to fetch_aly_2018.
     This function helps in downloading functional MRI data in Nifti
     format and associated regressors for each subject.
     The files are downloaded from Open Science Framework (OSF).
@@ -73,7 +73,7 @@ def _fetch_mtl_fmri_functional(n_subjects, n_runs, data_dir, url, verbose):
     regressors: list of str (tsv files)
         Paths to regressors related to each subject.
     """
-    dataset_name = 'mtl_fmri'
+    dataset_name = 'aly_2018'
     data_dir = _get_dataset_dir(dataset_name, data_dir=data_dir,
                                 verbose=verbose)
 
@@ -91,7 +91,7 @@ def _fetch_mtl_fmri_functional(n_subjects, n_runs, data_dir, url, verbose):
              ('key_bold', 'U24'), ('key_regressor', 'U24')]
     names = ['participant_id', 'run_num', 'key_b', 'key_r']
     # csv file contains download information related to OSF
-    osf_data = csv_to_array(os.path.join(tutorial_directory, "mtl_fmri.csv"),
+    osf_data = csv_to_array(os.path.join(tutorial_directory, "aly_2018.csv"),
                             skip_header=True, dtype=dtype, names=names)
 
     funcs = []
@@ -114,7 +114,7 @@ def _fetch_mtl_fmri_functional(n_subjects, n_runs, data_dir, url, verbose):
                                                          f['run_num'])}
                                )]
             path_to_regressor = _fetch_files(data_dir, regressor_file,
-                                            verbose=verbose)
+                                             verbose=verbose)
             regressors.append(path_to_regressor)
 
             # Download bold images
@@ -127,7 +127,7 @@ def _fetch_mtl_fmri_functional(n_subjects, n_runs, data_dir, url, verbose):
     return funcs, regressors
 
 
-def fetch_mtl_fmri(n_subjects=None, n_runs=None,
+def fetch_aly_2018(n_subjects=None, n_runs=None,
                    data_dir=None, resume=True, verbose=1):
     """Fetch fMRI dataset targeting the medial temporal lobe (MTL)
     during repeated movie-watching. Created by Aly and colleagues
@@ -178,12 +178,12 @@ def fetch_mtl_fmri(n_subjects=None, n_runs=None,
     https://www.mitpressjournals.org/doi/full/10.1162/jocn_a_01308
     """
 
-    dataset_name = 'mtl_fmri'
+    dataset_name = 'aly_2018'
     data_dir = _get_dataset_dir(dataset_name, data_dir=data_dir,
                                 verbose=verbose)
 
     # Participants data: ids, demographics, etc
-    participants = _fetch_mtl_fmri_participants(data_dir=data_dir,
+    participants = _fetch_aly_2018_participants(data_dir=data_dir,
                                                 url=None,
                                                 verbose=verbose)
 
@@ -199,13 +199,13 @@ def fetch_mtl_fmri(n_subjects=None, n_runs=None,
         n_subjects = max_subjects
 
     if (isinstance(n_runs, numbers.Number) and
-                ((n_runs > 3) or (n_runs < 1))):
+       ((n_runs > 3) or (n_runs < 1))):
         warnings.warn("Wrong value for n_runs={0}. The maximum "
                       "value will be used instead n_runs={1}"
                       .format(n_subjects, 3))
         n_runs = 3
 
-    funcs, regressors = _fetch_mtl_fmri_functional(n_subjects=n_subjects,
+    funcs, regressors = _fetch_aly_2018_functional(n_subjects=n_subjects,
                                                    n_runs=n_runs,
                                                    data_dir=data_dir,
                                                    url=None,

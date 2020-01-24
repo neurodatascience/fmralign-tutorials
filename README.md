@@ -21,7 +21,7 @@ For a full description of the pipeline, please see the Open Science Framework [R
 
 ## Running on Binder
 
-Unfortunately, the `mtl_benchmark` tutorial is too computationally intensive to run on the public mybinder instance.
+Unfortunately, several of these tutorials are too computationally intensive to run on the public mybinder instance.
 Although we are exploring alternative binderhub instances, for now only the simulation tutorial is available to run in-browser.
 
 For the `mtl_benchmark` tutorial, we recommend that you install this material locally.
