@@ -110,17 +110,21 @@ for n in networks:
     data[~np.isin(data, indic)] = 0
     mapping[n] = image.new_img_like(atlas, data)
 
+# %%
+%matplotlib inline
+import matplotlib.pyplot as plt
+
 resample_vis_clustering = image.resample_to_img(
     mapping['Vis'], image.mean_img(aly.func[0]),
     interpolation="nearest")
 plotting.plot_roi(resample_vis_clustering)
+plt.show()
 
 # %% [markdown]
 # We'll need to define a binarized version of this clustering to use as our NiftiMasker.
 # We can generate this binarized clustering and display it using NiftiMasker's `generate_report` method.
 
 # %%
-# %matplotlib inline
 import nibabel as nib
 from nilearn import input_data
 
@@ -158,24 +162,9 @@ alignment_estimator = PairwiseAlignment(
     alignment_method='scaled_orthogonal')
 alignment_estimator.fit(data_dict['source_train'], data_dict['target_train'])
 target_pred = alignment_estimator.transform(data_dict['source_test'])
-aligned_score = voxelwise_correlation(target_test, target_pred, masker)
+aligned_score = voxelwise_correlation(data_dict['target_test'], target_pred, masker)
 
 # And we can plot the outcomes
 title = "Correlation of prediction after Procrustes alignment"
 display = plotting.plot_stat_map(aligned_score, display_mode="z",
-                                 cut_coords=[-15, -5], vmax=1, title=title)
-
-# %% [markdown]
-# ----
-
-# %%
-template_train = []
-for s in subject_list:
-    template_train.append(SubjectData(subject=s, run=1).select_indices())
-
-alignment_estimator = TemplateAlignment(
-    clustering=resampled_mask, mask=masker,
-    alignment_method='optimal_transport')
-alignment_estimator.fit(template_train)
-
-# %%
+                                 vmax=1, title=title)
