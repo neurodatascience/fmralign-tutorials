@@ -9,7 +9,8 @@ we recommend [BrainIAK](http://brainiak.org/),
 [pyMVPA](http://www.pymvpa.org/).
 
 Here, we demonstrate functional alignment methods using simulated data as well as
-the publicly accessible [MTL dataset](https://osf.io/vgj7w/), generously shared by Aly and colleagues.
+the publicly accessible [Learning Naturalistic Structure dataset](https://osf.io/vgj7w/),
+generously shared by Aly and colleagues.
 For more information on the acquisition of this data set, please see their paper:
 
 > Aly M, Chen J, Turk-Browne NB, & Hasson U (2018).
@@ -23,8 +24,6 @@ For a full description of the pipeline, please see the Open Science Framework [R
 
 Unfortunately, several of these tutorials are too computationally intensive to run on the public mybinder instance.
 Although we are exploring alternative binderhub instances, for now only the simulation tutorial is available to run in-browser.
-
-For the `mtl_benchmark` tutorial, we recommend that you install this material locally.
 
 ## Local Installation
 
@@ -43,17 +42,17 @@ pip install -r requirements.txt
 You can render the tutorials using [`Jupytext`](https://jupytext.readthedocs.io/en/latest/),
 which provides a convenient means to sync the user-friendly notebook interface with a git-friendly plain-text Python script.
 
-For example, for the `mtl_benchmark` tutorial, simply run:
+For example, for the `aly_benchmark` tutorial, simply run:
 
 ```bash
-jupytext mtl_benchmark.py --to notebook
-jupytext --sync mtl_benchmark.py mtl_benchmark.ipynb
+jupytext aly_benchmark.py --to notebook
+jupytext --sync aly_benchmark.py aly_benchmark.ipynb
 ```
 
 You can then launch the notebook using:
 
 ```bash
-jupyter notebook mtl_benchmark.ipynb
+jupyter notebook aly_benchmark.ipynb
 ```
 
 All changes you make there will be automatically updated in the associated Python script.
