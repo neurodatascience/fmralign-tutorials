@@ -9,9 +9,9 @@
 #       format_version: '1.3'
 #       jupytext_version: 1.3.2
 #   kernelspec:
-#     display_name: Python [conda env:fmralign] *
+#     display_name: 'Python 3.7.6 64-bit (''fmralign'': conda)'
 #     language: python
-#     name: conda-env-fmralign-py
+#     name: python37664bitfmraligncondacf2e1401738b4da68b8c38457b80e82a
 # ---
 
 # %% [markdown]
@@ -44,10 +44,8 @@ from nilearn import input_data
 from fmralign.fetch_example_data import fetch_ibc_subjects_contrasts
 
 files, df, mask = fetch_ibc_subjects_contrasts(subjects="all")
-masker = input_data.NiftiMasker(mask_img=mask)
+masker = input_data.NiftiMasker(mask_img=mask).fit()
 
-# we'll do an empty fit just so we can see what the mask looks like
-masker.fit()
 masker.generate_report()
 
 # %% [markdown]
@@ -58,7 +56,7 @@ masker.generate_report()
 #
 # <img src='./Bazeille_2019_fig4a.png' width='500'>
 #
-# We'll define this metric a little later in the tutorial.
+# We'll define this metric a little further down.
 
 # %% [markdown]
 # This is a rich dataset, with 53 unique conditions acquired in both
