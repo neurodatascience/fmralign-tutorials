@@ -141,14 +141,10 @@ masker.generate_report()
 # Since we'd like to learn about the relative accuracy of the different methods being compared,
 # we'll also define a `train` and `test` loop.
 #
-# To keep our investigations computationally tractable, we'll only use the first ten TRs of stimulus presentation for each image.
+# Here, we'll use the first 60 TRs of stimulus presentation, corresponding to the first 90 seconds 'intact' clip.
 
 # %%
-indexed_fdata = []
-for f in aly.func:
-    f = nib.load(f)
-    indexed_fdata.append(nib.Nifti1Image(f.dataobj[..., 4:14],
-                         header=f.header, affine=f.affine))
+indexed_fdata = [nib.load(f) for f in aly.func]
 
 data_folds = ['source_train', 'source_test', 'target_train', 'target_test']
 data_dict = dict(zip(data_folds, indexed_fdata))
@@ -171,3 +167,32 @@ for method in methods:
     title = "Correlation of prediction after {} alignment".format(method)
     display = plotting.plot_stat_map(aligned_score, display_mode="z",
                                      vmax=1, title=title)
+
+# %% [markdown]
+# ## Deriving a template for alignment
+#
+# Next, we'd like to derive a 'template' alignment.
+# This means that we'll align subjects to a randomly chosen reference.
+# We'll then iterate on the resulting average alignment,
+# and re-align all subjects to create a common template.
+
+# %%
+aly = fetch_aly_2018(n_subjects=3, n_runs=1)
+
+template_train = [nib.load(f) for f in aly.func]
+target_train = template_train.pop()
+
+# %%
+from fmralign.template_alignment import TemplateAlignment
+
+methods = ['identity', 'scaled_orthogonal', 'ridge_cv']
+    
+for method in methods:
+    alignment_estimator = TemplateAlignment(
+        clustering=resample_vis_clustering, mask=masker,
+        alignment_method=method)
+    alignment_estimator.fit(template_train)
+
+# %%
+
+# %%
