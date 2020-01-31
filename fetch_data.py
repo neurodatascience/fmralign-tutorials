@@ -82,14 +82,14 @@ def _fetch_aly_2018_functional(n_subjects, n_runs, data_dir, url, verbose):
 
     confounds = 'subj-{0}_task-movie_run-{1}_desc-reducedConfounds_regressors.tsv'
     func = ('subj-{0}_task-movie_run-{1}' +
-            '_space-MNI152NLin2009cAsym_desc-postproc_bold.nii.gz')
+            '_space-MNI152NLin2009cAsym_desc-intactPostproc_bold.nii.gz')
 
     # The gzip contains unique download keys per Nifti file and confound
     # pre-extracted from OSF. Required for downloading files.
     tutorial_directory = os.path.dirname(os.path.abspath(__file__))
     dtype = [('participant_id', 'U12'), ('run_num', 'U12'),
-             ('key_bold', 'U24'), ('key_regressor', 'U24')]
-    names = ['participant_id', 'run_num', 'key_b', 'key_r']
+             ('key_r', 'U24'), ('key_b', 'U24')]
+    names = ['participant_id', 'run_num', 'key_r', 'key_b']
     # csv file contains download information related to OSF
     osf_data = csv_to_array(os.path.join(tutorial_directory, "aly_2018.csv"),
                             skip_header=True, dtype=dtype, names=names)
@@ -98,7 +98,7 @@ def _fetch_aly_2018_functional(n_subjects, n_runs, data_dir, url, verbose):
     regressors = []
 
     if n_subjects is None:
-        n_subjects = 3
+        n_subjects = 30
 
     for subj in range(1, n_subjects + 1):
         subj_files = osf_data[osf_data['participant_id'] == str(subj).zfill(2)]
@@ -137,10 +137,10 @@ def fetch_aly_2018(n_subjects=None, n_runs=None,
     ----------
     n_subjects: int, optional (default None)
         The number of subjects to load. If None, all the subjects are
-        loaded. Maximum of 3 subjects.
+        loaded. Maximum of 30 subjects.
     n_runs: int, optional (default None)
         The number of runs to load per subject. If None, all the runs are
-        loaded. Maximum of 3 runs.
+        loaded. Maximum of 2 runs.
     data_dir: str, optional (default None)
         Path of the data directory. Used to force data storage in a specified
         location. If None, data are stored in home directory.
@@ -199,11 +199,11 @@ def fetch_aly_2018(n_subjects=None, n_runs=None,
         n_subjects = max_subjects
 
     if (isinstance(n_runs, numbers.Number) and
-       ((n_runs > 3) or (n_runs < 1))):
+       ((n_runs > 2) or (n_runs < 1))):
         warnings.warn("Wrong value for n_runs={0}. The maximum "
                       "value will be used instead n_runs={1}"
-                      .format(n_subjects, 3))
-        n_runs = 3
+                      .format(n_subjects, 2))
+        n_runs = 2
 
     funcs, regressors = _fetch_aly_2018_functional(n_subjects=n_subjects,
                                                    n_runs=n_runs,
