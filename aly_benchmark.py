@@ -81,7 +81,7 @@
 # %%
 from fetch_data import fetch_aly_2018
 
-aly = fetch_aly_2018(n_subjects=2, n_runs=2)
+aly = fetch_aly_2018(n_subjects=2)
 
 # %% [markdown]
 # Here, we'll use the 1000 node parcellation defined by Schaefer and colleagues
@@ -141,7 +141,8 @@ masker.generate_report()
 # Since we'd like to learn about the relative accuracy of the different methods being compared,
 # we'll also define a `train` and `test` loop.
 #
-# Here, we'll use the first 60 TRs of stimulus presentation, corresponding to the first 90 seconds 'intact' clip.
+# Here, we'll use the first 60 TRs of stimulus presentation,
+# corresponding to the first 90 seconds 'intact' clip.
 
 # %%
 indexed_fdata = [nib.load(f) for f in aly.func]
@@ -177,22 +178,46 @@ for method in methods:
 # and re-align all subjects to create a common template.
 
 # %%
-aly = fetch_aly_2018(n_subjects=3, n_runs=1)
+from nilearn import image
+aly = fetch_aly_2018(n_subjects=4)
 
-template_train = [nib.load(f) for f in aly.func]
-target_train = template_train.pop()
+target_train = aly.func.pop()
+target_test = aly.func.pop()
+
+template_train = [image.concat_imgs(x) for x in zip(aly.func[0::2], aly.func[1::2])]
+
+# %%
+masked_imgs = [masker.transform(img) for img in template_train]
+average_img = np.mean(masked_imgs, axis=0)
+average_subject = masker.inverse_transform(average_img)
 
 # %%
 from fmralign.template_alignment import TemplateAlignment
 
-methods = ['identity', 'scaled_orthogonal', 'ridge_cv']
-    
+train_index = range(60)
+test_index = range(60, 120)
+
+prediction_from_average = image.index_img(average_subject, test_index)
+average_score = voxelwise_correlation(
+        target_test, prediction_from_average, masker)
+baseline_title = "Group average correlation with ground truth"
+baseline_display = plotting.plot_stat_map(
+    average_score, display_mode="z", vmax=1, title=baseline_title)
+
+methods = ['scaled_orthogonal', 'ridge_cv']
+
 for method in methods:
     alignment_estimator = TemplateAlignment(
         clustering=resample_vis_clustering, mask=masker,
         alignment_method=method)
     alignment_estimator.fit(template_train)
-
-# %%
-
-# %%
+    prediction_from_template = alignment_estimator.transform([target_train],
+                                                             train_index,
+                                                             test_index)
+    template_score = voxelwise_correlation(
+        target_test, prediction_from_template[0], masker)
+    
+    # And we can plot the outcomes
+    title = "Template-based prediction correlation with ground truth after {} alignment".format(method)
+    display = plotting.plot_stat_map(template_score, display_mode="z",
+                                     vmax=1, title=title)
