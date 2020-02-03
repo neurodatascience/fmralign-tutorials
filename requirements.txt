@@ -5,6 +5,6 @@ nilearn==0.6.0a0
 numpy
 scipy
 scikit-learn
-fmralign
+git+git://github.com/parietal-INRIA/fmralign@97e8e045608376fb9ea820788f625de7dbd0c834
 seaborn
 

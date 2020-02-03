@@ -151,7 +151,7 @@ data_folds = ['source_train', 'source_test', 'target_train', 'target_test']
 data_dict = dict(zip(data_folds, indexed_fdata))
 
 # %%
-from fmralign._utils import voxelwise_correlation
+from fmralign.metrics import score_voxelwise
 from fmralign.pairwise_alignment import PairwiseAlignment
 
 methods = ['identity', 'scaled_orthogonal', 'ridge_cv']
@@ -162,7 +162,8 @@ for method in methods:
         alignment_method=method)
     alignment_estimator.fit(data_dict['source_train'], data_dict['target_train'])
     target_pred = alignment_estimator.transform(data_dict['source_test'])
-    aligned_score = voxelwise_correlation(data_dict['target_test'], target_pred, masker)
+    aligned_score = masker.inverse_transform(score_voxelwise(
+        data_dict['target_test'], target_pred, masker, loss='corr'))
 
     # And we can plot the outcomes
     title = "Correlation of prediction after {} alignment".format(method)
@@ -198,8 +199,8 @@ train_index = range(60)
 test_index = range(60, 120)
 
 prediction_from_average = image.index_img(average_subject, test_index)
-average_score = voxelwise_correlation(
-        target_test, prediction_from_average, masker)
+average_score = masker.inverse_transform(score_voxelwise(
+        target_test, prediction_from_average, masker, loss='corr'))
 baseline_title = "Group average correlation with ground truth"
 baseline_display = plotting.plot_stat_map(
     average_score, display_mode="z", vmax=1, title=baseline_title)
@@ -214,8 +215,8 @@ for method in methods:
     prediction_from_template = alignment_estimator.transform([target_train],
                                                              train_index,
                                                              test_index)
-    template_score = voxelwise_correlation(
-        target_test, prediction_from_template[0], masker)
+    template_score = masker.inverse_transform(score_voxelwise(
+        target_test, prediction_from_template[0], masker, loss='corr'))
     
     # And we can plot the outcomes
     title = "Template-based prediction correlation with ground truth after {} alignment".format(method)

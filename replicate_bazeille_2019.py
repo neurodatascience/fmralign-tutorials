@@ -17,7 +17,7 @@
 # %% [markdown]
 # # Replicating Bazeille et al. (2019)
 #
-# In this notebook, we'd like to replicate several of the core results
+# In this notebook, we'd like to replicate one of the core results
 # reported in the recent paper:
 #
 # > Bazeille, Richard, Janati, & Thirion (2019).
@@ -25,7 +25,7 @@
 # > doi: 10.1007/978-3-030-20351-1_18.
 #
 # For full details on the data and methods used here,
-# please refer to their work!
+# please refer to their work.
 #
 # In order to match their results as closely as possible,
 # we'll use the same dataset of
@@ -36,6 +36,15 @@
 # First, we'll need to define region(s) of the brain over which
 # to perform functional alignment.
 # Luckily, the IBC data set comes with a pre-computed gray matter mask.
+
+# %%
+# This particular warning makes things a bit cluttered,
+# so we're going to suppress it
+import warnings
+
+warnings.filterwarnings(
+    "ignore", category=UserWarning,
+    message="Overriding provided-default estimator parameters with provided masker parameters")
 
 # %%
 import itertools
@@ -55,10 +64,44 @@ masker.generate_report()
 # $R_{\eta^2}$ seen for each alignment method.
 #
 # <img src='./Bazeille_2019_fig4a.png' width='500'>
-#
-# We'll define this metric a little further down.
 
 # %% [markdown]
+# A "reconstruction ratio" can be considered as the improvement in predicting
+# a held-out activity pattern after applying functional alignment transformations,
+# as compared to the non-aligned (or only anatomically-aligned) prediction.
+#
+# Specifically, it is the ratio of "reconstruction error" between these two conditions.
+# As defined by Bazeille and colleagues, "reconstruction error" is the error of
+# the functional alignment predicted signal in reconstructing or matching
+# the target subject.
+#
+# It can be mathematically expressed as:
+#
+# $$
+# {\eta}^2_*(Y, Y_i, X) = 1 - \dfrac{\Sigma^n_{i=1}(Y_i - R_iX)^2}{\Sigma^n_{i=1}Y^2_i}
+# $$
+#
+# where $Y$ is the target data, $X$ is the source data, $R$ is the derived
+# transformation matrix, and $*$ indicates the alignment method of interest
+# such as `scaled_orthogonal` alignment.
+#
+# Because considering the reconstruction error in isolation may not give us
+# full insight into the increase in prediction gained by functional alignment,
+# we may want to compare it against an `identity` alignment, where we predict
+# that the target subject will exactly match the source subject.
+# Thus, the "reconstruction ratio" defined by Bazeille and colleagues (2019):
+#
+# $$
+# R_{{\eta}^2_*}(Y, R, X) = 1 - \dfrac{\Sigma^n_{i=1}(Y_i - R_iX)^2}{\Sigma^n_{i=1}(Y_i - X_i)^2} = 1 - \dfrac{1 - {\eta}^2_*(Y, R_i, X)}{1 - {\eta}^2_{id}(Y, Id, X)}
+# $$
+#
+# Here, the ratio is greater than zero if voxels are predicted better by
+# aligned data than by raw data.
+
+# %% [markdown]
+# To assess these metrics in the IBC dataset, we need to define our training
+# and testing data folds.
+#
 # This is a rich dataset, with 53 unique conditions acquired in both
 # poster-to-anterior (PA) and anterior-to-posterior (AP) phase-encoding
 # sessions.
@@ -121,130 +164,13 @@ def create_data_dicts(pairs):
 
 
 # %% [markdown]
-# Following Bazeille and colleagues, we'll define a "reconstruction error"
-# to assess the quality of our alignment; that is, the error of the functional
-# alignment predicted signal in reconstructing or matching the target subject.
-#
-# It can be mathematically expressed as:
-#
-# $$
-# {\eta}^2_*(Y, Y_i, X) = 1 - \dfrac{\Sigma^n_{i=1}(Y_i - R_iX)^2}{\Sigma^n_{i=1}Y^2_i}
-# $$
-#
-# where $Y$ is the target data, $X$ is the source data, $R$ is the derived
-# transformation matrix, and $*$ indicates the alignment method of interest
-# such as `scaled_orthogonal` alignment.
-
-# %%
-from scipy.stats import pearsonr
-from sklearn.metrics import r2_score
-
-
-def score_table(loss, X_gt, X_pred, multioutput='raw_values'):
-    """
-
-    Parameters
-    ----------
-    loss : str in ['R2', 'corr', 'n_reconstruction_err']
-        The loss function used in scoring. Default is normalized
-        reconstruction error.
-        'R2' :
-            The R2 distance between source and target arrays.
-        'corr' :
-            The correlation between source and target arrays.
-        'n_reconstruction_err' :
-            The normalized reconstruction error.
-    X_gt : arr
-        The ground truth array.
-    X_pred : arr
-        The predicted array
-    multioutput: str in [‘raw_values’, ‘uniform_average’]
-        Defines aggregating of multiple output scores. Default is raw values.
-        ‘raw_values’ :
-            Returns a full set of scores in case of multioutput input.
-        ‘uniform_average’ :
-            Scores of all outputs are averaged with uniform weight.
-
-    Returns
-    -------
-    score : float or ndarray of floats
-        The score or ndarray of scores if ‘multioutput’ is ‘raw_values’.
-    """
-    if loss is "R2":
-        score = r2_score(X_gt, X_pred, multioutput=multioutput)
-    elif loss is "n_reconstruction_err":
-        score = normalized_reconstruction_error(
-            X_gt, X_pred, multioutput=multioutput)
-    elif loss is "corr":
-        # pearsonr returns both rho and p
-        score = np.array([pearsonr(X_gt[:, vox], X_pred[:, vox])[0]
-                          for vox in range(X_pred.shape[1])])
-    else:
-        raise NameError(
-            "Unknown loss. Recognized values are 'R2', 'corr', or 'reconstruction_err'")
-    # if the calculated score is less than -1, return -1
-    return np.maximum(score, -1)
-
-
-def normalized_reconstruction_error(y_true, y_pred, multioutput='raw_values'):
-    """
-    Calculates the normalized reconstruction error
-    as defined by Bazeille and colleagues (2019).
-
-    A perfect prediction yields a value of 1.
-
-    Parameters
-    ----------
-    y_true : arr
-        The ground truth array.
-    y_pred : arr
-        The predicted array.
-    multioutput: str in [‘raw_values’, ‘uniform_average’]
-    Defines aggregating of multiple output scores. Default is raw values.
-    ‘raw_values’ :
-        Returns a full set of scores in case of multioutput input.
-    ‘uniform_average’ :
-        Scores of all outputs are averaged with uniform weight.
-
-    Returns
-    -------
-    score : float or ndarray of floats
-        The score or ndarray of scores if ‘multioutput’ is ‘raw_values’.
-    """
-    if y_true.ndim == 1:
-        y_true = y_true.reshape((-1, 1))
-
-    if y_pred.ndim == 1:
-        y_pred = y_pred.reshape((-1, 1))
-
-    numerator = ((y_true - y_pred) ** 2).sum(axis=0, dtype=np.float64)
-    denominator = ((y_true) ** 2).sum(axis=0, dtype=np.float64)
-
-    # Include only non-zero values
-    nonzero_denominator = (denominator != 0)
-    nonzero_numerator = (numerator != 0)
-    valid_score = (nonzero_denominator & nonzero_numerator)
-
-    # Calculate reconstruction error
-    output_scores = np.ones([y_true.shape[1]])
-    output_scores[valid_score] = 1 - (numerator[valid_score] /
-                                      denominator[valid_score])
-    if multioutput == 'raw_values':
-        # return scores individually
-        return output_scores
-    elif multioutput == 'uniform_average':
-        # passing None as weights yields uniform average
-        return np.average(output_scores, weights=None)
-
-
-# %% [markdown]
-# With this metric defined, we can calculate the reconstruction error for a
+# With our data folds defined, we can calculate the reconstruction error for a
 # given set of data, with a given functional alignment method and a
 # defined parcellation.
 
 # %%
+from fmralign import metrics
 from fmralign.pairwise_alignment import PairwiseAlignment
-
 
 def calculate_pairwise_error(data, method, masker,
                              clustering='hierarchical_kmeans',
@@ -279,9 +205,10 @@ def calculate_pairwise_error(data, method, masker,
     """
     if method is 'identity':
         # no need to calculate alignment; base off input data
-        method_error = score_table(loss='n_reconstruction_err',
-                                   X_gt=masker.transform(data["target_test"]),
-                                   X_pred=masker.transform(data["source_test"]))
+        method_error = metrics.score_voxelwise(loss='n_reconstruction_err',
+                                               masker=masker,
+                                               ground_truth=data["target_test"],
+                                               prediction=data["source_test"])
     else:
         alignment_estimator = PairwiseAlignment(alignment_method=method,
                                                 n_pieces=n_pieces, mask=masker,
@@ -289,54 +216,12 @@ def calculate_pairwise_error(data, method, masker,
         alignment_estimator.fit(data["source_train"],
                                 data["target_train"])
         target_pred = alignment_estimator.transform(data["source_test"])
-        method_error = score_table(loss='n_reconstruction_err',
-                                   X_gt=masker.transform(data["target_test"]),
-                                   X_pred=masker.transform(target_pred))
+        method_error = metrics.score_voxelwise(loss='n_reconstruction_err',
+                                               masker=masker,
+                                               ground_truth=data["target_test"],
+                                               prediction=target_pred)
     return method_error
 
-
-# %% [markdown]
-# To make comparisons across methods, we need to define an additional metric.
-# Because considering the reconstruction error in isolation may not give us
-# full insight into the increase in prediction gained by functional alignment,
-# we may want to compare it against an `identity` alignment, where we predict
-# that the target subject will exactly match the source subject.
-# This is the "reconstruction ratio" defined by Bazeille and colleagues (2019):
-#
-# $$
-# R_{{\eta}^2_*}(Y, R, X) = 1 - \dfrac{\Sigma^n_{i=1}(Y_i - R_iX)^2}{\Sigma^n_{i=1}(Y_i - X_i)^2} = 1 - \dfrac{1 - {\eta}^2_*(Y, R_i, X)}{1 - {\eta}^2_{id}(Y, Id, X)}
-# $$
-#
-# Here, the ratio is greater than zero if voxels are predicted better by
-# aligned data than by raw data.
-
-# %%
-def reconstruction_ratio(aligned_error, identity_error):
-    """
-    Calculates the reconstruction error
-    as defined by Bazeille and
-    colleagues (2019).
-
-    A value greater than 0 indicates that
-    voxels are predicted better by aligned data
-    than by raw data.
-
-    Parameters
-    ----------
-    aligned_error : float64
-        The reconstruction error from a given
-        functional alignment method
-    identity error :  float64
-        The reconstruction error from predicting
-        the target subject as the source subject
-    """
-    num = 1 - aligned_error
-    den = 1 - identity_error
-    return 1 - (num / den)
-
-
-# %% [markdown]
-# Now, with everything defined, we're ready to run our replication!
 
 # %%
 def calculate_group_error(pairs, methods, clustering='hierarchical_kmeans'):
@@ -375,6 +260,9 @@ def calculate_group_error(pairs, methods, clustering='hierarchical_kmeans'):
     return errors
 
 
+# %% [markdown]
+# Now we're ready to run our replication!
+
 # %%
 methods = ['scaled_orthogonal', 'ridge_cv', 'optimal_transport', 'identity']
 reconstruction_errors = calculate_group_error(pairs, methods=methods,
@@ -385,7 +273,7 @@ identity_errors = reconstruction_errors.pop('identity_reconstruction_error')
 identity_errors = np.asarray(identity_errors).flatten()
 for keys, vals in reconstruction_errors.items():
     method_errors = np.asarray(vals).flatten()
-    method_ratios = reconstruction_ratio(method_errors, identity_errors)
+    method_ratios = metrics.reconstruction_ratio(method_errors, identity_errors)
     reconstruction_ratios.append(method_ratios)
 
 # %%
