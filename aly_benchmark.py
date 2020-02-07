@@ -168,7 +168,7 @@ for method in methods:
     # And we can plot the outcomes
     title = "Correlation of prediction after {} alignment".format(method)
     display = plotting.plot_stat_map(aligned_score, display_mode="z",
-                                     vmax=1, title=title)
+                                     cut_coords=(-28, -14, -2, 0, 12, 34, 46), vmax=1, title=title)
 
 # %% [markdown]
 # ## Deriving a template for alignment
@@ -221,4 +221,6 @@ for method in methods:
     # And we can plot the outcomes
     title = "Template-based prediction correlation with ground truth after {} alignment".format(method)
     display = plotting.plot_stat_map(template_score, display_mode="z",
-                                     vmax=1, title=title)
+                                     cut_coords=(-28, -14, -2, 0, 12, 34, 46), vmax=1, title=title)
+
+# %%
