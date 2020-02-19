@@ -90,8 +90,6 @@ aly = fetch_aly_2018(n_subjects=2)
 # to generate seven new "clusterings" &mdash; one for each network. We'll then
 # calculate alignment transformations separately for each parcel within a given
 # clustering.
-#
-# First, we can plot all ROIs within the Visual network clustering.
 
 # %%
 import numpy as np
@@ -110,6 +108,24 @@ for n in networks:
     data[~np.isin(data, indic)] = 0
     mapping[n] = image.new_img_like(atlas, data)
 
+# %% [markdown]
+# This allows us to easily sample from each of the Yeo 7 networks.
+# Let's quickly confirm their names.
+
+# %%
+mapping.keys()
+
+# %% [markdown]
+# Most of these names are self-explanatory, but a few might
+# require further clarification.
+# For example, the 'Cont' network is often referred to in the
+# literature as the "Frontoparietal Control" network, while
+# the "SalVentAttn" network is sometimes known more simply as
+# the "Salience" network.
+#
+# Now, we can plot all ROIs within a given network.
+# Let's first look at the Visual network clustering.
+
 # %%
 # %matplotlib inline
 import matplotlib.pyplot as plt
@@ -121,24 +137,43 @@ plotting.plot_roi(resample_vis_clustering)
 plt.show()
 
 # %% [markdown]
-# We'll need to define a binarized version of this clustering to use as our NiftiMasker.
-# We can generate this binarized clustering and display it using NiftiMasker's `generate_report` method.
+# Given the restricted acquisition of this dataset, we should
+# also define a functional mask to sub-sample the clusterings.
+
+# %%
+img = image.mean_img(aly.func[1])
+brain_mask = image.math_img('img > 1', img=img)
+
+plotting.view_img(brain_mask)
+
+# %% [markdown]
+# We can now use the overlap of this brain mask and our clustering as
+# our NiftiMasker with which to sample data.
+# To calculate the overlap, we'll need to define a binarized version
+# of the clustering.
+#
+# We can then generate the joint mask and display it using
+# NiftiMasker's `generate_report` method.
 
 # %%
 import nibabel as nib
-from nilearn import input_data
+from nilearn import input_data, masking
 
 binarized_mask = nib.Nifti1Image(resample_vis_clustering.dataobj.astype(bool),
                                  header=resample_vis_clustering.header,
                                  affine=resample_vis_clustering.affine)
-masker = input_data.NiftiMasker(mask_img=binarized_mask).fit()
+
+mask = masking.intersect_masks([brain_mask, binarized_mask], threshold=1)
+
+masker = input_data.NiftiMasker(mask_img=mask).fit()
 masker.generate_report()
 
 # %% [markdown]
 # ## Defining and running the alignment
 #
 # We'll need to define our `source` and `target` datasets for alignment.
-# Since we'd like to learn about the relative accuracy of the different methods being compared,
+# Since we'd like to learn about the relative accuracy of the different
+# methods being compared,
 # we'll also define a `train` and `test` loop.
 #
 # Here, we'll use the first 60 TRs of stimulus presentation,
@@ -154,13 +189,14 @@ data_dict = dict(zip(data_folds, indexed_fdata))
 from fmralign.metrics import score_voxelwise
 from fmralign.pairwise_alignment import PairwiseAlignment
 
-methods = ['identity', 'scaled_orthogonal', 'ridge_cv']
+methods = ['identity', 'scaled_orthogonal', 'ridge_cv', 'optimal_transport']
 
 for method in methods:
     alignment_estimator = PairwiseAlignment(
         clustering=resample_vis_clustering, mask=masker,
         alignment_method=method)
-    alignment_estimator.fit(data_dict['source_train'], data_dict['target_train'])
+    alignment_estimator.fit(data_dict['source_train'],
+                            data_dict['target_train'])
     target_pred = alignment_estimator.transform(data_dict['source_test'])
     aligned_score = masker.inverse_transform(score_voxelwise(
         data_dict['target_test'], target_pred, masker, loss='corr'))
@@ -168,7 +204,8 @@ for method in methods:
     # And we can plot the outcomes
     title = "Correlation of prediction after {} alignment".format(method)
     display = plotting.plot_stat_map(aligned_score, display_mode="z",
-                                     cut_coords=(-28, -14, -2, 0, 12, 34, 46), vmax=1, title=title)
+                                     cut_coords=(-8, 6, 18, 28, 40, 62, 76), 
+                                     vmax=1, title=title)
 
 # %% [markdown]
 # ## Deriving a template for alignment
@@ -203,9 +240,10 @@ average_score = masker.inverse_transform(score_voxelwise(
         target_test, prediction_from_average, masker, loss='corr'))
 baseline_title = "Group average correlation with ground truth"
 baseline_display = plotting.plot_stat_map(
-    average_score, display_mode="z", vmax=1, title=baseline_title)
+    average_score, display_mode="z", vmax=1, title=baseline_title,
+    cut_coords=(-8, 6, 18, 28, 40, 62, 76))
 
-methods = ['scaled_orthogonal', 'ridge_cv']
+methods = ['scaled_orthogonal', 'ridge_cv', 'optimal_transport']
 
 for method in methods:
     alignment_estimator = TemplateAlignment(
@@ -217,10 +255,12 @@ for method in methods:
                                                              test_index)
     template_score = masker.inverse_transform(score_voxelwise(
         target_test, prediction_from_template[0], masker, loss='corr'))
-    
+
     # And we can plot the outcomes
-    title = "Template-based prediction correlation with ground truth after {} alignment".format(method)
+    title = "Template-based prediction correlation with ground " + \
+            "truth after {} alignment".format(method)
     display = plotting.plot_stat_map(template_score, display_mode="z",
-                                     cut_coords=(-28, -14, -2, 0, 12, 34, 46), vmax=1, title=title)
+                                     vmax=1, title=title,
+                                     cut_coords=(-8, 6, 18, 28, 40, 62, 76))
 
 # %%
