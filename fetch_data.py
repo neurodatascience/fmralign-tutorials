@@ -27,10 +27,6 @@ def _fetch_aly_2018_participants(data_dir, url, verbose):
     participants : numpy.ndarray
         Details each subject's sex and age.
     """
-    dataset_name = 'aly_2018'
-    data_dir = _get_dataset_dir(dataset_name, data_dir=data_dir,
-                                verbose=verbose)
-
     if url is None:
         url = 'https://osf.io/3gm9p/download/'
 
@@ -73,10 +69,6 @@ def _fetch_aly_2018_functional(n_subjects, n_runs, data_dir, url, verbose):
     regressors: list of str (tsv files)
         Paths to regressors related to each subject.
     """
-    dataset_name = 'aly_2018'
-    data_dir = _get_dataset_dir(dataset_name, data_dir=data_dir,
-                                verbose=verbose)
-
     if url is None:
         url = 'https://osf.io/download/{}/'
 

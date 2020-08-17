@@ -5,12 +5,12 @@
 #     text_representation:
 #       extension: .py
 #       format_name: percent
-#       format_version: '1.2'
-#       jupytext_version: 1.2.4
+#       format_version: '1.3'
+#       jupytext_version: 1.3.2
 #   kernelspec:
-#     display_name: Python [conda env:fmralign] *
+#     display_name: 'Python 3.7.6 64-bit (''fmralign'': conda)'
 #     language: python
-#     name: conda-env-fmralign-py
+#     name: python37664bitfmraligncondacf2e1401738b4da68b8c38457b80e82a
 # ---
 
 # %% [markdown]
@@ -37,9 +37,15 @@
 #
 # Standardizing the data is *very* important. [Scipy recommends](https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.procrustes.html#scipy.spatial.procrustes) centering the data and setting $tr(AA^T) = 1$. [PyMVPA z-scores](https://github.com/PyMVPA/PyMVPA/blob/5b01da5529c8653da948e9e03c9361168d954482/mvpa2/algorithms/hyperalignment.py#L162) the data. 
 #
-# Smoothing seems to dramatically impair the "reconstruction ratio," yielding drastically different ranges than seen in experimental work from Bazeille and colleagues. 
+# Smoothing seems to dramatically impair the "reconstruction ratio." 
 # Unsmoothed data performs similarly to the experimental data.
 # This is somewhat surprising, as fMRI data does show some smoothing due to the hemodynamic response.
+#
+# From Thomas:
+# > Reconstruction ratios (as well as r2 score btw) can get very negative for real data and we arbitrarily clipped them to -1 which is already a very bad score.
+#
+# > Aligning images after smoothing them will usually give very bad alignments (and bad scores) since specific features used to learn the mappings will be weakened.
+# On the contrary smoothing reconstructed images will usually improve a bit their reconstruction ratio (even though it may lose some signal specificity).
 
 # %%
 # %matplotlib inline
@@ -118,8 +124,52 @@ draw_heatmap(resp)
 # %%
 from scipy.ndimage import filters
 
-smooth_resp = filters.gaussian_filter(resp, sigma=2)
+smooth_resp = filters.gaussian_filter(resp, sigma=1)
 draw_heatmap(smooth_resp)
+
+# %% [markdown]
+# We should learn our functional alignment transformations across multiple images. 
+# To do this, we should conserve our uniform distribution but add a new stimulus-bound response.
+
+# %%
+import matplotlib.gridspec
+
+def generate_subj_time_series(roi_resp, samples):
+    """
+    Generate mocked subject-specific time series
+    
+    Parameters
+    ----------
+    roi_resp : ndarry
+        Conserved functional response in an ROI
+    samples : int
+        The number of samples to generate for the
+        time series
+    
+    Returns
+    -------
+    time_series : list
+        A list of response patterns
+    """
+    time_series = []
+    
+    for i in range(samples):
+        p = sparse.random(10, 10, density=0.25)
+        resp = rv + p.A
+        smooth_resp = filters.gaussian_filter(resp, sigma=1)
+        time_series.append(smooth_resp)
+    return time_series
+
+ts = generate_subj_time_series(rv, 9)
+fig, axes = plt.subplots(ncols=9, figsize=(6, 6))
+for i, ax in enumerate(axes):
+    ax.pcolormesh(np.array(ts[i]), cmap='viridis')
+    
+gs = matplotlib.gridspec.GridSpec(3,3)
+for i, ax in enumerate(fig.axes):
+    ax.set_position(gs[i].get_position(fig))
+    ax.set_xticks([])
+    ax.set_yticks([])
 
 # %% [markdown]
 # We now need multiple subjects to align.
@@ -129,11 +179,11 @@ draw_heatmap(smooth_resp)
 # %%
 rvs1 = uniform.rvs(size=np.array([10, 10]))
 mtx1 = rvs1 + p.A
-mtx1 = filters.gaussian_filter(mtx1, sigma=2)
+mtx1 = filters.gaussian_filter(mtx1, sigma=1)
 
 rvs2 = uniform.rvs(size=np.array([10, 10]))
 mtx2 = rvs2 + np.rot90(p.A)
-mtx2 = filters.gaussian_filter(mtx2, sigma=2)
+mtx2 = filters.gaussian_filter(mtx2, sigma=1)
 
 # %%
 f, (ax1, ax2) = plt.subplots(ncols=2, sharey=True)
@@ -172,7 +222,7 @@ p2 = sparse.random(10, 10, density=0.25)
 rvs1 = uniform.rvs(size=np.array([10, 10]))
 rvs2 = uniform.rvs(size=np.array([10, 10]))
 
-def generate_train_test(dis1, dis2, pattern, sigma=0):
+def generate_train_test(dis1, dis2, pattern, sigma=1):
     # generate first distribution
     dis1 = dis1 + pattern.A
     dis1 = filters.gaussian_filter(dis1, sigma=sigma)
@@ -271,7 +321,7 @@ reconstruction_ratio(test2, R, test1)
 # that is, the best performance we can expect to achieve if our true patterns are exactly the same. 
 
 # %%
-def simulate_alignment(size=np.array([10, 10]), density=0.25, sigma=0):
+def simulate_alignment(size=np.array([10, 10]), density=0.25, sigma=1):
     p1 = sparse.random(10, 10, density=density)
     p2 = sparse.random(10, 10, density=density)
     rvs1 = uniform.rvs(size=size)
