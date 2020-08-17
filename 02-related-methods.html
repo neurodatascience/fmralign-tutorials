@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Comparing representational geometries with functional alignment &#8212; Functional Alignment</title>
+    <title>What functional alignment alignment is not &#8212; Functional Alignment</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="_static/css/index.css" rel="stylesheet">
     <link rel="stylesheet" href="_static/sphinx-book-theme.css" type="text/css" />
@@ -39,7 +39,8 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="What functional alignment alignment is not" href="02-related-methods.html" />
+    <link rel="next" title="Generalized Procrustes Analysis" href="03-procrustes.html" />
+    <link rel="prev" title="Comparing representational geometries with functional alignment" href="01-intro.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
@@ -72,14 +73,14 @@
 <nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
   <ul class="nav sidenav_l1">
  <li class="toctree-l1">
-  <a class="reference internal" href="#">
+  <a class="reference internal" href="01-intro.html">
    Comparing representational geometries with functional alignment
   </a>
  </li>
 </ul>
-<ul class="nav sidenav_l1">
- <li class="toctree-l1">
-  <a class="reference internal" href="02-related-methods.html">
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    What functional alignment alignment is not
   </a>
  </li>
@@ -134,11 +135,11 @@
     <div class="dropdown-buttons">
         <!-- ipynb file if we had a myst markdown file -->
         <a class="dropdown-buttons"
-            href="_sources/01-intro.ipynb"><button type="button"
+            href="_sources/02-related-methods.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download notebook file" data-toggle="tooltip"
                 data-placement="left">.ipynb</button></a>
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/01-intro.md"><button type="button"
+        <a class="dropdown-buttons" href="_sources/02-related-methods.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -162,7 +163,7 @@
         aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://mybinder.org/v2/gh/neurodatascience/fmralign-tutorials/master?urlpath=tree/content/01-intro.md"><button type="button"
+        <a class="binder-button" href="https://mybinder.org/v2/gh/neurodatascience/fmralign-tutorials/master?urlpath=tree/content/02-related-methods.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
                 data-placement="left"><img class="binder-button-logo"
                     src="_static/images/logo_binder.svg"
@@ -184,8 +185,13 @@
         <nav id="bd-toc-nav">
             <ul class="nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#what-s-all-this-about-then">
-   What’s all this about then?
+  <a class="reference internal nav-link" href="#individualized-parcellations">
+   Individualized parcellations
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#representational-similarity-analysis-rsa">
+   Representational Similarity Analysis (RSA)
   </a>
  </li>
 </ul>
@@ -198,37 +204,64 @@
         
               <div>
                 
-  <div class="section" id="comparing-representational-geometries-with-functional-alignment">
-<h1>Comparing representational geometries with functional alignment<a class="headerlink" href="#comparing-representational-geometries-with-functional-alignment" title="Permalink to this headline">¶</a></h1>
-<p>Cognitive neuroscience is broadly interested in how cognition is represented in the brain;
-that is, how psychological constructs like memory, emotion, or decision-making are implemented in brain regions or networks of regions.
-There are many challenges to achieving this understanding,
-from providing precise, testable definitions for our psychological constructs
-to accounting for noise in our measurements.</p>
-<p>Perhaps the broadest challenge, however, is the sheer diversity of realizations that we see for a given psychological process or neural circuit.
-That is, individual participants (human or animal) may show very different neural and behavioral patterns to achieve the same goal.
-These individual differences are an important area of study;
-however, traditional analyses are designed to compare those patterns which hold across individuals and discard individual variability as noise.</p>
-<p>Recently, new analysis methods have emerged which account for this variability.
-One example is <em>functional alignment</em> methods,
-also known as <em>hyperalignment</em> methods.
-In traditional analyses, we ensure that the anatomy of our participants is aligned by registering their scans to a standardized template (such as the MNI152).
-Functional alignment extends this intuition to the collected functional scans;
-for example, fMRI time series.
-Our goal, then, is to align the representational geometry of each subject,
-much as we align their structural geometry.</p>
-<div class="section" id="what-s-all-this-about-then">
-<h2>What’s all this about then?<a class="headerlink" href="#what-s-all-this-about-then" title="Permalink to this headline">¶</a></h2>
-<p>This site is intended as a collection of tutorials for several popular functional alignment methods.
-We aim to provide the intuitions behind each method,
-some mathematical derivations,
-and an example implementation on toy data.</p>
-<p>There are many resources for applying functional alignment methods to domain-specific data.
-For fMRI data, we recommend <a class="reference external" href="https://parietal-inria.github.io/fmralign-docs">fmralign</a>,
-<a class="reference external" href="http://www.pymvpa.org/">PyMVPA</a>,
-or <a class="reference external" href="https://brainiak.org/">BrainIAK</a>.</p>
-<div class="toctree-wrapper compound">
+  <div class="section" id="what-functional-alignment-alignment-is-not">
+<h1>What functional alignment alignment is not<a class="headerlink" href="#what-functional-alignment-alignment-is-not" title="Permalink to this headline">¶</a></h1>
+<p>There are two other popular methods in the cognitive neuroscience literature which provide alternative solutions to the problem of individual variability: individualized parcellations and Representational Similarity Analysis (RSA).
+Although not the focus of this site,
+we briefly contrast these methods with functional alignment to provide a clearer understanding of what functional alignment entails.</p>
+<div class="section" id="individualized-parcellations">
+<h2>Individualized parcellations<a class="headerlink" href="#individualized-parcellations" title="Permalink to this headline">¶</a></h2>
+<p>High-dimensional neural recordings, such as those achieved through fMRI,
+measure hundreds of thousands of voxels over hundreds of time points.
+Computationally, working with this data thus demands some kind of dimensionality reduction.
+Although many forms of dimensionality reduction have been explored,
+perhaps the most popular method involves parcellating the brain into a set of functional regions.</p>
+<p>This method has a strong sense of biological validity,
+as we know that the brain shows cytoarchitectonic and functional differences across both cortex and sub-cortex.
+Although functional parcellations can be directly estimated from an individual’s fMRI scans,
+variability in their localization makes inter-subject comparison difficult.
+Many investigators, therefore, choose to rely on canonical parcellations derived from a different group of participants, such as the Schaefer or BASC parcellations.</p>
+<p>Because these are group-averaged parcellations, however,
+we now have the opposite problem–that these parcellations do not appropriately reflect individual-level functional structure!
+As a result, new methods are being actively developed to “individualize parcellations.”
+That is, to take a canonical parcellation and alter the spatial extent or localization of its parcels such that it better reflects individual-level organization while still being comparable across the group.</p>
+<p>Although the intuition behind individualizing parcellations can be viewed as a form of functional alignment,
+there is one large conceptual difference.
+When we parcellate fMRI data,
+we know that this is a useful form of dimensionality reduction.
+It is unlikely, however, that the identified areas reflect “true” functional modules in the brain.
+This requires a much higher evidence-threshold,
+such as converging cytoarchitectonic boundaries.
+By individualizing functional parcels,
+we implicitly agree that we expect this set of parcels to exist across all individuals.
+It may be possible to describe the data using the set of parcels,
+but this does not guarantee that these parcels in fact exist across individuals
+or that they reflect the true data-generating process.</p>
+<p>Rather than using pre-established parcels as their starting point,
+functional alignment methods use the individual functional units.
+In the case of fMRI data, therefore,
+alignment transformations are computed directly on the voxels.
+Functional alignment can be computed <em>within</em> a parcel,
+and this serves to regularize the resulting transformation.
+There is no assumption however–implicit or otherwise–that fMRI data can be well-described by a given parcellation.</p>
 </div>
+<div class="section" id="representational-similarity-analysis-rsa">
+<h2>Representational Similarity Analysis (RSA)<a class="headerlink" href="#representational-similarity-analysis-rsa" title="Permalink to this headline">¶</a></h2>
+<p>Much like functional alignment,
+RSA focuses on comparing representational geometries across subjects.
+RSA does this, however, in service of a representational model.
+That is, we have particular stimuli or stimulus classes which are chosen by the experimenter to reflect putative properties of the brain’s functional organization.</p>
+<p>For example, we could consider how animacy vs inanimacy is differently encoded in a given cortical region.
+We would present many animate or inanimate stimuli,
+and use these stimuli to define our representational geometry.
+We could then compare this labelled representational geometry with an exisiting representational model,
+or with data collected using the same paradigm in a different modality
+such as behavioral reports.</p>
+<p>Functional alignment does not have the same reliance on stimuli.
+Ideal functional alignment stimuli are those which richly sample functional space (such as a Hollywood movie)
+rather than stimuli which precisely align to an investigator’s hypothesis.
+As a result, functional alignment methods do not provide a clear path to representational models,
+even though–like RSA–they involve examining individual-level representational geometries.</p>
 </div>
 </div>
 
@@ -260,7 +293,8 @@ or <a class="reference external" href="https://brainiak.org/">BrainIAK</a>.</p>
     
     <div class='prev-next-bottom'>
         
-    <a class='right-next' id="next-link" href="02-related-methods.html" title="next page">What functional alignment alignment is not</a>
+    <a class='left-prev' id="prev-link" href="01-intro.html" title="previous page">Comparing representational geometries with functional alignment</a>
+    <a class='right-next' id="next-link" href="03-procrustes.html" title="next page">Generalized Procrustes Analysis</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">
