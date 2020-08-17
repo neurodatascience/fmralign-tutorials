@@ -1,0 +1,418 @@
+
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Regularized Canonical Correlation Analysis &#8212; Functional Alignment</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
+    <link href="_static/css/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="_static/sphinx-book-theme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/sphinx-book-theme.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/mystnb.js"></script>
+    <script src="_static/sphinx-book-theme.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Generalized Procrustes Analysis" href="02-procrustes.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="docsearch:language" content="en">
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="index.html">
+  
+  
+  <h1 class="site-logo" id="site-title">Functional Alignment</h1>
+  
+</a>
+</div>
+
+<form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="01-intro.html">
+   Comparing representational geometries with functional alignment
+  </a>
+ </li>
+</ul>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="02-procrustes.html">
+   Generalized Procrustes Analysis
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Regularized Canonical Correlation Analysis
+  </a>
+ </li>
+</ul>
+
+</nav>
+
+ <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        <div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        <a class="dropdown-buttons"
+            href="_sources/03-cca.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download notebook file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/03-cca.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+    
+</div>
+        <!-- Source interaction buttons -->
+
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                data-placement="bottom" onclick="toggleFullScreen()" title="Fullscreen mode"><i
+                    class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/neurodatascience/fmralign-tutorials/master?urlpath=tree/content/03-cca.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+    </div>
+
+    <!-- Table of contents -->
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#formalizing-the-problem">
+   Formalizing the problem
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#working-with-well-sampled-data">
+     Working with well-sampled data
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#considering-small-sample-sizes">
+     Considering small sample sizes
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+        </nav>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="regularized-canonical-correlation-analysis">
+<h1>Regularized Canonical Correlation Analysis<a class="headerlink" href="#regularized-canonical-correlation-analysis" title="Permalink to this headline">¶</a></h1>
+<p>Canonical correlation analysis (CCA) is a form of multi-view learning
+where we have paired observations or “views” that contain complementary information on an underlying (or “latent”) process.
+CCA learns two linear projections —one for each view—
+such that the projected data points are maximally correlated.
+That is, the paired data points are projected into a shared space such that they lie as close as possible to one another.
+These linear projections can be considered to reflect features of the structure of the data
+and may thus be useful for downstream prediction tasks.</p>
+<p>Another perspective on CCA comes from considering it as a prediction task itself.
+Specifically, because CCA assumes that each set of observations is dependent on
+one or more shared latent variables,
+we could learn the relevant linear projections on a subset of the data and apply them on a held-out portion of the data set.</p>
+<p>In this post, we’ll consider the mathematics of CCA to guide our intuitions about the method.
+Departing somewhat from classical CCA walk-throughs,
+we’ll focus on regularized CCA and its usage in predictive contexts.
+This focus will allow us to consider applications of regularized CCA as a functional alignment method in both the neuroscience and artificial intelligence literatures.</p>
+<div class="section" id="formalizing-the-problem">
+<h2>Formalizing the problem<a class="headerlink" href="#formalizing-the-problem" title="Permalink to this headline">¶</a></h2>
+<p>Suppose we have two mean-centered data matrices
+<span class="math notranslate nohighlight">\(X_a \in \mathbb{R}^{n \times p_1}\)</span> and
+<span class="math notranslate nohighlight">\(X_b \in \mathbb{R}^{n \times p_2}\)</span>,
+where <span class="math notranslate nohighlight">\(n\)</span> is the number of samples, and <span class="math notranslate nohighlight">\(p_1, p_2\)</span> are the number of units for each network.
+We can say without loss of generality that <span class="math notranslate nohighlight">\(p_1 \leq p_2\)</span>.</p>
+<p>Because we consider these two sets of activation patterns to be paired,
+we can note the <span class="math notranslate nohighlight">\(i\)</span>-th sample as two row vectors,
+<span class="math notranslate nohighlight">\((\mathbf{x}_a^i, \mathbf{x}_b^i)\)</span> with dimensionality <span class="math notranslate nohighlight">\(p_1\)</span> and <span class="math notranslate nohighlight">\(p_2\)</span>, respectively.
+We thus have <span class="math notranslate nohighlight">\(n\)</span> paired observations.</p>
+<p>By applying linear projections to our original <span class="math notranslate nohighlight">\(X_a\)</span> and <span class="math notranslate nohighlight">\(X_b\)</span> matrices,
+we can then generate a pair of <em>canonical components</em> or <em>canonical variables</em>.
+We denote these as <span class="math notranslate nohighlight">\(\mathbf{z}_a \in \mathbb{R}^n\)</span>
+and <span class="math notranslate nohighlight">\(\mathbf{z}_b \in \mathbb{R}^n\)</span> such that:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{z}_a = X_a\mathbf{w}_a \quad \quad \mathbf{z}_b = X_b\mathbf{w}_b
+\]</div>
+<p>Our goal is to learn transformations that maximize the correlation of these canonical variables:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{w}^{\star}_{a}, \mathbf{w}^{\star}_{b} = \text{arg}\!\max_{w_a, w_b}\!\mathrm{corr(X_a\mathbf{w}_a, X_b\mathbf{w}_b)}
+\]</div>
+<p>This is equivalent to finding the minimum angle <span class="math notranslate nohighlight">\(\theta\)</span> between them:</p>
+<div class="math notranslate nohighlight" id="equation-cca-eq-1">
+<span class="eqno">(2)<a class="headerlink" href="#equation-cca-eq-1" title="Permalink to this equation">¶</a></span>\[\cos{\theta} = \max_{\mathbf{z}_a, \mathbf{z}_b}\{\mathbf{z}_{a}^{\top}\mathbf{z}_b\}\]</div>
+<p>This geometrical interpretation is the view reflected in <a class="reference internal" href="#cca-gundersen"><span class="std std-numref">Fig. 1</span></a>.</p>
+<div class="margin-caption figure align-default" id="cca-gundersen">
+<a class="reference internal image-reference" href="_images/cca_gundersen.png"><img alt="_images/cca_gundersen.png" src="_images/cca_gundersen.png" style="height: 350px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 1 </span><span class="caption-text">A visualization of canonical correlation analysis.
+Let <span class="math notranslate nohighlight">\(n=2\)</span> be the number of observations.
+Two datasets <span class="math notranslate nohighlight">\(X_a \in \mathbb{R}^{n \times 3}\)</span> and
+<span class="math notranslate nohighlight">\(X_b \in \mathbb{R}^{n \times 2}\)</span> are transformed by projections
+<span class="math notranslate nohighlight">\(W_a \in \mathbb{R}^{3 \times 2}\)</span> and
+<span class="math notranslate nohighlight">\(W_b \in \mathbb{R}^{2 \times 2}\)</span> such that the paired embeddings,
+<span class="math notranslate nohighlight">\((\mathbf{v}_a, \mathbf{v}_b)\)</span> and
+<span class="math notranslate nohighlight">\((\mathbf{u}_a, \mathbf{u}_b)\)</span>
+are maximally correlated with unit length in the projected space.
+Figure from Gregory Gundersen <a class="bibtex reference internal" href="#gundersen2018-pe" id="id1">[1]</a>.</span><a class="headerlink" href="#cca-gundersen" title="Permalink to this image">¶</a></p>
+</div>
+<div class="section" id="working-with-well-sampled-data">
+<h3>Working with well-sampled data<a class="headerlink" href="#working-with-well-sampled-data" title="Permalink to this headline">¶</a></h3>
+<p>We can start by looking at the empirical covariance matrices for each of our sets of observations.</p>
+<p>We denote the covariance matrix between data sets <span class="math notranslate nohighlight">\(X_i\)</span> and <span class="math notranslate nohighlight">\(X_j\)</span>
+for <span class="math notranslate nohighlight">\(i, j \in \{a, b\}\)</span> as <span class="math notranslate nohighlight">\(\mathbf{C}_{ij}\)</span>.
+Then, the covariance and cross-covariance matrices for <span class="math notranslate nohighlight">\(X_a\)</span>,
+<span class="math notranslate nohighlight">\(X_b\)</span> can defined as:</p>
+<div class="math notranslate nohighlight" id="equation-cca-eq-2">
+<span class="eqno">(3)<a class="headerlink" href="#equation-cca-eq-2" title="Permalink to this equation">¶</a></span>\[\begin{split}\mathbf{C}_{aa} = \frac{1}{n-1} X_a^{\top} X_a
+\\
+\mathbf{C}_{ab} = \frac{1}{n-1} X_a^{\top} X_b
+\\
+\mathbf{C}_{bb} = \frac{1}{n-1} X_b^{\top} X_b\end{split}\]</div>
+<p>With these, we can define the composite or joint covariance matrix as:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\mathbf{C} = \begin{bmatrix}
+\mathbf{C}_{aa} &amp; \mathbf{C}_{ab}
+\\
+\mathbf{C}_{ba} &amp; \mathbf{C}_{bb}
+\end{bmatrix}
+\end{split}\]</div>
+<p>From our original definitions of <span class="math notranslate nohighlight">\(\mathbf{z}_a\)</span> and <span class="math notranslate nohighlight">\(\mathbf{z}_b\)</span>,
+we can see that:</p>
+<div class="math notranslate nohighlight" id="equation-cca-eq-3">
+<span class="eqno">(4)<a class="headerlink" href="#equation-cca-eq-3" title="Permalink to this equation">¶</a></span>\[\begin{split}\begin{align}
+\textbf{z}_a^{\top} \textbf{z}_b
+&amp;= \textbf{w}_a^{\top} X_a^{\top} X_b \textbf{w}_b \\
+&amp;= \textbf{w}_a^{\top} \mathbf{C}_{ab} \textbf{w}_b \\
+\end{align}\end{split}\]</div>
+<p>Substituting in Equation <a class="reference internal" href="#equation-cca-eq-3">(4)</a>—and keeping in mind we have mean-centered our data such that that our canonical variables have unit length–we can re-write Equation <a class="reference internal" href="#equation-cca-eq-1">(2)</a> as:</p>
+<div class="math notranslate nohighlight" id="equation-cca-eq-4">
+<span class="eqno">(5)<a class="headerlink" href="#equation-cca-eq-4" title="Permalink to this equation">¶</a></span>\[\cos \theta
+= \max_{ \textbf{w}_a, \textbf{w}_b }
+\{ \textbf{w}_a^{\top} \Sigma_{ab} \textbf{w}_b \}\]</div>
+<p>This equation can be solved using eigenvalue decomposition,
+as proposed by <a class="bibtex reference internal" href="#hotelling1936-th" id="id2">[2]</a>.
+For a detailed walk-through of this solution,
+see <a class="reference internal" href="#cca-gundersen"><span class="std std-numref">Fig. 1</span></a>.</p>
+</div>
+<div class="section" id="considering-small-sample-sizes">
+<h3>Considering small sample sizes<a class="headerlink" href="#considering-small-sample-sizes" title="Permalink to this headline">¶</a></h3>
+<p>In research applications,
+we are often not working with well-sampled data sets.
+In this case, we can return to <a class="reference internal" href="#equation-cca-eq-2">(3)</a> and ask:
+what we can do when our empiricial covariance matrices are unlikely to reflect our theoretical covariance matrices?</p>
+<p>We know from <a class="bibtex reference internal" href="#pezeshki2004-yb" id="id3">[3]</a> that if our <span class="math notranslate nohighlight">\(n\)</span> observations are less than the sum of <span class="math notranslate nohighlight">\(p_1\)</span> and <span class="math notranslate nohighlight">\(p_2\)</span>,
+then <span class="math notranslate nohighlight">\((p_1 + p_2) − n\)</span> canonical correlations will be equal to one.
+This means these canonical correlations do not carry any information about their true population values.</p>
+<p>Why might this be?</p>
+<blockquote>
+<div><p>At the same time, a key question in any correlation analysis
+is how many correlated signals there are. If we had access to
+the population canonical correlations, we could simply count
+the number of nonzero ki’s.</p>
+</div></blockquote>
+<blockquote>
+<div><p>This implies that the sum of the ranks of
+the two data matrices determines the minimum number of data
+samples (sample support) required to estimate the theoretical
+canonical correlations</p>
+</div></blockquote>
+<hr class="docutils" />
+<p>This projection is particularly useful when the two sets of observations have different dimensionality.
+In neuroscience, these complementary views are therefore often examined as brain-behavior correlations.
+However, CCA can be used in any multi-view learning context.</p>
+<p>The goal of this post is to demonstrate the application of CCA to problems from the functional alignment literature.
+This literature encompasses both neuroscience and artificial intelligence, so to be broadly inclusive we will generally refer to to-be-aligned activations as occurring in networks without denoting whether these networks are biological or artifical.</p>
+<p>As an initial motivation,
+we can consider that two networks activity patterns reflect two different views of
+a shared representational geometry.</p>
+<p>One important note is that, so far, we have only denoted one pair of canonical variables.
+In principle, however, we could define multiple pairs of canonical variables,
+up to <span class="math notranslate nohighlight">\(p_1\)</span> pairs.
+Each of these pairs should be orthogonal, however, such that</p>
+<div class="math notranslate nohighlight">
+\[
+z_{a}^{i} \perp z_{a}^{j} \quad \quad z_{b}^{i} \perp z_{b}^{j}
+\]</div>
+<p>for all <span class="math notranslate nohighlight">\(j &lt; i\)</span>.</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">x_a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">x_b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p id="bibtex-bibliography-03-cca-0"><dl class="citation">
+<dt class="bibtex label" id="gundersen2018-pe"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>Gregory Gundersen. Canonical correlation analysis in detail. <span><a class="reference external" href="#"></a></span>https://gregorygundersen.com/blog/2018/07/17/cca/, July 2018.</p>
+</dd>
+<dt class="bibtex label" id="hotelling1936-th"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd><p>Harold Hotelling. Relations between two sets of variates. <em>Biometrika</em>, 28(3-4):321–377, December 1936.</p>
+</dd>
+<dt class="bibtex label" id="pezeshki2004-yb"><span class="brackets"><a class="fn-backref" href="#id3">3</a></span></dt>
+<dd><p>A Pezeshki, L L Scharf, M R Azimi-Sadjadi, and M Lundberg. Empirical canonical correlation analysis in subspaces. In <em>Conference Record of the Thirty-Eighth Asilomar Conference on Signals, Systems and Computers, 2004.</em>, volume 1, 994–997 Vol.1. November 2004.</p>
+</dd>
+</dl>
+</p>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+    <a class='left-prev' id="prev-link" href="02-procrustes.html" title="previous page">Generalized Procrustes Analysis</a>
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Elizabeth DuPre<br/>
+        
+            &copy; Copyright 2020.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    <script src="_static/js/index.js"></script>
+    
+  </body>
+</html>
