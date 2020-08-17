@@ -1,0 +1,218 @@
+@MISC{Gundersen2018-pe,
+    title        = "Canonical Correlation Analysis in Detail",
+    author       = "Gundersen, Gregory",
+    abstract     = "Canonical correlation analysis is conceptually
+    straightforward, but I want to define its objective and
+    derive its solution in detail, both mathematically and
+    programmatically.",
+    month        =  jul,
+    year         =  2018,
+    howpublished = "\url{https://gregorygundersen.com/blog/2018/07/17/cca/}",
+}
+
+@ARTICLE{Kornblith2019-bk,
+    title         = "Similarity of Neural Network Representations Revisited",
+    author        = "Kornblith, Simon and Norouzi, Mohammad and Lee, Honglak and
+    Hinton, Geoffrey",
+    abstract      = "Recent work has sought to understand the behavior of neural
+    networks by comparing representations between layers and
+    between different trained models. We examine methods for
+    comparing neural network representations based on canonical
+    correlation analysis (CCA). We show that CCA belongs to a
+    family of statistics for measuring multivariate similarity,
+    but that neither CCA nor any other statistic that is
+    invariant to invertible linear transformation can measure
+    meaningful similarities between representations of higher
+    dimension than the number of data points. We introduce a
+    similarity index that measures the relationship between
+    representational similarity matrices and does not suffer
+    from this limitation. This similarity index is equivalent to
+    centered kernel alignment (CKA) and is also closely
+    connected to CCA. Unlike CCA, CKA can reliably identify
+    correspondences between representations in networks trained
+    from different initializations.",
+    month         =  may,
+    year          =  2019,
+    archivePrefix = "arXiv",
+    primaryClass  = "cs.LG",
+    eprint        = "1905.00414"
+}
+
+@ARTICLE{Bilenko2016-pu,
+    title    = "Pyrcca: Regularized Kernel Canonical Correlation Analysis in
+    Python and Its Applications to Neuroimaging",
+    author   = "Bilenko, Natalia Y and Gallant, Jack L",
+    abstract = "In this article we introduce Pyrcca, an open-source Python
+    package for performing canonical correlation analysis (CCA). CCA
+    is a multivariate analysis method for identifying relationships
+    between sets of variables. Pyrcca supports CCA with or without
+    regularization, and with or without linear, polynomial, or
+    Gaussian kernelization. We first use an abstract example to
+    describe Pyrcca functionality. We then demonstrate how Pyrcca can
+    be used to analyze neuroimaging data. Specifically, we use Pyrcca
+    to implement cross-subject comparison in a natural movie
+    functional magnetic resonance imaging (fMRI) experiment by
+    finding a data-driven set of functional response patterns that
+    are similar across individuals. We validate this cross-subject
+    comparison method in Pyrcca by predicting responses to novel
+    natural movies across subjects. Finally, we show how Pyrcca can
+    reveal retinotopic organization in brain responses to natural
+    movies without the need for an explicit model.",
+    journal  = "Front. Neuroinform.",
+    volume   =  10,
+    pages    = "49",
+    month    =  nov,
+    year     =  2016,
+    keywords = "Python; canonical correlation analysis; covariance analysis;
+    cross-subject alignment; fMRI; partial least squares regression",
+    language = "en"
+}
+
+@INCOLLECTION{Raghu2017-zs,
+title     = "{SVCCA}: Singular Vector Canonical Correlation Analysis for Deep
+Learning Dynamics and Interpretability",
+booktitle = "Advances in Neural Information Processing Systems 30",
+author    = "Raghu, Maithra and Gilmer, Justin and Yosinski, Jason and
+Sohl-Dickstein, Jascha",
+editor    = "Guyon, I and Luxburg, U V and Bengio, S and Wallach, H and
+Fergus, R and Vishwanathan, S and Garnett, R",
+publisher = "Curran Associates, Inc.",
+pages     = "6076--6085",
+year      =  2017
+}
+
+@INCOLLECTION{Morcos2018-mh,
+    title     = "Insights on representational similarity in neural networks with
+    canonical correlation",
+    booktitle = "Advances in Neural Information Processing Systems 31",
+    author    = "Morcos, Ari and Raghu, Maithra and Bengio, Samy",
+    editor    = "Bengio, S and Wallach, H and Larochelle, H and Grauman, K and
+    Cesa-Bianchi, N and Garnett, R",
+    publisher = "Curran Associates, Inc.",
+    pages     = "5727--5736",
+    year      =  2018
+}
+
+@ARTICLE{Diedrichsen2020-ui,
+    title         = "Comparing representational geometries using the unbiased
+    distance correlation",
+    author        = "Diedrichsen, J{\"o}rn and Berlot, Eva and Mur, Marieke and
+    Sch{\"u}tt, Heiko H and Kriegeskorte, Nikolaus",
+    abstract      = "Representational similarity analysis (RSA) tests models of
+    brain computation by investigating how neural activity
+    patterns change in response to different experimental
+    conditions. Instead of predicting activity patterns
+    directly, the models predict the geometry of the
+    representation, i.e. to what extent experimental conditions
+    are associated with similar or dissimilar activity patterns.
+    RSA therefore first quantifies the representational geometry
+    by calculating a dissimilarity measure for all pairs of
+    conditions, and then compares the estimated representational
+    dissimilarities to those predicted by the model. Here we
+    address two central challenges of RSA: First, dissimilarity
+    measures such as the Euclidean, Mahalanobis, and correlation
+    distance, are biased by measurement noise, which can lead to
+    incorrect inferences. Unbiased dissimilarity estimates can
+    be obtained by crossvalidation, at the price of increased
+    variance. Second, the pairwise dissimilarity estimates are
+    not statistically independent. Ignoring the dependency makes
+    model comparison with RSA statistically suboptimal. We
+    present an analytical expression for the mean and
+    (co-)variance of both biased and unbiased estimators of
+    Euclidean and Mahalanobis distance, allowing us to exactly
+    quantify the bias-variance trade-off. We then use the
+    analytical expression of the co-variance of the
+    dissimilarity estimates to derive a simple method correcting
+    for this covariance. Combining unbiased distance estimates
+    with this correction leads to a novel criterion for
+    comparing representational geometries, the unbiased distance
+    correlation, which, as we show, allows for near optimal
+    model comparison.",
+    month         =  jul,
+    year          =  2020,
+    archivePrefix = "arXiv",
+    primaryClass  = "stat.AP",
+    eprint        = "2007.02789"
+}
+
+@INPROCEEDINGS{Xu2012-xx,
+title     = "Regularized hyperalignment of multi-set {fMRI} data",
+booktitle = "2012 {IEEE} Statistical Signal Processing Workshop ({SSP})",
+author    = "Xu, H and Lorbert, A and Ramadge, P J and Guntupalli, J S and
+Haxby, J V",
+abstract  = "Inter-subject correspondence is an important aspect of
+multi-subject fMRI studies. Recently, a new approach, called
+hyperalignment, has shown very promising results in fMRI
+functional alignment. Hyperalignment is based on Procrustean
+rotations and is connected, mathematically, to canonical
+correlation analysis. We review the core details of each
+approach, relate them through an SVD analysis, and indicate why
+they can yield different levels of performance. We then examine
+the effectiveness of regularization in mediating between the
+extremes of these methods. An inter-subject classification
+experiment based on functional aligned fMRI datasets illustrates
+the resulting improved performance.",
+pages     = "229--232",
+month     =  aug,
+year      =  2012
+}
+
+@ARTICLE{Hotelling1936-th,
+title     = "{Relations between two sets of variates}",
+author    = "Hotelling, Harold",
+journal   = "Biometrika",
+publisher = "Oxford University Press",
+volume    =  28,
+number    = "3-4",
+pages     = "321--377",
+month     =  dec,
+year      =  1936
+}
+
+@INPROCEEDINGS{Pezeshki2004-yb,
+    title     = "Empirical canonical correlation analysis in subspaces",
+    booktitle = "Conference Record of the {Thirty-Eighth} Asilomar Conference on
+    Signals, Systems and Computers, 2004.",
+    author    = "Pezeshki, A and Scharf, L L and Azimi-Sadjadi, M R and Lundberg,
+    M",
+    abstract  = "This paper addresses canonical correlation analysis of
+    two-channel data, when channel covariances are estimated from a
+    limited number of samples, and are not necessarily full-rank. We
+    show that empirical canonical correlations measure the cosines
+    of the principal angles between the row spaces of the data
+    matrices for the two channels. When the number of samples is
+    smaller than the sum of the ranks of the two data matrices, some
+    of the empirical canonical correlations become one, regardless
+    of the two-channel model that generates the samples. In such
+    cases, the empirical canonical correlations may not be used as
+    estimates of correlation between random variables.",
+    volume    =  1,
+    pages     = "994--997 Vol.1",
+    month     =  nov,
+    year      =  2004,
+    keywords  = "correlation methods;signal processing;covariance
+    matrices;channel estimation;canonical correlation
+    analysis;subspaces;principal angles;two-channel data;channel
+    covariance estimation;Covariance matrix;Random variables;Data
+    analysis;Estimation theory;Hilbert space;Statistical
+    analysis;State estimation;Contracts;Extraterrestrial
+    measurements;Vectors"
+}
+
+@ARTICLE{Schonemann1966-qq,
+title    = "A generalized solution of the orthogonal procrustes problem",
+author   = "Sch{\"o}nemann, Peter H",
+abstract = "A solutionT of the least-squares problemAT=B +E, givenA andB so
+that trace (E′E)= minimum andT′T=I is presented. It is compared
+with a less general solution of the same problem which was given
+by Green [5]. The present solution, in contrast to Green's, is
+applicable to matricesA andB which are of less than full column
+rank. Some technical suggestions for the numerical computation
+ofT and an illustrative example are given.",
+journal  = "Psychometrika",
+volume   =  31,
+number   =  1,
+pages    = "1--10",
+month    =  mar,
+year     =  1966
+}
