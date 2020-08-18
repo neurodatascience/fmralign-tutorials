@@ -39,7 +39,7 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Generalized Procrustes Analysis" href="03-procrustes.html" />
+    <link rel="prev" title="Generalized Procrustes analysis" href="04-generalized-procrustes.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
@@ -85,7 +85,12 @@
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="03-procrustes.html">
-   Generalized Procrustes Analysis
+   Procrustes analysis
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="04-generalized-procrustes.html">
+   Generalized Procrustes analysis
   </a>
  </li>
  <li class="toctree-l1 current active">
@@ -134,11 +139,11 @@
     <div class="dropdown-buttons">
         <!-- ipynb file if we had a myst markdown file -->
         <a class="dropdown-buttons"
-            href="_sources/04-cca.ipynb"><button type="button"
+            href="_sources/05-cca.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download notebook file" data-toggle="tooltip"
                 data-placement="left">.ipynb</button></a>
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/04-cca.md"><button type="button"
+        <a class="dropdown-buttons" href="_sources/05-cca.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -162,7 +167,7 @@
         aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://mybinder.org/v2/gh/neurodatascience/fmralign-tutorials/master?urlpath=tree/content/04-cca.md"><button type="button"
+        <a class="binder-button" href="https://mybinder.org/v2/gh/neurodatascience/fmralign-tutorials/master?urlpath=tree/content/05-cca.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
                 data-placement="left"><img class="binder-button-logo"
                     src="_static/images/logo_binder.svg"
@@ -253,7 +258,7 @@ and <span class="math notranslate nohighlight">\(\mathbf{z}_b \in \mathbb{R}^n\)
 \]</div>
 <p>This is equivalent to finding the minimum angle <span class="math notranslate nohighlight">\(\theta\)</span> between them:</p>
 <div class="math notranslate nohighlight" id="equation-cca-eq-1">
-<span class="eqno">(2)<a class="headerlink" href="#equation-cca-eq-1" title="Permalink to this equation">¶</a></span>\[\cos{\theta} = \max_{\mathbf{z}_a, \mathbf{z}_b}\{\mathbf{z}_{a}^{\top}\mathbf{z}_b\}\]</div>
+<span class="eqno">(4)<a class="headerlink" href="#equation-cca-eq-1" title="Permalink to this equation">¶</a></span>\[\cos{\theta} = \max_{\mathbf{z}_a, \mathbf{z}_b}\{\mathbf{z}_{a}^{\top}\mathbf{z}_b\}\]</div>
 <p>This geometrical interpretation is the view reflected in <a class="reference internal" href="#cca-gundersen"><span class="std std-numref">Fig. 1</span></a>.</p>
 <div class="margin-caption figure align-default" id="cca-gundersen">
 <a class="reference internal image-reference" href="_images/cca_gundersen.png"><img alt="_images/cca_gundersen.png" src="_images/cca_gundersen.png" style="height: 350px;" /></a>
@@ -276,7 +281,7 @@ for <span class="math notranslate nohighlight">\(i, j \in \{a, b\}\)</span> as <
 Then, the covariance and cross-covariance matrices for <span class="math notranslate nohighlight">\(X_a\)</span>,
 <span class="math notranslate nohighlight">\(X_b\)</span> can defined as:</p>
 <div class="math notranslate nohighlight" id="equation-cca-eq-2">
-<span class="eqno">(3)<a class="headerlink" href="#equation-cca-eq-2" title="Permalink to this equation">¶</a></span>\[\begin{split}\mathbf{C}_{aa} = \frac{1}{n-1} X_a^{\top} X_a
+<span class="eqno">(5)<a class="headerlink" href="#equation-cca-eq-2" title="Permalink to this equation">¶</a></span>\[\begin{split}\mathbf{C}_{aa} = \frac{1}{n-1} X_a^{\top} X_a
 \\
 \mathbf{C}_{ab} = \frac{1}{n-1} X_a^{\top} X_b
 \\
@@ -293,14 +298,14 @@ Then, the covariance and cross-covariance matrices for <span class="math notrans
 <p>From our original definitions of <span class="math notranslate nohighlight">\(\mathbf{z}_a\)</span> and <span class="math notranslate nohighlight">\(\mathbf{z}_b\)</span>,
 we can see that:</p>
 <div class="math notranslate nohighlight" id="equation-cca-eq-3">
-<span class="eqno">(4)<a class="headerlink" href="#equation-cca-eq-3" title="Permalink to this equation">¶</a></span>\[\begin{split}\begin{align}
+<span class="eqno">(6)<a class="headerlink" href="#equation-cca-eq-3" title="Permalink to this equation">¶</a></span>\[\begin{split}\begin{align}
 \textbf{z}_a^{\top} \textbf{z}_b
 &amp;= \textbf{w}_a^{\top} X_a^{\top} X_b \textbf{w}_b \\
 &amp;= \textbf{w}_a^{\top} \mathbf{C}_{ab} \textbf{w}_b \\
 \end{align}\end{split}\]</div>
-<p>Substituting in Equation <a class="reference internal" href="#equation-cca-eq-3">(4)</a>—and keeping in mind we have mean-centered our data such that that our canonical variables have unit length–we can re-write Equation <a class="reference internal" href="#equation-cca-eq-1">(2)</a> as:</p>
+<p>Substituting in Equation <a class="reference internal" href="#equation-cca-eq-3">(6)</a>—and keeping in mind we have mean-centered our data such that that our canonical variables have unit length–we can re-write Equation <a class="reference internal" href="#equation-cca-eq-1">(4)</a> as:</p>
 <div class="math notranslate nohighlight" id="equation-cca-eq-4">
-<span class="eqno">(5)<a class="headerlink" href="#equation-cca-eq-4" title="Permalink to this equation">¶</a></span>\[\cos \theta
+<span class="eqno">(7)<a class="headerlink" href="#equation-cca-eq-4" title="Permalink to this equation">¶</a></span>\[\cos \theta
 = \max_{ \textbf{w}_a, \textbf{w}_b }
 \{ \textbf{w}_a^{\top} \Sigma_{ab} \textbf{w}_b \}\]</div>
 <p>This equation can be solved using eigenvalue decomposition,
@@ -312,7 +317,7 @@ see <a class="reference internal" href="#cca-gundersen"><span class="std std-num
 <h3>Considering small sample sizes<a class="headerlink" href="#considering-small-sample-sizes" title="Permalink to this headline">¶</a></h3>
 <p>In research applications,
 we are often not working with well-sampled data sets.
-In this case, we can return to <a class="reference internal" href="#equation-cca-eq-2">(3)</a> and ask:
+In this case, we can return to <a class="reference internal" href="#equation-cca-eq-2">(5)</a> and ask:
 what we can do when our empiricial covariance matrices are unlikely to reflect our theoretical covariance matrices?</p>
 <p>We know from <a class="bibtex reference internal" href="#pezeshki2004-yb" id="id3">[3]</a> that if our <span class="math notranslate nohighlight">\(n\)</span> observations are less than the sum of <span class="math notranslate nohighlight">\(p_1\)</span> and <span class="math notranslate nohighlight">\(p_2\)</span>,
 then <span class="math notranslate nohighlight">\((p_1 + p_2) − n\)</span> canonical correlations will be equal to one.
@@ -354,7 +359,7 @@ z_{a}^{i} \perp z_{a}^{j} \quad \quad z_{b}^{i} \perp z_{b}^{j}
 <span class="n">x_b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 </pre></div>
 </div>
-<p id="bibtex-bibliography-04-cca-0"><dl class="citation">
+<p id="bibtex-bibliography-05-cca-0"><dl class="citation">
 <dt class="bibtex label" id="gundersen2018-pe"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
 <dd><p>Gregory Gundersen. Canonical correlation analysis in detail. <span><a class="reference external" href="#"></a></span>https://gregorygundersen.com/blog/2018/07/17/cca/, July 2018.</p>
 </dd>
@@ -398,7 +403,7 @@ z_{a}^{i} \perp z_{a}^{j} \quad \quad z_{b}^{i} \perp z_{b}^{j}
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="03-procrustes.html" title="previous page">Generalized Procrustes Analysis</a>
+    <a class='left-prev' id="prev-link" href="04-generalized-procrustes.html" title="previous page">Generalized Procrustes analysis</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">

@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Generalized Procrustes Analysis &#8212; Functional Alignment</title>
+    <title>Procrustes analysis &#8212; Functional Alignment</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="_static/css/index.css" rel="stylesheet">
     <link rel="stylesheet" href="_static/sphinx-book-theme.css" type="text/css" />
@@ -39,7 +39,7 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Regularized Canonical Correlation Analysis" href="04-cca.html" />
+    <link rel="next" title="Generalized Procrustes analysis" href="04-generalized-procrustes.html" />
     <link rel="prev" title="What functional alignment alignment is not" href="02-related-methods.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -86,11 +86,16 @@
  </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   Generalized Procrustes Analysis
+   Procrustes analysis
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="04-cca.html">
+  <a class="reference internal" href="04-generalized-procrustes.html">
+   Generalized Procrustes analysis
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="05-cca.html">
    Regularized Canonical Correlation Analysis
   </a>
  </li>
@@ -199,8 +204,8 @@
         
               <div>
                 
-  <div class="section" id="generalized-procrustes-analysis">
-<h1>Generalized Procrustes Analysis<a class="headerlink" href="#generalized-procrustes-analysis" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="procrustes-analysis">
+<h1>Procrustes analysis<a class="headerlink" href="#procrustes-analysis" title="Permalink to this headline">¶</a></h1>
 <p>Procrustes analysis allows us to compares the geometry of two objects or data sets.
 Specifically, for two geometries with a known one-to-one mapping,
 we can consider the distance between each pair of corresponding points.
@@ -208,32 +213,38 @@ Our goal is to derive an orthogonal transformation that minimizes the distance b
 Named for the legend of Procrustes,
 the ancient Greek innkeeper who stretched or cut off traveller’s limbs so they would fit his bed,
 Procrustes analysis can be seen as conforming datasets through a series of rigid-body transformations <a class="bibtex reference internal" href="#schonemann1966-qq" id="id1">[1]</a>.</p>
-<p>Generalized Procrustes analysis differs from Procrustes analysis in two significant ways.
-First, generalized Procrustes includes both the orthogonal transformations of Procrustes (i.e., rotations and reflections),
-as well as additional scaling and translation transformations.
-Second, generalized Procrustes can be applied to more than two shapes through the iterative use of a reference shape.</p>
 <div class="section" id="formalizing-the-problem">
 <h2>Formalizing the problem<a class="headerlink" href="#formalizing-the-problem" title="Permalink to this headline">¶</a></h2>
-<p>Suppose we have two data matrices
-<span class="math notranslate nohighlight">\(X \in \mathbb{R}^{n \times p}\)</span> and
-<span class="math notranslate nohighlight">\(Y \in \mathbb{R}^{n \times p}\)</span>,
-where <span class="math notranslate nohighlight">\(n\)</span> is the number of samples,
-and <span class="math notranslate nohighlight">\(p\)</span> are the number of units for each network.</p>
-<p>For this example, we’ll set <span class="math notranslate nohighlight">\(p=2\)</span> to ease visualization.
-In a real data set, we may be working with many more dimensions and samples!</p>
+<p>Suppose we have two data distributions, <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>,
+which each sample a different representational geometry.
+Each distribution contains a series of <span class="math notranslate nohighlight">\(n\)</span> observations, such that
+<span class="math notranslate nohighlight">\(X = \{\mathbf{x}_1, \ldots, \mathbf{x}_n\}\)</span>
+where <span class="math notranslate nohighlight">\(\mathbf{x}_i \in \mathbb{R}^p\)</span>.</p>
+<p>For fMRI data, <span class="math notranslate nohighlight">\(n\)</span> would be the number of time points sampled,
+while <span class="math notranslate nohighlight">\(p\)</span> is the number of units considered, usually corresponding to voxels.
+For this example, we’ll set <span class="math notranslate nohighlight">\(p=2\)</span> to ease visualization,
+but in a real data set we may be working with many more dimensions!</p>
 <div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Remember that we consider these two sets of activation patterns to be paired,
-we can note the <span class="math notranslate nohighlight">\(i\)</span>-th sample as two row vectors,
-<span class="math notranslate nohighlight">\((\mathbf{x}_i, \mathbf{y}_i)\)</span> with dimensionality <span class="math notranslate nohighlight">\(p\)</span>.</p>
-<p>We can formally express the Procrustes problem as:</p>
+<p>Because we assume a known correspondence between these two distributions,
+we can directly compare the <span class="math notranslate nohighlight">\(i\)</span>-th sample in <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>.
+The goal in Procrustes is to find a single orthogonal transformation that minimizes the sum-of-squares distances between all <span class="math notranslate nohighlight">\(n\)</span> <span class="math notranslate nohighlight">\(X\)</span>, <span class="math notranslate nohighlight">\(Y\)</span> pairs,
+thereby minimizing the total distance between the distributions:</p>
 <div class="math notranslate nohighlight" id="equation-procrustes-eq-1">
-<span class="eqno">(1)<a class="headerlink" href="#equation-procrustes-eq-1" title="Permalink to this equation">¶</a></span>\[\begin{split}\min_{\mathbf{R}= s\mathbf{M}} ||\mathbf{R} \mathbf{X} - \mathbf{Y}||_F^2 \\
-s\in\mathbb{R^+}, \enspace \mathbf{M} \in \mathbb{R}^{p \times p} \text{ s.t. } \mathbf{M}^\intercal\mathbf{M} = \mathbf{I}_p\end{split}\]</div>
+<span class="eqno">(2)<a class="headerlink" href="#equation-procrustes-eq-1" title="Permalink to this equation">¶</a></span>\[\begin{split}\arg\min_{\mathbf{R}} \sum_{i = 1}^{n} ||\mathbf{R} \mathbf{x}_i - \mathbf{y}_i||_F^2 \\
+\mathbf{R}^\intercal\mathbf{R} = \mathbf{I}\end{split}\]</div>
+<p>If we stack all of our data points into two matrices
+–one for each distribution– we can represent our two distributions as
+<span class="math notranslate nohighlight">\(\mathbf{X} \in \mathbb{R}^{n \times p}\)</span> and
+<span class="math notranslate nohighlight">\(\mathbf{Y} \in \mathbb{R}^{n \times p}\)</span>.</p>
+<p>We can then re-write our problem as:</p>
+<div class="math notranslate nohighlight" id="equation-procrustes-eq-1">
+<span class="eqno">(2)<a class="headerlink" href="#equation-procrustes-eq-1" title="Permalink to this equation">¶</a></span>\[\begin{split}\arg\min_{\mathbf{R}} ||\mathbf{R} \mathbf{X} - \mathbf{Y}||_F^2 \\
+\mathbf{R}^\intercal\mathbf{R} = \mathbf{I}\end{split}\]</div>
 <p id="bibtex-bibliography-03-procrustes-0"><dl class="citation">
 <dt class="bibtex label" id="schonemann1966-qq"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
 <dd><p>Peter H Schönemann. A generalized solution of the orthogonal procrustes problem. <em>Psychometrika</em>, 31(1):1–10, March 1966.</p>
@@ -272,7 +283,7 @@ s\in\mathbb{R^+}, \enspace \mathbf{M} \in \mathbb{R}^{p \times p} \text{ s.t. } 
     <div class='prev-next-bottom'>
         
     <a class='left-prev' id="prev-link" href="02-related-methods.html" title="previous page">What functional alignment alignment is not</a>
-    <a class='right-next' id="next-link" href="04-cca.html" title="next page">Regularized Canonical Correlation Analysis</a>
+    <a class='right-next' id="next-link" href="04-generalized-procrustes.html" title="next page">Generalized Procrustes analysis</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">
