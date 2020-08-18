@@ -23,18 +23,18 @@ pip install -r requirements.txt
 You can render the tutorials using [`Jupytext`](https://jupytext.readthedocs.io/en/latest/),
 which provides a convenient means to sync the user-friendly notebook interface with a git-friendly MyST markup.
 
-For example, for the `02-procrustes` tutorial, simply run:
+For example, for the `03-procrustes` tutorial, simply run:
 
 ```bash
-jupytext 02-procrustes.md --to notebook
-jupytext --set-formats md:myst, ipynb 02-procrustes.md
-jupytext --sync 02-procrustes.md 02-procrustes.ipynb
+jupytext 03-procrustes.md --to notebook
+jupytext --set-formats md:myst, ipynb 03-procrustes.md
+jupytext --sync 03-procrustes.md 03-procrustes.ipynb
 ```
 
 You can then launch the notebook using:
 
 ```bash
-jupyter notebook 02-procrustes.ipynb
+jupyter notebook 03-procrustes.ipynb
 ```
 
 All changes you make there will be automatically updated in the associated MyST file.
