@@ -1,5 +1,16 @@
-- file: 01-intro
-- file: 02-related-methods
-- file: 03-procrustes
-- file: 04-generalized-procrustes
-- file: 05-cca
+root: 00-intro
+format: jb-book
+defaults:
+  numbered: true
+parts:
+- caption: Background
+  chapters:
+  - file: 01-functional-alignment
+- caption: Associated methods
+  chapters:
+  - file: 02-procrustes
+  - file: 04-generalized-procrustes
+  - file: 05-cca
+- caption: Related work
+  chapters:
+  - file: 06-related-methods
