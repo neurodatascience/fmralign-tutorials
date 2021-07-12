@@ -276,12 +276,26 @@ To understand it, we need to think outside of the box—the box of three dimensi
 This is not the only way to think about our data, however.
 Instead, we can imagine a new space where our dimensions equal the number of voxels we’re comparing between subjects.
 To keep things simple, let’s first pretend we are only interested in two voxels.</p>
+<p>Traditionally, we would extract the activity time courses for these voxels,
+such that we had two graphs of voxel activity over time.
+We could then compare the similarity of these time courses using techniques such as correlation.
+An alternative way to think about these voxel activity profiles is in a new, functional space.
+That is, we can define a new two-dimensional space,
+where each dimension corresponds to one voxel’s activity.
+For each time point,
+we then include a single data point that indexes the relative activity of each voxel at that time point.
+This basic idea is illustrated in <a class="reference internal" href="#voxel-space-gif"><span class="std std-numref">Fig. 1.2</span></a>.</p>
 <div class="figure align-default" id="voxel-space-gif">
 <a class="reference internal image-reference" href="_images/voxel_space.gif"><img alt="_images/voxel_space.gif" src="_images/voxel_space.gif" style="height: 375px;" /></a>
 <p class="caption"><span class="caption-number">Fig. 1.2 </span><span class="caption-text">Moving from anatomical space to a high-dimensional voxel space.
 Here, we only consider two voxels to aid in visualization.</span><a class="headerlink" href="#voxel-space-gif" title="Permalink to this image">¶</a></p>
 </div>
-<p>As we increase the number of voxels, we also increase the number of dimensions.</p>
+<p>Note that as we increase the number of voxels, we also increase the number of dimensions.</p>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p>Some <em>latent factor</em> models reduce the number of dimensions using an initial decomposition.
+We will cover one such latent factor model, the Shared Response Model, in these tutorials.</p>
+</div>
 <p>Instead of visualizing these spaces, then, we will simply have to reason about them.
 This takes a bit of getting used to,
 and it’s important to note that <a class="reference external" href="https://marckhoury.github.io/blog/counterintuitive-properties-of-high-dimensional-space">our default intution is often wrong</a>!

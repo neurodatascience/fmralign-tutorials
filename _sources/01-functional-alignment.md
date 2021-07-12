@@ -52,6 +52,16 @@ This is not the only way to think about our data, however.
 Instead, we can imagine a new space where our dimensions equal the number of voxels we’re comparing between subjects.
 To keep things simple, let’s first pretend we are only interested in two voxels.
 
+Traditionally, we would extract the activity time courses for these voxels,
+such that we had two graphs of voxel activity over time.
+We could then compare the similarity of these time courses using techniques such as correlation.
+An alternative way to think about these voxel activity profiles is in a new, functional space.
+That is, we can define a new two-dimensional space,
+where each dimension corresponds to one voxel's activity.
+For each time point,
+we then include a single data point that indexes the relative activity of each voxel at that time point.
+This basic idea is illustrated in {numref}`voxel-space-gif`.
+
 ```{figure} ../images/voxel_space.gif
 ---
 height: 375px
@@ -61,12 +71,11 @@ Moving from anatomical space to a high-dimensional voxel space.
 Here, we only consider two voxels to aid in visualization.
 ```
 
-As we increase the number of voxels, we also increase the number of dimensions.
+Note that as we increase the number of voxels, we also increase the number of dimensions.
 
-```{sidebar}
-It quickly becomes unreasonable to visualize these new spaces, despite [what Geoff Hinton says](https://twitter.com/videodrome/status/1005887240407379969):
-
-> To deal with hyper-planes in a 14-dimensional space, visualize a 3-D space and say "fourteen" to yourself very loudly. Everyone does it.
+```{margin}
+Some _latent factor_ models reduce the number of dimensions using an initial decomposition.
+We will cover one such latent factor model, the Shared Response Model, in these tutorials.
 ```
 
 Instead of visualizing these spaces, then, we will simply have to reason about them.
