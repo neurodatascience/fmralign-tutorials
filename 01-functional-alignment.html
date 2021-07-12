@@ -233,6 +233,11 @@
    1.2. High-dimensional functional spaces
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#constraining-functional-alignment-to-local-neighborhoods">
+   1.3. Constraining functional alignment to local neighborhoods
+  </a>
+ </li>
 </ul>
 
             </nav>
@@ -256,7 +261,8 @@ without relying on anatomical landmarks.</p>
 this is usually done by normalizing their anatomical (T1-weighted) MRI scan to a standard template such as the MNI152.
 We can then look at similarities across individuals in this standardized space.
 Although this approach allows us to learnt commonalities across subjects, it can obscure important individual information.</p>
-<p>A relevant analogy here is to the idea of face morphing.
+<p>A relevant analogy here is to the idea of face morphing,
+as shown in <a class="reference internal" href="#average-president-jpg"><span class="std std-numref">Fig. 1.1</span></a>.
 Much like sulci and gyri in MRI data,
 faces also have relevant landmarks (e.g. eyes) that can be used to generate a mapping between individual’s faces.
 Using these mappings can bring one or more faces into alignment, where they can then be averaged.</p>
@@ -293,7 +299,9 @@ Here, we only consider two voxels to aid in visualization.</span><a class="heade
 <p>Note that as we increase the number of voxels, we also increase the number of dimensions.</p>
 <div class="margin sidebar">
 <p class="sidebar-title"></p>
-<p>Some <em>latent factor</em> models reduce the number of dimensions using an initial decomposition.
+<p>Some <em>latent factor models</em> reduce the number of dimensions using an initial decomposition.
+The idea is that there may be several latent factors supporting voxel-level activity patterns,
+and we can therefore capture relevant information even in a lower dimensional space.
 We will cover one such latent factor model, the Shared Response Model, in these tutorials.</p>
 </div>
 <p>Instead of visualizing these spaces, then, we will simply have to reason about them.
@@ -310,6 +318,19 @@ Although distribution alignment is used in domain adaptation,
 functional alignment is unique in that we have access to both the “source” and “target” distributions and are trying to learn a relationship between them,
 rather than transferring a learnt relationship from one distribution to another.</p>
 <p>The next four tutorials detail different methods for functionally aligning two (or more) high-dimensional, voxel spaces.</p>
+</div>
+<div class="section" id="constraining-functional-alignment-to-local-neighborhoods">
+<h2><span class="section-number">1.3. </span>Constraining functional alignment to local neighborhoods<a class="headerlink" href="#constraining-functional-alignment-to-local-neighborhoods" title="Permalink to this headline">¶</a></h2>
+<p>Since functional alignment is not guided by anatomical landmarks,
+considering a large number of voxels can generate biologically implausible transformations.
+For example, we may maximize distribution similarity while aligning voxel activity from one participant’s visual cortex to another participant’s prefrontal cortex.
+To avoid this undesirable outcome, we can constrain the voxels included in calculating each functional alignment transformation to smaller, local neighborhoods.</p>
+<p>A relevant neighborhood might be defined as an <em>a priori</em> region of interest (ROI).</p>
+<div class="figure align-default" id="parcellation-searchlight-png">
+<a class="reference internal image-reference" href="_images/parcellation_v_searchlight.png"><img alt="_images/parcellation_v_searchlight.png" src="_images/parcellation_v_searchlight.png" style="height: 350px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 1.3 </span><span class="caption-text">Two different methods to constrain functional alignment transformations:
+non-overlapping parcels from a deterministic parcellation or partially overlapping searchlights.</span><a class="headerlink" href="#parcellation-searchlight-png" title="Permalink to this image">¶</a></p>
+</div>
 </div>
 </div>
 

@@ -25,7 +25,8 @@ this is usually done by normalizing their anatomical (T1-weighted) MRI scan to a
 We can then look at similarities across individuals in this standardized space.
 Although this approach allows us to learnt commonalities across subjects, it can obscure important individual information.
 
-A relevant analogy here is to the idea of face morphing.
+A relevant analogy here is to the idea of face morphing,
+as shown in {numref}`average-president-jpg`.
 Much like sulci and gyri in MRI data,
 faces also have relevant landmarks (e.g. eyes) that can be used to generate a mapping between individual's faces.
 Using these mappings can bring one or more faces into alignment, where they can then be averaged.
@@ -74,7 +75,9 @@ Here, we only consider two voxels to aid in visualization.
 Note that as we increase the number of voxels, we also increase the number of dimensions.
 
 ```{margin}
-Some _latent factor_ models reduce the number of dimensions using an initial decomposition.
+Some _latent factor models_ reduce the number of dimensions using an initial decomposition.
+The idea is that there may be several latent factors supporting voxel-level activity patterns,
+and we can therefore capture relevant information even in a lower dimensional space.
 We will cover one such latent factor model, the Shared Response Model, in these tutorials.
 ```
 
@@ -95,3 +98,21 @@ functional alignment is unique in that we have access to both the "source" and "
 rather than transferring a learnt relationship from one distribution to another.
 
 The next four tutorials detail different methods for functionally aligning two (or more) high-dimensional, voxel spaces.
+
+## Constraining functional alignment to local neighborhoods
+
+Since functional alignment is not guided by anatomical landmarks,
+considering a large number of voxels can generate biologically implausible transformations.
+For example, we may maximize distribution similarity while aligning voxel activity from one participant's visual cortex to another participant's prefrontal cortex.
+To avoid this undesirable outcome, we can constrain the voxels included in calculating each functional alignment transformation to smaller, local neighborhoods.
+
+A relevant neighborhood might be defined as an _a priori_ region of interest (ROI).
+
+```{figure} ../images/parcellation_v_searchlight.png
+---
+height: 350px
+name: parcellation-searchlight-png
+---
+Two different methods to constrain functional alignment transformations:
+non-overlapping parcels from a deterministic parcellation or partially overlapping searchlights.
+```
