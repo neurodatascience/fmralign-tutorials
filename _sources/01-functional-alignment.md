@@ -13,9 +13,14 @@ kernelspec:
 
 # Functional alignment
 
-What is "functional alignment"?
-Although a range of terminology is in use across the field,
-in these tutorials we define functional alignment as transformations which directly align individual functional activity without relying on anatomical landmarks.
+Although the class of methods we consider here is broadly referred to as both _functional alignment methods_ and _hyperalignment methods_,
+we adopt the term _functional alignment methods_ to better distinguish from the specific Procrustes-based hyperalignment method in use in the literature.
+We can define functional alignment as transformations which directly align individual functional activity without relying on anatomical landmarks.
+Specifically, the methods considered here learn these transformations in a high-dimensional functional space,
+rather than in the three-dimensional space in which we consider anatomically-based transformations.
+
+For these tutorials, we further constrain our definition of functional alignment to only include those methods which learn linear transformations.
+This constraint broadly allows us to retain individual-specific information.
 
 ## Contrasting anatomically-based alignment
 
@@ -39,8 +44,8 @@ An average face from six US presidents, generaged [using OpenCV](https://learnop
 With [thanks to Jack Gallant](https://smartech.gatech.edu/handle/1853/60990).
 ```
 
-An "average face" retains important structure that is consistent across individuals,
-but it does not resemble any of the individuals used to derive the average.
+The resulting "average face" retains important structure that is consistent across individuals,
+but this structure is largely defined by the chosen landmarks.
 
 ## High-dimensional functional spaces
 
@@ -133,3 +138,5 @@ non-overlapping parcels from a deterministic parcellation or partially overlappi
 
 Importantly, when functional alignment transformations are aggregated using the searchlight methods,
 the final transformations are no longer guaranteed to have the same properties as the initial, unaggregated transforms.
+In this work, we therefore assume that functional alignment transformations are calculated in non-overlapping neighborhoods,
+such as an ROI or a whole brain deterministic parcellation.
