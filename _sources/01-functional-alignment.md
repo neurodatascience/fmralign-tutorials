@@ -15,8 +15,7 @@ kernelspec:
 
 What is "functional alignment"?
 Although a range of terminology is in use across the field,
-in these tutorials we define functional alignment as transformations which align directly individual functional activity,
-without relying on anatomical landmarks.
+in these tutorials we define functional alignment as transformations which directly align individual functional activity without relying on anatomical landmarks.
 
 ## Contrasting anatomically-based alignment
 
@@ -104,9 +103,24 @@ The next four tutorials detail different methods for functionally aligning two (
 Since functional alignment is not guided by anatomical landmarks,
 considering a large number of voxels can generate biologically implausible transformations.
 For example, we may maximize distribution similarity while aligning voxel activity from one participant's visual cortex to another participant's prefrontal cortex.
-To avoid this undesirable outcome, we can constrain the voxels included in calculating each functional alignment transformation to smaller, local neighborhoods.
+To avoid this, we can constrain the voxels included in calculating each functional alignment transformation to smaller, local neighborhoods.
 
-A relevant neighborhood might be defined as an _a priori_ region of interest (ROI).
+A relevant neighborhood might be defined by an _a priori_ region of interest (ROI).
+That is, a researcher may have identified a relevant patch of cortex through functional localizers or anatomical tracing.
+They can then only consider voxels within this ROI and functionally align their activity across participants.
+
+To generate a whole brain transformation, however, we must define many more local neighborhoods.
+There are two primary strategies to do so.
+The first is through a deterministic or non-overlapping parcellation.
+This can be considered as an extension of the ROI-based approach, in that we now have as many ROIs as there are parcels.
+Transformations are calculated separately for each parcel and then aggregated into a larger whole brain transformation matrix.
+
+Alternatively, we can define our local neighborhoods using a searchlight approach.
+Here, a searchlight is a small sphere of defined radius that we can iterate through a brain volume.
+Importantly, the centroids of each searchlight are selected such that the spheres slightly overlap.
+When generating an aggregated transformation, then, this overlap must be accounted for in the transformation itself;
+for example, by averaging or summing the calculated transformation from two overlapping searchlights.
+You can see an example of these different local neighborhood methods in {numref}`parcellation-searchlight-png`.
 
 ```{figure} ../images/parcellation_v_searchlight.png
 ---
@@ -116,3 +130,6 @@ name: parcellation-searchlight-png
 Two different methods to constrain functional alignment transformations:
 non-overlapping parcels from a deterministic parcellation or partially overlapping searchlights.
 ```
+
+Importantly, when functional alignment transformations are aggregated using the searchlight methods,
+the final transformations are no longer guaranteed to have the same properties as the initial, unaggregated transforms.

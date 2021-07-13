@@ -253,8 +253,7 @@
 <h1><span class="section-number">1. </span>Functional alignment<a class="headerlink" href="#functional-alignment" title="Permalink to this headline">¶</a></h1>
 <p>What is “functional alignment”?
 Although a range of terminology is in use across the field,
-in these tutorials we define functional alignment as transformations which align directly individual functional activity,
-without relying on anatomical landmarks.</p>
+in these tutorials we define functional alignment as transformations which directly align individual functional activity without relying on anatomical landmarks.</p>
 <div class="section" id="contrasting-anatomically-based-alignment">
 <h2><span class="section-number">1.1. </span>Contrasting anatomically-based alignment<a class="headerlink" href="#contrasting-anatomically-based-alignment" title="Permalink to this headline">¶</a></h2>
 <p>With neuroimaging data, we usually make inferences across subjects by creating a mapping between each subject’s neuroanatomy;
@@ -324,13 +323,28 @@ rather than transferring a learnt relationship from one distribution to another.
 <p>Since functional alignment is not guided by anatomical landmarks,
 considering a large number of voxels can generate biologically implausible transformations.
 For example, we may maximize distribution similarity while aligning voxel activity from one participant’s visual cortex to another participant’s prefrontal cortex.
-To avoid this undesirable outcome, we can constrain the voxels included in calculating each functional alignment transformation to smaller, local neighborhoods.</p>
-<p>A relevant neighborhood might be defined as an <em>a priori</em> region of interest (ROI).</p>
+To avoid this, we can constrain the voxels included in calculating each functional alignment transformation to smaller, local neighborhoods.</p>
+<p>A relevant neighborhood might be defined by an <em>a priori</em> region of interest (ROI).
+That is, a researcher may have identified a relevant patch of cortex through functional localizers or anatomical tracing.
+They can then only consider voxels within this ROI and functionally align their activity across participants.</p>
+<p>To generate a whole brain transformation, however, we must define many more local neighborhoods.
+There are two primary strategies to do so.
+The first is through a deterministic or non-overlapping parcellation.
+This can be considered as an extension of the ROI-based approach, in that we now have as many ROIs as there are parcels.
+Transformations are calculated separately for each parcel and then aggregated into a larger whole brain transformation matrix.</p>
+<p>Alternatively, we can define our local neighborhoods using a searchlight approach.
+Here, a searchlight is a small sphere of defined radius that we can iterate through a brain volume.
+Importantly, the centroids of each searchlight are selected such that the spheres slightly overlap.
+When generating an aggregated transformation, then, this overlap must be accounted for in the transformation itself;
+for example, by averaging or summing the calculated transformation from two overlapping searchlights.
+You can see an example of these different local neighborhood methods in <a class="reference internal" href="#parcellation-searchlight-png"><span class="std std-numref">Fig. 1.3</span></a>.</p>
 <div class="figure align-default" id="parcellation-searchlight-png">
 <a class="reference internal image-reference" href="_images/parcellation_v_searchlight.png"><img alt="_images/parcellation_v_searchlight.png" src="_images/parcellation_v_searchlight.png" style="height: 350px;" /></a>
 <p class="caption"><span class="caption-number">Fig. 1.3 </span><span class="caption-text">Two different methods to constrain functional alignment transformations:
 non-overlapping parcels from a deterministic parcellation or partially overlapping searchlights.</span><a class="headerlink" href="#parcellation-searchlight-png" title="Permalink to this image">¶</a></p>
 </div>
+<p>Importantly, when functional alignment transformations are aggregated using the searchlight methods,
+the final transformations are no longer guaranteed to have the same properties as the initial, unaggregated transforms.</p>
 </div>
 </div>
 
