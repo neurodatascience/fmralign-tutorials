@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>2. Generalized Procrustes analysis &#8212; Functional Alignment</title>
+    <title>3. Generalized Procrustes analysis &#8212; Functional Alignment</title>
     
   <link href="_static/css/theme.css" rel="stylesheet" />
   <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -23,7 +23,7 @@
 
     
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/sphinx-book-theme.acff12b8f9c144ce68a297486a2fa670.css" type="text/css" />
+    <link rel="stylesheet" href="_static/sphinx-book-theme.e8e5499552300ddf5d7adccae7cc3b70.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
@@ -53,8 +53,8 @@
     <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="3. Regularized Canonical Correlation Analysis" href="05-cca.html" />
-    <link rel="prev" title="1. Procrustes analysis" href="02-procrustes.html" />
+    <link rel="next" title="4. Regularized Canonical Correlation Analysis" href="05-cca.html" />
+    <link rel="prev" title="2. Procrustes analysis" href="02-procrustes.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -109,17 +109,17 @@
 <ul class="current nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="02-procrustes.html">
-   1. Procrustes analysis
+   2. Procrustes analysis
   </a>
  </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   2. Generalized Procrustes analysis
+   3. Generalized Procrustes analysis
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="05-cca.html">
-   3. Regularized Canonical Correlation Analysis
+   4. Regularized Canonical Correlation Analysis
   </a>
  </li>
 </ul>
@@ -131,7 +131,7 @@
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="06-related-methods.html">
-   1. What functional alignment alignment is not
+   5. What functional alignment alignment is not
   </a>
  </li>
 </ul>
@@ -229,7 +229,7 @@
               <div>
                 
   <div class="section" id="generalized-procrustes-analysis">
-<h1><span class="section-number">2. </span>Generalized Procrustes analysis<a class="headerlink" href="#generalized-procrustes-analysis" title="Permalink to this headline">¶</a></h1>
+<h1><span class="section-number">3. </span>Generalized Procrustes analysis<a class="headerlink" href="#generalized-procrustes-analysis" title="Permalink to this headline">¶</a></h1>
 <p>The apocraphyl legend of Procrustes describes an inn-keeper who–having only one bed in the inn–gruesomely stretched or shortened his customers to fit it.</p>
 <p>Procrustes analysis allows us to compares the geometry of two objects or data sets. Specifically, for two geometries with a known one-to-one mapping, we can consider the distance between each pair of corresponding points. Our goal is to derive an orthogonal transformation that minimizes the distance between each pair of points, thus minimizing the total distance between the two geometries. Named for the legend of Procrustes, the ancient Greek innkeeper who stretched or cut off traveller’s limbs so they would fit his bed, Procrustes analysis can be seen as conforming datasets through a series of rigid-body transformations {cite}Schonemann1966-qq.</p>
 <p>Generalized Procrustes analysis differs from Procrustes analysis in two significant ways.
@@ -238,7 +238,7 @@ as well as additional scaling and translation transformations.
 Second, generalized Procrustes can be applied to more than two shapes through the iterative use of a reference shape.</p>
 <p>We can formally express the generalized Procrustes problem as:</p>
 <div class="math notranslate nohighlight" id="equation-general-procrustes-eq-1">
-<span class="eqno">(2.1)<a class="headerlink" href="#equation-general-procrustes-eq-1" title="Permalink to this equation">¶</a></span>\[\begin{split}\min_{\mathbf{R}= s\mathbf{M}} ||\mathbf{R} \mathbf{X} - \mathbf{Y}||_F^2 \\
+<span class="eqno">(3.1)<a class="headerlink" href="#equation-general-procrustes-eq-1" title="Permalink to this equation">¶</a></span>\[\begin{split}\min_{\mathbf{R}= s\mathbf{M}} ||\mathbf{R} \mathbf{X} - \mathbf{Y}||_F^2 \\
 s\in\mathbb{R^+}, \enspace \mathbf{M} \in \mathbb{R}^{p \times p} \text{ s.t. } \mathbf{M}^\intercal\mathbf{M} = \mathbf{I}_p\end{split}\]</div>
 </div>
 
@@ -267,8 +267,8 @@ s\in\mathbb{R^+}, \enspace \mathbf{M} \in \mathbb{R}^{p \times p} \text{ s.t. } 
         
         <div class='prev-next-bottom'>
             
-    <a class='left-prev' id="prev-link" href="02-procrustes.html" title="previous page"><span class="section-number">1. </span>Procrustes analysis</a>
-    <a class='right-next' id="next-link" href="05-cca.html" title="next page"><span class="section-number">3. </span>Regularized Canonical Correlation Analysis</a>
+    <a class='left-prev' id="prev-link" href="02-procrustes.html" title="previous page"><span class="section-number">2. </span>Procrustes analysis</a>
+    <a class='right-next' id="next-link" href="05-cca.html" title="next page"><span class="section-number">4. </span>Regularized Canonical Correlation Analysis</a>
 
         </div>
         

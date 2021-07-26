@@ -13,11 +13,12 @@ kernelspec:
 
 # Functional alignment
 
-Although the class of methods we consider here is broadly referred to as both _functional alignment methods_ and _hyperalignment methods_,
-we adopt the term _functional alignment methods_ to better distinguish from the specific Procrustes-based hyperalignment method in use in the literature.
 We can define functional alignment as transformations which directly align individual functional activity without relying on anatomical landmarks.
 Specifically, the methods considered here learn these transformations in a high-dimensional functional space,
 rather than in the three-dimensional space in which we consider anatomically-based transformations.
+
+Although this class of methods is broadly referred to as both _functional alignment methods_ and _hyperalignment methods_,
+we adopt the term _functional alignment methods_ to better distinguish from the specific Procrustes-based hyperalignment method in use in the literature.
 
 For these tutorials, we further constrain our definition of functional alignment to only include those methods which learn linear transformations.
 This constraint broadly allows us to retain individual-specific information.
@@ -29,11 +30,22 @@ this is usually done by normalizing their anatomical (T1-weighted) MRI scan to a
 We can then look at similarities across individuals in this standardized space.
 Although this approach allows us to learnt commonalities across subjects, it can obscure important individual information.
 
-A relevant analogy here is to the idea of face morphing,
-as shown in {numref}`average-president-jpg`.
+A relevant analogy here---originally suggested by [Jack Gallant](https://smartech.gatech.edu/handle/1853/60990)---is to the idea of face averaging.
 Much like sulci and gyri in MRI data,
 faces also have relevant landmarks (e.g. eyes) that can be used to generate a mapping between individual's faces.
-Using these mappings can bring one or more faces into alignment, where they can then be averaged.
+
+```{figure} ../images/facial_landmarks.png
+---
+height: 350px
+name: facial-landmarks-png
+---
+Identifying relevant facial landmarks [using OpenCV](https://learnopencv.com/delaunay-triangulation-and-voronoi-diagram-using-opencv-c-python/).
+With thanks to [Satya Mallick](https://learnopencv.com/about/).
+```
+
+By using these landmarks, we can identify relevant internal structure within an individual's face; for example, the distance between their eyes.
+Importantly, because these landmarks are shared across faces, we can generate a mapping between different individual's facial structures.
+These mappings can then be used to bring one or more faces into alignment, where they can then be averaged, as shown in {numref}`average-president-jpg`
 
 ```{figure} ../images/average-president.jpg
 ---
@@ -41,11 +53,13 @@ height: 350px
 name: average-president-jpg
 ---
 An average face from six US presidents, generaged [using OpenCV](https://learnopencv.com/average-face-opencv-c-python-tutorial/).
-With [thanks to Jack Gallant](https://smartech.gatech.edu/handle/1853/60990).
+With thanks to [Satya Mallick](https://learnopencv.com/about/).
+
 ```
 
-The resulting "average face" retains important structure that is consistent across individuals,
+The resulting composite or "average face" retains important structure that is consistent across individuals,
 but this structure is largely defined by the chosen landmarks.
+This means that idiosyncratic information---particularly information that is not represented in the original landmarks, such as hairline---is not well-represented in the composite face.
 
 ## High-dimensional functional spaces
 
@@ -88,8 +102,6 @@ We will cover one such latent factor model, the Shared Response Model, in these 
 Instead of visualizing these spaces, then, we will simply have to reason about them.
 This takes a bit of getting used to,
 and it's important to note that [our default intution is often wrong](https://marckhoury.github.io/blog/counterintuitive-properties-of-high-dimensional-space)!
-There are [good resources](https://www.youtube.com/watch?v=zwAD6dRSVyI) for learning to think in higher dimensions,
-but here we'll focus on how we can learn to work with them.
 
 At a high-level, the goal is to make two distributions of participant activity patterns look as similar as possible,
 given certain constraints on the transformation.

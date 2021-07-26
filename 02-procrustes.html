@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>1. Procrustes analysis &#8212; Functional Alignment</title>
+    <title>2. Procrustes analysis &#8212; Functional Alignment</title>
     
   <link href="_static/css/theme.css" rel="stylesheet" />
   <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -23,7 +23,7 @@
 
     
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/sphinx-book-theme.acff12b8f9c144ce68a297486a2fa670.css" type="text/css" />
+    <link rel="stylesheet" href="_static/sphinx-book-theme.e8e5499552300ddf5d7adccae7cc3b70.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
@@ -53,7 +53,7 @@
     <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="2. Generalized Procrustes analysis" href="04-generalized-procrustes.html" />
+    <link rel="next" title="3. Generalized Procrustes analysis" href="04-generalized-procrustes.html" />
     <link rel="prev" title="1. Functional alignment" href="01-functional-alignment.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
@@ -109,17 +109,17 @@
 <ul class="current nav bd-sidenav">
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   1. Procrustes analysis
+   2. Procrustes analysis
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="04-generalized-procrustes.html">
-   2. Generalized Procrustes analysis
+   3. Generalized Procrustes analysis
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="05-cca.html">
-   3. Regularized Canonical Correlation Analysis
+   4. Regularized Canonical Correlation Analysis
   </a>
  </li>
 </ul>
@@ -131,7 +131,7 @@
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="06-related-methods.html">
-   1. What functional alignment alignment is not
+   5. What functional alignment alignment is not
   </a>
  </li>
 </ul>
@@ -227,7 +227,7 @@
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#formalizing-the-problem">
-   1.1. Formalizing the problem
+   2.1. Formalizing the problem
   </a>
  </li>
 </ul>
@@ -242,7 +242,7 @@
               <div>
                 
   <div class="section" id="procrustes-analysis">
-<h1><span class="section-number">1. </span>Procrustes analysis<a class="headerlink" href="#procrustes-analysis" title="Permalink to this headline">¶</a></h1>
+<h1><span class="section-number">2. </span>Procrustes analysis<a class="headerlink" href="#procrustes-analysis" title="Permalink to this headline">¶</a></h1>
 <p>Procrustes analysis allows us to compares the geometry of two objects or data sets.
 Specifically, for two geometries with a known one-to-one mapping,
 we can consider the distance between each pair of corresponding points.
@@ -251,7 +251,7 @@ Named for the legend of Procrustes,
 the ancient Greek innkeeper who stretched or cut off traveller’s limbs so they would fit his bed,
 Procrustes analysis can be seen as conforming datasets through a series of rigid-body transformations <a href="#id1"><span class="problematic" id="id2">:cite:`Schonemann1966-qq`</span></a>.</p>
 <div class="section" id="formalizing-the-problem">
-<h2><span class="section-number">1.1. </span>Formalizing the problem<a class="headerlink" href="#formalizing-the-problem" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">2.1. </span>Formalizing the problem<a class="headerlink" href="#formalizing-the-problem" title="Permalink to this headline">¶</a></h2>
 <p>Suppose we have two data distributions, <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>,
 which each sample a different representational geometry.
 Each distribution contains a series of <span class="math notranslate nohighlight">\(n\)</span> observations, such that
@@ -272,7 +272,7 @@ we can directly compare the <span class="math notranslate nohighlight">\(i\)</sp
 The goal in Procrustes is to find a single orthogonal transformation that minimizes the sum-of-squares distances between all <span class="math notranslate nohighlight">\(n\)</span> <span class="math notranslate nohighlight">\(X\)</span>, <span class="math notranslate nohighlight">\(Y\)</span> pairs,
 thereby minimizing the total distance between the distributions:</p>
 <div class="math notranslate nohighlight" id="equation-procrustes-eq-1">
-<span class="eqno">(1.2)<a class="headerlink" href="#equation-procrustes-eq-1" title="Permalink to this equation">¶</a></span>\[\begin{split}\arg\min_{\mathbf{R}} \sum_{i = 1}^{n} ||\mathbf{R} \mathbf{x}_i - \mathbf{y}_i||_F^2 \\
+<span class="eqno">(2.2)<a class="headerlink" href="#equation-procrustes-eq-1" title="Permalink to this equation">¶</a></span>\[\begin{split}\arg\min_{\mathbf{R}} \sum_{i = 1}^{n} ||\mathbf{R} \mathbf{x}_i - \mathbf{y}_i||_F^2 \\
 \mathbf{R}^\intercal\mathbf{R} = \mathbf{I}\end{split}\]</div>
 <p>If we stack all of our data points into two matrices
 –one for each distribution– we can represent our two distributions as
@@ -280,7 +280,7 @@ thereby minimizing the total distance between the distributions:</p>
 <span class="math notranslate nohighlight">\(\mathbf{Y} \in \mathbb{R}^{n \times p}\)</span>.</p>
 <p>We can then re-write our problem as:</p>
 <div class="math notranslate nohighlight" id="equation-procrustes-eq-1">
-<span class="eqno">(1.2)<a class="headerlink" href="#equation-procrustes-eq-1" title="Permalink to this equation">¶</a></span>\[\begin{split}\arg\min_{\mathbf{R}} ||\mathbf{R} \mathbf{X} - \mathbf{Y}||_F^2 \\
+<span class="eqno">(2.2)<a class="headerlink" href="#equation-procrustes-eq-1" title="Permalink to this equation">¶</a></span>\[\begin{split}\arg\min_{\mathbf{R}} ||\mathbf{R} \mathbf{X} - \mathbf{Y}||_F^2 \\
 \mathbf{R}^\intercal\mathbf{R} = \mathbf{I}\end{split}\]</div>
 </div>
 </div>
@@ -311,7 +311,7 @@ thereby minimizing the total distance between the distributions:</p>
         <div class='prev-next-bottom'>
             
     <a class='left-prev' id="prev-link" href="01-functional-alignment.html" title="previous page"><span class="section-number">1. </span>Functional alignment</a>
-    <a class='right-next' id="next-link" href="04-generalized-procrustes.html" title="next page"><span class="section-number">2. </span>Generalized Procrustes analysis</a>
+    <a class='right-next' id="next-link" href="04-generalized-procrustes.html" title="next page"><span class="section-number">3. </span>Generalized Procrustes analysis</a>
 
         </div>
         
