@@ -23,7 +23,7 @@
 
     
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/sphinx-book-theme.e8e5499552300ddf5d7adccae7cc3b70.css" type="text/css" />
+    <link rel="stylesheet" href="_static/sphinx-book-theme.e2363ea40746bee74734a24ffefccd78.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
@@ -42,7 +42,9 @@
     <script src="_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
-    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
         const thebe_selector_input = "pre"
@@ -51,7 +53,7 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="2. Procrustes analysis" href="02-procrustes.html" />
+    <link rel="next" title="2. Procrustes alignment" href="02-procrustes.html" />
     <link rel="prev" title="fmralign tutorials" href="00-intro.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
@@ -72,13 +74,14 @@
     <a class="navbar-brand text-wrap" href="index.html">
       
       
+      
       <h1 class="site-logo" id="site-title">Functional Alignment</h1>
       
     </a>
 </div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
         <ul class="nav bd-sidenav">
  <li class="toctree-l1">
@@ -107,7 +110,7 @@
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="02-procrustes.html">
-   2. Procrustes analysis
+   2. Procrustes alignment
   </a>
  </li>
  <li class="toctree-l1">
@@ -221,7 +224,7 @@
             <div class="tocsection onthispage pt-5 pb-3">
                 <i class="fas fa-list"></i> Contents
             </div>
-            <nav id="bd-toc-nav">
+            <nav id="bd-toc-nav" aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#contrasting-anatomically-based-alignment">
@@ -236,6 +239,11 @@
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#constraining-functional-alignment-to-local-neighborhoods">
    1.3. Constraining functional alignment to local neighborhoods
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#formalizing-the-problem">
+   1.4. Formalizing the problem
   </a>
  </li>
 </ul>
@@ -257,7 +265,7 @@ rather than in the three-dimensional space in which we consider anatomically-bas
 <p>Although this class of methods is broadly referred to as both <em>functional alignment methods</em> and <em>hyperalignment methods</em>,
 we adopt the term <em>functional alignment methods</em> to better distinguish from the specific Procrustes-based hyperalignment method in use in the literature.</p>
 <p>For these tutorials, we further constrain our definition of functional alignment to only include those methods which learn linear transformations.
-This constraint broadly allows us to retain individual-specific information.</p>
+Other, non-linear methods are in active development, but we focus on linear methods as these broadly retain individual-specific information.</p>
 <div class="section" id="contrasting-anatomically-based-alignment">
 <h2><span class="section-number">1.1. </span>Contrasting anatomically-based alignment<a class="headerlink" href="#contrasting-anatomically-based-alignment" title="Permalink to this headline">¶</a></h2>
 <p>With neuroimaging data, we usually make inferences across subjects by creating a mapping between each subject’s neuroanatomy;
@@ -282,12 +290,12 @@ With thanks to <a class="reference external" href="https://learnopencv.com/about
 </div>
 <p>The resulting composite or “average face” retains important structure that is consistent across individuals,
 but this structure is largely defined by the chosen landmarks.
-This means that idiosyncratic information—particularly information that is not represented in the original landmarks, such as hairline—is not well-represented in the composite face.</p>
+This means that idiosyncratic information—particularly information that is not represented in the original landmarks, such as their hairline—is not well-represented in the composite face.</p>
 </div>
 <div class="section" id="high-dimensional-functional-spaces">
 <h2><span class="section-number">1.2. </span>High-dimensional functional spaces<a class="headerlink" href="#high-dimensional-functional-spaces" title="Permalink to this headline">¶</a></h2>
 <p>Functional alignment doesn’t use landmark information to generate its alignments.
-To understand it, we need to think outside of the box—the box of three dimensions, that is.</p>
+To understand it, we need to think outside of the box: the box of three dimensions, that is.</p>
 <p>Usually, we think of fMRI data in a 3D space of <em>x</em>, <em>y</em>, and <em>z</em> coordinates.
 This is not the only way to think about our data, however.
 Instead, we can imagine a new space where our dimensions equal the number of voxels we’re comparing between subjects.
@@ -316,14 +324,14 @@ We will cover one such latent factor model, the Shared Response Model, in these 
 </div>
 <p>Instead of visualizing these spaces, then, we will simply have to reason about them.
 This takes a bit of getting used to,
-and it’s important to note that <a class="reference external" href="https://marckhoury.github.io/blog/counterintuitive-properties-of-high-dimensional-space">our default intution is often wrong</a>!</p>
+and it’s important to note that <a class="reference external" href="https://marckhoury.github.io/blog/counterintuitive-properties-of-high-dimensional-space">our default intution is often wrong</a>.</p>
 <p>At a high-level, the goal is to make two distributions of participant activity patterns look as similar as possible,
 given certain constraints on the transformation.
 The precise constraints differ according to the method; however, we are only interested in methods which generate linear mappings.
 The resulting transformations, then, should improve functional similarity while retaining as much information as possible about individual participants or conditions.</p>
 <p>The methods used to create these transformations can be considered as part of a broader class of “distribution alignment” methods.
 Although distribution alignment is used in domain adaptation,
-functional alignment is unique in that we have access to both the “source” and “target” distributions and are trying to learn a relationship between them,
+functional alignment is unique in that we generally have access to both the “source” and “target” distributions and are trying to learn a relationship between them,
 rather than transferring a learnt relationship from one distribution to another.</p>
 <p>The next four tutorials detail different methods for functionally aligning two (or more) high-dimensional, voxel spaces.</p>
 </div>
@@ -357,6 +365,25 @@ the final transformations are no longer guaranteed to have the same properties a
 In this work, we therefore assume that functional alignment transformations are calculated in non-overlapping neighborhoods,
 such as an ROI or a whole brain deterministic parcellation.</p>
 </div>
+<div class="section" id="formalizing-the-problem">
+<h2><span class="section-number">1.4. </span>Formalizing the problem<a class="headerlink" href="#formalizing-the-problem" title="Permalink to this headline">¶</a></h2>
+<p>Suppose we have two data distributions, <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>.
+These distributions may come from voxel activity time series sampled from two different participants
+or from the same participant in two different psychological tasks.</p>
+<p>Each distribution contains a series of <span class="math notranslate nohighlight">\(n\)</span> observations, such that
+<span class="math notranslate nohighlight">\(X = \{\mathbf{x}_1, \ldots, \mathbf{x}_n\}\)</span>
+where <span class="math notranslate nohighlight">\(\mathbf{x}_i \in \mathbb{R}^p\)</span>.</p>
+<p>For fMRI data, then, <span class="math notranslate nohighlight">\(n\)</span> would be the number of time points sampled,
+while <span class="math notranslate nohighlight">\(p\)</span> is the number of voxels considered.</p>
+<p>If we stack all of our data points into two matrices
+–one for each distribution– we can represent our two distributions as
+<span class="math notranslate nohighlight">\(\mathbf{X} \in \mathbb{R}^{n \times p}\)</span> and
+<span class="math notranslate nohighlight">\(\mathbf{Y} \in \mathbb{R}^{n \times p}\)</span>.</p>
+<p>For some methods, we will enforce that every distribution has exactly the same number of voxels <span class="math notranslate nohighlight">\(p\)</span>.
+Other methods will allow the number of voxels to vary across distributions.
+When variable voxels are allowed, we will denote the number of voxels as <span class="math notranslate nohighlight">\(p_1\)</span> or <span class="math notranslate nohighlight">\(p_2\)</span>,
+corresponding to the relevant distribution.</p>
+</div>
 </div>
 
     <script type="text/x-thebe-config">
@@ -382,16 +409,36 @@ such as an ROI or a whole brain deterministic parcellation.</p>
               </div>
               
         
-        <div class='prev-next-bottom'>
             
-    <a class='left-prev' id="prev-link" href="00-intro.html" title="previous page">fmralign tutorials</a>
-    <a class='right-next' id="next-link" href="02-procrustes.html" title="next page"><span class="section-number">2. </span>Procrustes analysis</a>
 
-        </div>
+
+
+<div class='prev-next-bottom'>
+    
+    <div id="prev">
+        <a class="left-prev" href="00-intro.html" title="previous page">
+            <i class="prevnext-label fas fa-angle-left"></i>
+            <div class="prevnext-info">
+                <p class="prevnext-label">previous</p>
+                <p class="prevnext-title">fmralign tutorials</p>
+            </div>
+        </a>
+    </div>
+     <div id="next">
+        <a class="right-next" href="02-procrustes.html" title="next page">
+            <div class="prevnext-info">
+                <p class="prevnext-label">next</p>
+                <p class="prevnext-title"><span class="section-number">2. </span>Procrustes alignment</p>
+            </div>
+            <i class="prevnext-label fas fa-angle-right"></i>
+        </a>
+     </div>
+
+</div>
         
         </div>
     </div>
-    <footer class="footer mt-5 mt-md-0">
+    <footer class="footer">
     <div class="container">
       <p>
         

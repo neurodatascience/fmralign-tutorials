@@ -21,7 +21,7 @@ Although this class of methods is broadly referred to as both _functional alignm
 we adopt the term _functional alignment methods_ to better distinguish from the specific Procrustes-based hyperalignment method in use in the literature.
 
 For these tutorials, we further constrain our definition of functional alignment to only include those methods which learn linear transformations.
-This constraint broadly allows us to retain individual-specific information.
+Other, non-linear methods are in active development, but we focus on linear methods as these broadly retain individual-specific information.
 
 ## Contrasting anatomically-based alignment
 
@@ -59,12 +59,12 @@ With thanks to [Satya Mallick](https://learnopencv.com/about/).
 
 The resulting composite or "average face" retains important structure that is consistent across individuals,
 but this structure is largely defined by the chosen landmarks.
-This means that idiosyncratic information---particularly information that is not represented in the original landmarks, such as hairline---is not well-represented in the composite face.
+This means that idiosyncratic information---particularly information that is not represented in the original landmarks, such as their hairline---is not well-represented in the composite face.
 
 ## High-dimensional functional spaces
 
 Functional alignment doesn't use landmark information to generate its alignments.
-To understand it, we need to think outside of the box—the box of three dimensions, that is.
+To understand it, we need to think outside of the box: the box of three dimensions, that is.
 
 Usually, we think of fMRI data in a 3D space of _x_, _y_, and _z_ coordinates.
 This is not the only way to think about our data, however.
@@ -101,7 +101,7 @@ We will cover one such latent factor model, the Shared Response Model, in these 
 
 Instead of visualizing these spaces, then, we will simply have to reason about them.
 This takes a bit of getting used to,
-and it's important to note that [our default intution is often wrong](https://marckhoury.github.io/blog/counterintuitive-properties-of-high-dimensional-space)!
+and it's important to note that [our default intution is often wrong](https://marckhoury.github.io/blog/counterintuitive-properties-of-high-dimensional-space).
 
 At a high-level, the goal is to make two distributions of participant activity patterns look as similar as possible,
 given certain constraints on the transformation.
@@ -110,7 +110,7 @@ The resulting transformations, then, should improve functional similarity while 
 
 The methods used to create these transformations can be considered as part of a broader class of "distribution alignment" methods.
 Although distribution alignment is used in domain adaptation,
-functional alignment is unique in that we have access to both the "source" and "target" distributions and are trying to learn a relationship between them,
+functional alignment is unique in that we generally have access to both the "source" and "target" distributions and are trying to learn a relationship between them,
 rather than transferring a learnt relationship from one distribution to another.
 
 The next four tutorials detail different methods for functionally aligning two (or more) high-dimensional, voxel spaces.
@@ -152,3 +152,26 @@ Importantly, when functional alignment transformations are aggregated using the 
 the final transformations are no longer guaranteed to have the same properties as the initial, unaggregated transforms.
 In this work, we therefore assume that functional alignment transformations are calculated in non-overlapping neighborhoods,
 such as an ROI or a whole brain deterministic parcellation.
+
+## Formalizing the problem
+
+Suppose we have two data distributions, $X$ and $Y$.
+These distributions may come from voxel activity time series sampled from two different participants
+or from the same participant in two different psychological tasks.
+
+Each distribution contains a series of $n$ observations, such that
+$X = \{\mathbf{x}_1, \ldots, \mathbf{x}_n\}$
+where $\mathbf{x}_i \in \mathbb{R}^p$.
+
+For fMRI data, then, $n$ would be the number of time points sampled,
+while $p$ is the number of voxels considered.
+
+If we stack all of our data points into two matrices
+--one for each distribution-- we can represent our two distributions as
+$\mathbf{X} \in \mathbb{R}^{n \times p}$ and
+$\mathbf{Y} \in \mathbb{R}^{n \times p}$.
+
+For some methods, we will enforce that every distribution has exactly the same number of voxels $p$.
+Other methods will allow the number of voxels to vary across distributions.
+When variable voxels are allowed, we will denote the number of voxels as $p_1$ or $p_2$,
+corresponding to the relevant distribution.

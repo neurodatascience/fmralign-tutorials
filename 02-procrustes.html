@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>2. Procrustes analysis &#8212; Functional Alignment</title>
+    <title>2. Procrustes alignment &#8212; Functional Alignment</title>
     
   <link href="_static/css/theme.css" rel="stylesheet" />
   <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -23,7 +23,7 @@
 
     
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/sphinx-book-theme.e8e5499552300ddf5d7adccae7cc3b70.css" type="text/css" />
+    <link rel="stylesheet" href="_static/sphinx-book-theme.e2363ea40746bee74734a24ffefccd78.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
@@ -42,15 +42,15 @@
     <script src="_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
-    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
         const thebe_selector_input = "pre"
         const thebe_selector_output = ".output"
     </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="3. Generalized Procrustes analysis" href="04-generalized-procrustes.html" />
@@ -74,13 +74,14 @@
     <a class="navbar-brand text-wrap" href="index.html">
       
       
+      
       <h1 class="site-logo" id="site-title">Functional Alignment</h1>
       
     </a>
 </div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
         <ul class="nav bd-sidenav">
  <li class="toctree-l1">
@@ -109,7 +110,7 @@
 <ul class="current nav bd-sidenav">
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   2. Procrustes analysis
+   2. Procrustes alignment
   </a>
  </li>
  <li class="toctree-l1">
@@ -223,11 +224,21 @@
             <div class="tocsection onthispage pt-5 pb-3">
                 <i class="fas fa-list"></i> Contents
             </div>
-            <nav id="bd-toc-nav">
+            <nav id="bd-toc-nav" aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#formalizing-the-problem">
-   2.1. Formalizing the problem
+  <a class="reference internal nav-link" href="#formalization">
+   2.1. Formalization
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#implementation">
+   2.2. Implementation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#useful-resources">
+   2.3. Useful resources
   </a>
  </li>
 </ul>
@@ -241,47 +252,54 @@
         
               <div>
                 
-  <div class="section" id="procrustes-analysis">
-<h1><span class="section-number">2. </span>Procrustes analysis<a class="headerlink" href="#procrustes-analysis" title="Permalink to this headline">¶</a></h1>
-<p>Procrustes analysis allows us to compares the geometry of two objects or data sets.
-Specifically, for two geometries with a known one-to-one mapping,
-we can consider the distance between each pair of corresponding points.
-Our goal is to derive an orthogonal transformation that minimizes the distance between each pair of points, thus minimizing the total distance between the two geometries.
-Named for the legend of Procrustes,
-the ancient Greek innkeeper who stretched or cut off traveller’s limbs so they would fit his bed,
-Procrustes analysis can be seen as conforming datasets through a series of rigid-body transformations <a href="#id1"><span class="problematic" id="id2">:cite:`Schonemann1966-qq`</span></a>.</p>
-<div class="section" id="formalizing-the-problem">
-<h2><span class="section-number">2.1. </span>Formalizing the problem<a class="headerlink" href="#formalizing-the-problem" title="Permalink to this headline">¶</a></h2>
-<p>Suppose we have two data distributions, <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>,
-which each sample a different representational geometry.
-Each distribution contains a series of <span class="math notranslate nohighlight">\(n\)</span> observations, such that
-<span class="math notranslate nohighlight">\(X = \{\mathbf{x}_1, \ldots, \mathbf{x}_n\}\)</span>
-where <span class="math notranslate nohighlight">\(\mathbf{x}_i \in \mathbb{R}^p\)</span>.</p>
-<p>For fMRI data, <span class="math notranslate nohighlight">\(n\)</span> would be the number of time points sampled,
-while <span class="math notranslate nohighlight">\(p\)</span> is the number of units considered, usually corresponding to voxels.
-For this example, we’ll set <span class="math notranslate nohighlight">\(p=2\)</span> to ease visualization,
-but in a real data set we may be working with many more dimensions!</p>
-<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-
-<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
-</pre></div>
+  <div class="section" id="procrustes-alignment">
+<h1><span class="section-number">2. </span>Procrustes alignment<a class="headerlink" href="#procrustes-alignment" title="Permalink to this headline">¶</a></h1>
+<p>Originally introduced in <a href="#id1"><span class="problematic" id="id2">:cite:`Schonemann1966-qq`</span></a>,
+Procrustes analysis allows us to compares the geometry of two objects or data sets.
+Although it may seem unusual to think of distributions in terms of geometry,
+this makes more sense when we consider the distributions as point sets in some activation space.
+Our goal, then, is to find linear transformations that minimize the total distance between the two distributions.
+By further assuming that each distribution has exactly the same number of voxels <span class="math notranslate nohighlight">\(p\)</span> measured over the same <span class="math notranslate nohighlight">\(n\)</span> observations,
+we can consider that we are comparing two shapes with a known one-to-one mapping;
+i.e. the <span class="math notranslate nohighlight">\(i\)</span>-th voxel in the <span class="math notranslate nohighlight">\(X\)</span> distribution corresponds to the same voxel index in the <span class="math notranslate nohighlight">\(Y\)</span> distribution.
+Procrustes analysis allows us to align the shapes as closely as possible through linear mapping
+and to quantify how much they differ after this alignment.</p>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p>Named for the legend of Procrustes,
+the ancient Greek innkeeper who stretched or cut off traveller’s limbs so they would fit his bed.</p>
 </div>
 <p>Because we assume a known correspondence between these two distributions,
-we can directly compare the <span class="math notranslate nohighlight">\(i\)</span>-th sample in <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>.
+we can directly compare the <span class="math notranslate nohighlight">\(i\)</span>-th sample across <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>.
 The goal in Procrustes is to find a single orthogonal transformation that minimizes the sum-of-squares distances between all <span class="math notranslate nohighlight">\(n\)</span> <span class="math notranslate nohighlight">\(X\)</span>, <span class="math notranslate nohighlight">\(Y\)</span> pairs,
 thereby minimizing the total distance between the distributions:</p>
+<div class="section" id="formalization">
+<h2><span class="section-number">2.1. </span>Formalization<a class="headerlink" href="#formalization" title="Permalink to this headline">¶</a></h2>
+<p>For our two distributions <span class="math notranslate nohighlight">\(\mathbf{X} \in \mathbb{R}^{n \times p}\)</span> and
+<span class="math notranslate nohighlight">\(\mathbf{Y} \in \mathbb{R}^{n \times p}\)</span>, Procrustes solves the following minimization:</p>
 <div class="math notranslate nohighlight" id="equation-procrustes-eq-1">
-<span class="eqno">(2.2)<a class="headerlink" href="#equation-procrustes-eq-1" title="Permalink to this equation">¶</a></span>\[\begin{split}\arg\min_{\mathbf{R}} \sum_{i = 1}^{n} ||\mathbf{R} \mathbf{x}_i - \mathbf{y}_i||_F^2 \\
+<span class="eqno">(2.1)<a class="headerlink" href="#equation-procrustes-eq-1" title="Permalink to this equation">¶</a></span>\[\begin{split}\arg\min_{\mathbf{R}} \sum_{i = 1}^{n} ||\mathbf{R} \mathbf{x}_i - \mathbf{y}_i||_F^2 \\
 \mathbf{R}^\intercal\mathbf{R} = \mathbf{I}\end{split}\]</div>
-<p>If we stack all of our data points into two matrices
-–one for each distribution– we can represent our two distributions as
-<span class="math notranslate nohighlight">\(\mathbf{X} \in \mathbb{R}^{n \times p}\)</span> and
-<span class="math notranslate nohighlight">\(\mathbf{Y} \in \mathbb{R}^{n \times p}\)</span>.</p>
-<p>We can then re-write our problem as:</p>
-<div class="math notranslate nohighlight" id="equation-procrustes-eq-1">
-<span class="eqno">(2.2)<a class="headerlink" href="#equation-procrustes-eq-1" title="Permalink to this equation">¶</a></span>\[\begin{split}\arg\min_{\mathbf{R}} ||\mathbf{R} \mathbf{X} - \mathbf{Y}||_F^2 \\
+<p>Where <span class="math notranslate nohighlight">\(|| \cdot ||_F\)</span> indicates the Frobenius norm,
+which corresponds to the elementwise Euclidean distance.
+By assuming an implicit, index-based correspondence across our two distributions,
+we can re-write the minimization as:</p>
+<div class="math notranslate nohighlight" id="equation-procrustes-eq-2">
+<span class="eqno">(2.2)<a class="headerlink" href="#equation-procrustes-eq-2" title="Permalink to this equation">¶</a></span>\[\begin{split}\arg\min_{\mathbf{R}} ||\mathbf{R} \mathbf{X} - \mathbf{Y}||_F^2 \\
 \mathbf{R}^\intercal\mathbf{R} = \mathbf{I}\end{split}\]</div>
+</div>
+<div class="section" id="implementation">
+<h2><span class="section-number">2.2. </span>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="useful-resources">
+<h2><span class="section-number">2.3. </span>Useful resources<a class="headerlink" href="#useful-resources" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://simonensemble.github.io/2018-10/orthogonal-procrustes.html">https://simonensemble.github.io/2018-10/orthogonal-procrustes.html</a></p>
 </div>
 </div>
 
@@ -308,16 +326,36 @@ thereby minimizing the total distance between the distributions:</p>
               </div>
               
         
-        <div class='prev-next-bottom'>
             
-    <a class='left-prev' id="prev-link" href="01-functional-alignment.html" title="previous page"><span class="section-number">1. </span>Functional alignment</a>
-    <a class='right-next' id="next-link" href="04-generalized-procrustes.html" title="next page"><span class="section-number">3. </span>Generalized Procrustes analysis</a>
 
-        </div>
+
+
+<div class='prev-next-bottom'>
+    
+    <div id="prev">
+        <a class="left-prev" href="01-functional-alignment.html" title="previous page">
+            <i class="prevnext-label fas fa-angle-left"></i>
+            <div class="prevnext-info">
+                <p class="prevnext-label">previous</p>
+                <p class="prevnext-title"><span class="section-number">1. </span>Functional alignment</p>
+            </div>
+        </a>
+    </div>
+     <div id="next">
+        <a class="right-next" href="04-generalized-procrustes.html" title="next page">
+            <div class="prevnext-info">
+                <p class="prevnext-label">next</p>
+                <p class="prevnext-title"><span class="section-number">3. </span>Generalized Procrustes analysis</p>
+            </div>
+            <i class="prevnext-label fas fa-angle-right"></i>
+        </a>
+     </div>
+
+</div>
         
         </div>
     </div>
-    <footer class="footer mt-5 mt-md-0">
+    <footer class="footer">
     <div class="container">
       <p>
         

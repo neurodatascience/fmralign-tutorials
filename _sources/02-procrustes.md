@@ -11,40 +11,33 @@ kernelspec:
   name: python3
 ---
 
-# Procrustes analysis
+# Procrustes alignment
 
+Originally introduced in {cite}`Schonemann1966-qq`,
 Procrustes analysis allows us to compares the geometry of two objects or data sets.
-Specifically, for two geometries with a known one-to-one mapping,
-we can consider the distance between each pair of corresponding points.
-Our goal is to derive an orthogonal transformation that minimizes the distance between each pair of points, thus minimizing the total distance between the two geometries.
+Although it may seem unusual to think of distributions in terms of geometry,
+this makes more sense when we consider the distributions as point sets in some activation space.
+Our goal, then, is to find linear transformations that minimize the total distance between the two distributions.
+By further assuming that each distribution has exactly the same number of voxels $p$ measured over the same $n$ observations,
+we can consider that we are comparing two shapes with a known one-to-one mapping;
+i.e. the $i$-th voxel in the $X$ distribution corresponds to the same voxel index in the $Y$ distribution.
+Procrustes analysis allows us to align the shapes as closely as possible through linear mapping
+and to quantify how much they differ after this alignment.
+
+```{margin}
 Named for the legend of Procrustes,
-the ancient Greek innkeeper who stretched or cut off traveller's limbs so they would fit his bed,
-Procrustes analysis can be seen as conforming datasets through a series of rigid-body transformations {cite}`Schonemann1966-qq`.
-
-## Formalizing the problem
-
-Suppose we have two data distributions, $X$ and $Y$,
-which each sample a different representational geometry.
-Each distribution contains a series of $n$ observations, such that
-$X = \{\mathbf{x}_1, \ldots, \mathbf{x}_n\}$
-where $\mathbf{x}_i \in \mathbb{R}^p$.
-
-For fMRI data, $n$ would be the number of time points sampled,
-while $p$ is the number of units considered, usually corresponding to voxels.
-For this example, we'll set $p=2$ to ease visualization,
-but in a real data set we may be working with many more dimensions!
-
-```{code} python3
-import numpy as np
-
-x = np.random.rand(1, 2)
-y = np.random.rand(1, 3)
+the ancient Greek innkeeper who stretched or cut off traveller's limbs so they would fit his bed.
 ```
 
 Because we assume a known correspondence between these two distributions,
-we can directly compare the $i$-th sample in $X$ and $Y$.
+we can directly compare the $i$-th sample across $X$ and $Y$.
 The goal in Procrustes is to find a single orthogonal transformation that minimizes the sum-of-squares distances between all $n$ $X$, $Y$ pairs,
 thereby minimizing the total distance between the distributions:
+
+## Formalization
+
+For our two distributions $\mathbf{X} \in \mathbb{R}^{n \times p}$ and
+$\mathbf{Y} \in \mathbb{R}^{n \times p}$, Procrustes solves the following minimization:
 
 ```{math}
 :label: procrustes_eq_1
@@ -52,18 +45,29 @@ thereby minimizing the total distance between the distributions:
 \mathbf{R}^\intercal\mathbf{R} = \mathbf{I}
 ```
 
-If we stack all of our data points into two matrices
---one for each distribution-- we can represent our two distributions as
-$\mathbf{X} \in \mathbb{R}^{n \times p}$ and
-$\mathbf{Y} \in \mathbb{R}^{n \times p}$.
-
-We can then re-write our problem as:
+Where $|| \cdot ||_F$ indicates the Frobenius norm,
+which corresponds to the elementwise Euclidean distance.
+By assuming an implicit, index-based correspondence across our two distributions,
+we can re-write the minimization as:
 
 ```{math}
-:label: procrustes_eq_1
+:label: procrustes_eq_2
 \arg\min_{\mathbf{R}} ||\mathbf{R} \mathbf{X} - \mathbf{Y}||_F^2 \\
 \mathbf{R}^\intercal\mathbf{R} = \mathbf{I}
 ```
+
+## Implementation
+
+```{code} python3
+import numpy as np
+
+x = np.random.rand(20, 100)
+y = np.random.rand(20, 100)
+```
+
+## Useful resources
+
+https://simonensemble.github.io/2018-10/orthogonal-procrustes.html
 
 ```{bibliography} references.bib
 :style: unsrt

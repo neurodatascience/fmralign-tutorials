@@ -34,8 +34,6 @@ We then review four of the most popular methods for functional alignment:
 
 Throughout, we focus on concrete applications to real-world data.
 
-DESCRIBE THE DATA.
-
 ## Running the tutorials
 
 These tutorials are developed as a [Jupyter Book](https://jupyter-book.org),
