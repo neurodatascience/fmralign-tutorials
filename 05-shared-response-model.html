@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>3. Generalized Procrustes analysis &#8212; Functional Alignment</title>
+    <title>Shared Response Modelling (SRM) &#8212; Functional Alignment</title>
     
   <link href="_static/css/theme.css" rel="stylesheet" />
   <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -53,8 +53,6 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="4. Regularized Canonical Correlation Analysis" href="05-cca.html" />
-    <link rel="prev" title="2. Procrustes alignment" href="02-procrustes.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -107,20 +105,10 @@
   Associated methods
  </span>
 </p>
-<ul class="current nav bd-sidenav">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="02-procrustes.html">
    2. Procrustes alignment
-  </a>
- </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   3. Generalized Procrustes analysis
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="05-cca.html">
-   4. Regularized Canonical Correlation Analysis
   </a>
  </li>
 </ul>
@@ -132,7 +120,7 @@
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="06-related-methods.html">
-   5. What functional alignment alignment is not
+   3. What functional alignment alignment is not
   </a>
  </li>
 </ul>
@@ -175,11 +163,11 @@
     <div class="dropdown-buttons">
         <!-- ipynb file if we had a myst markdown file -->
         <a class="dropdown-buttons"
-            href="_sources/04-generalized-procrustes.ipynb"><button type="button"
+            href="_sources/05-shared-response-model.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download notebook file" data-toggle="tooltip"
                 data-placement="left">.ipynb</button></a>
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/04-generalized-procrustes.md"><button type="button"
+        <a class="dropdown-buttons" href="_sources/05-shared-response-model.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -204,7 +192,7 @@
         aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://mybinder.org/v2/gh/neurodatascience/fmralign-tutorials/master?urlpath=tree/content/04-generalized-procrustes.md"><button type="button"
+        <a class="binder-button" href="https://mybinder.org/v2/gh/neurodatascience/fmralign-tutorials/master?urlpath=tree/content/05-shared-response-model.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
                 data-placement="left"><img class="binder-button-logo"
                     src="_static/images/logo_binder.svg"
@@ -221,6 +209,24 @@
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show">
             
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#formalism">
+   Formalism
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#implementation">
+   Implementation
+  </a>
+ </li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -229,18 +235,39 @@
         
               <div>
                 
-  <div class="section" id="generalized-procrustes-analysis">
-<h1><span class="section-number">3. </span>Generalized Procrustes analysis<a class="headerlink" href="#generalized-procrustes-analysis" title="Permalink to this headline">¶</a></h1>
-<p>The apocraphyl legend of Procrustes describes an inn-keeper who–having only one bed in the inn–gruesomely stretched or shortened his customers to fit it.</p>
-<p>Procrustes analysis allows us to compares the geometry of two objects or data sets. Specifically, for two geometries with a known one-to-one mapping, we can consider the distance between each pair of corresponding points. Our goal is to derive an orthogonal transformation that minimizes the distance between each pair of points, thus minimizing the total distance between the two geometries. Named for the legend of Procrustes, the ancient Greek innkeeper who stretched or cut off traveller’s limbs so they would fit his bed, Procrustes analysis can be seen as conforming datasets through a series of rigid-body transformations {cite}Schonemann1966-qq.</p>
-<p>Generalized Procrustes analysis differs from Procrustes analysis in two significant ways.
-First, generalized Procrustes includes both the orthogonal transformations of Procrustes (i.e., rotations and reflections),
-as well as additional scaling and translation transformations.
-Second, generalized Procrustes can be applied to more than two shapes through the iterative use of a reference shape.</p>
-<p>We can formally express the generalized Procrustes problem as:</p>
-<div class="math notranslate nohighlight" id="equation-general-procrustes-eq-1">
-<span class="eqno">(3.1)<a class="headerlink" href="#equation-general-procrustes-eq-1" title="Permalink to this equation">¶</a></span>\[\begin{split}\min_{\mathbf{R}= s\mathbf{M}} ||\mathbf{R} \mathbf{X} - \mathbf{Y}||_F^2 \\
-s\in\mathbb{R^+}, \enspace \mathbf{M} \in \mathbb{R}^{p \times p} \text{ s.t. } \mathbf{M}^\intercal\mathbf{M} = \mathbf{I}_p\end{split}\]</div>
+  <div class="section" id="shared-response-modelling-srm">
+<h1>Shared Response Modelling (SRM)<a class="headerlink" href="#shared-response-modelling-srm" title="Permalink to this headline">¶</a></h1>
+<p>Shared Response Modelling (SRM) is a <em>latent factor model</em>.
+This means that–rather than searching for direct correspondences across subjects–an initial dimensionality reduction is
+used to identify latent factors that support the observed measreuments and are shared across subjects.
+The deterministic SRM model assumes Gaussian noise with the same variance for all subjects and orthonormal spatial components.</p>
+<div class="section" id="formalism">
+<h2>Formalism<a class="headerlink" href="#formalism" title="Permalink to this headline">¶</a></h2>
+<div class="math notranslate nohighlight" id="equation-srm-eq-1">
+<span class="eqno">()<a class="headerlink" href="#equation-srm-eq-1" title="Permalink to this equation">¶</a></span>\[\begin{split}\forall_i \in {1 ... n}, X_i[τ] ~ N(S[τ]W_i, σ^2 I_v) \\
+\mathbf{W}_i\mathbf{W}^\intercal_i = \mathbf{I}_k\end{split}\]</div>
+<p>Maximizing the log-likelihood we obtain the following optimization problem:</p>
+<div class="math notranslate nohighlight" id="equation-srm-eq-2">
+<span class="eqno">()<a class="headerlink" href="#equation-srm-eq-2" title="Permalink to this equation">¶</a></span>\[\begin{split}\min{W_1, ... ,W_n, S} \Sigma{i=1}^n ||Xi − SW_i||_2 \\
+such that \forall_i \in {1, ..., n}
+\mathbf{W}_i\mathbf{W}^\intercal_i = \mathbf{I}_k\end{split}\]</div>
+<p>This can be solved efficiently using alternate minimization on <span class="math notranslate nohighlight">\((W1, ..., Wn)\)</span>
+and <span class="math notranslate nohighlight">\(S\)</span>.
+At each iteration we have two problems to solve that have a closed form
+solution:</p>
+<div class="math notranslate nohighlight" id="equation-srm-eq-3">
+<span class="eqno">()<a class="headerlink" href="#equation-srm-eq-3" title="Permalink to this equation">¶</a></span>\[\begin{split}\forall_i \in {1, ..., n},
+\arg\min_{\mathbf{W}}\Sigma_{j=1}^n ||X_j − SW_j||^2 = U_iV_i \\
+where Ui, Di, Vi = SVD(S^\intercalX_i) \\
+such that \mathbf{W}_i\mathbf{W}^\intercal_i = \mathbf{I}_k\end{split}\]</div>
+<div class="math notranslate nohighlight" id="equation-srm-eq-4">
+<span class="eqno">()<a class="headerlink" href="#equation-srm-eq-4" title="Permalink to this equation">¶</a></span>\[\arg\min_{\mathbf{S}}\Sigma_{i=1}^n ||X_i − SW_i||^2 = 1 / n \Sigma_{i=1}^n X_i W_i^\intercal\]</div>
+</div>
+<div class="section" id="implementation">
+<h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h2>
+<p>Accessible implementations are available in <code class="docutils literal notranslate"><span class="pre">brainiak.funcalign.srm.DetSRM</span></code>,
+with an optimized implementation in <code class="docutils literal notranslate"><span class="pre">brainiak.funcalign.fastsrm.FastSRM</span></code>.</p>
+</div>
 </div>
 
     <script type="text/x-thebe-config">
@@ -272,24 +299,6 @@ s\in\mathbb{R^+}, \enspace \mathbf{M} \in \mathbb{R}^{p \times p} \text{ s.t. } 
 
 <div class='prev-next-bottom'>
     
-    <div id="prev">
-        <a class="left-prev" href="02-procrustes.html" title="previous page">
-            <i class="prevnext-label fas fa-angle-left"></i>
-            <div class="prevnext-info">
-                <p class="prevnext-label">previous</p>
-                <p class="prevnext-title"><span class="section-number">2. </span>Procrustes alignment</p>
-            </div>
-        </a>
-    </div>
-     <div id="next">
-        <a class="right-next" href="05-cca.html" title="next page">
-            <div class="prevnext-info">
-                <p class="prevnext-label">next</p>
-                <p class="prevnext-title"><span class="section-number">4. </span>Regularized Canonical Correlation Analysis</p>
-            </div>
-            <i class="prevnext-label fas fa-angle-right"></i>
-        </a>
-     </div>
 
 </div>
         

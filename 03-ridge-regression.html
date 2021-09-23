@@ -1,0 +1,363 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ridge Regression &#8212; Functional Alignment</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet" />
+  <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/sphinx-book-theme.e2363ea40746bee74734a24ffefccd78.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">Functional Alignment</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="00-intro.html">
+   fmralign tutorials
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Background
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="01-functional-alignment.html">
+   1. Functional alignment
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Associated methods
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="02-procrustes.html">
+   2. Procrustes alignment
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Related work
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="06-related-methods.html">
+   3. What functional alignment alignment is not
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        <a class="dropdown-buttons"
+            href="_sources/03-ridge-regression.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download notebook file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/03-ridge-regression.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/neurodatascience/fmralign-tutorials/master?urlpath=tree/content/03-ridge-regression.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#formalism">
+   Formalism
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#implementation">
+   Implementation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#useful-resources">
+   Useful resources
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="ridge-regression">
+<h1>Ridge Regression<a class="headerlink" href="#ridge-regression" title="Permalink to this headline">¶</a></h1>
+<p>Manhattan or taxicab distance.
+L1 norm.</p>
+<div class="section" id="formalism">
+<h2>Formalism<a class="headerlink" href="#formalism" title="Permalink to this headline">¶</a></h2>
+<p>You say “I can break <span class="math notranslate nohighlight">\(s(t)\)</span> into different parts, or features”. This transforms <span class="math notranslate nohighlight">\(s(t)\)</span> into some other representation that we’ll call <span class="math notranslate nohighlight">\(x(t)\)</span>. Let’s say that the number of features in <span class="math notranslate nohighlight">\(x(t)\)</span> is <span class="math notranslate nohighlight">\(p\)</span>.</p>
+<p>You say “I can predict <span class="math notranslate nohighlight">\(y(t)\)</span> from a weighted combination of the features in <span class="math notranslate nohighlight">\(x(t)\)</span>”. This means you are imagining a model that looks something like this,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}y(t) = \\sum_{i=1}^p x_i(t) \\beta_i + \\epsilon(t),\end{split}\]</div>
+<p>where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(x_i(t)\)</span> refers to the <span class="math notranslate nohighlight">\(i\)</span>th feature in <span class="math notranslate nohighlight">\(x(t)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\\beta_i\)</span> refers to the weight on that feature (we don’t know what this weight is yet), and</p></li>
+<li><p><span class="math notranslate nohighlight">\(\\epsilon(t)\)</span> refers to the noise, i.e. any part of <span class="math notranslate nohighlight">\(y(t)\)</span> that you can’t predict from <span class="math notranslate nohighlight">\(x(t)\)</span> (we don’t know what this is yet either)/</p></li>
+</ul>
+<p>Since this model is just a weighted sum, we can write it more simply using a little linear algebra:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}y(t) = x(t) \\beta + \\epsilon(t),\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(x(t)\)</span> is now a <span class="math notranslate nohighlight">\(1 \\times p\)</span> vector of feature values and <span class="math notranslate nohighlight">\(\\beta\)</span> is a <span class="math notranslate nohighlight">\(p \\times 1\)</span> vector of weights.
+To deal with these equations more easily, we’ll need to stack the values of <span class="math notranslate nohighlight">\(y(t)\)</span> and <span class="math notranslate nohighlight">\(x(t)\)</span> into matrices. Let’s define those matrices like this:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}Y = \\begin{bmatrix} y(t=1) \\\\ y(t=2) \\\\ \\vdots \\\\ y(t=T) \\end{bmatrix}, \\;
+  X = \\begin{bmatrix} x(t=1) \\\\ x(t=2) \\\\ \\vdots \\\\ x(t=T) \\end{bmatrix} \end{split}\]</div>
+<p>So we now have <span class="math notranslate nohighlight">\(Y\)</span>, which is a <span class="math notranslate nohighlight">\(T \\times 1\)</span> matrix of brain responses, and <span class="math notranslate nohighlight">\(X\)</span>, which is a <span class="math notranslate nohighlight">\(T \\times p\)</span> matrix of features that we extracted from the stimuli. If we also define <span class="math notranslate nohighlight">\(\\epsilon\)</span> as a vector of the same size as <span class="math notranslate nohighlight">\(Y\)</span>, then we can re-write the model like this:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} Y = X \\beta + \\epsilon \end{split}\]</div>
+<p>Remember when we talked about the noise term, <span class="math notranslate nohighlight">\(\\epsilon(t)\)</span>? We said it was any part of <span class="math notranslate nohighlight">\(y(t)\)</span> that couldn’t be predicted from <span class="math notranslate nohighlight">\(x(t)\)</span>. We can write this mathematically as the difference between <span class="math notranslate nohighlight">\(y(t)\)</span> and the predicted value based on <span class="math notranslate nohighlight">\(x(t)\)</span> and our estimated weights (this comes from re-arranging the equation above:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\\epsilon(t) = y(t) - x(t) \\beta_{OLS}\end{split}\]</div>
+<p>Huh. When we write it this way, it looks a lot like the loss function <span class="math notranslate nohighlight">\(\\mathcal{L}(\\beta)\)</span>, doesn’t it? In fact, the loss function is exactly the sum of the squared errors. This means our OLS regression model made the assumption that <em><span class="math notranslate nohighlight">\(\\epsilon(t)\)</span> is as small as possible</em>, because we selected <span class="math notranslate nohighlight">\(\\beta_{OLS}\)</span> to minimize the size of the loss.</p>
+<p>The simplest way to describe ridge regression mathematically is including a <strong>penalty</strong> on the size of the weights in the loss function. Specifically, ridge regression penalizes the sum of the squared weights, leading to a new and improved loss function that we’ll call <span class="math notranslate nohighlight">\(\\mathcal{L}_{ridge}(\\beta)\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} \\mathcal{L}_{ridge}(\\beta) = \\sum_{t=1}^T (y(t) - x(t) \\beta)^2 + \\lambda \\sum_{i=1}^p \\beta_i^2 \end{split}\]</div>
+<p>or, in fancy linear algebra terms:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} \\mathcal{L}_{ridge}(\\beta) = (Y - X\\beta)^\\top (Y - X \\beta) + \\lambda \\beta^\\top \\beta \end{split}\]</div>
+<p>The first term on the right hand side of this equation is the same squared error loss that we used before for OLS. The second term is the sum of the squares of all the weights in <span class="math notranslate nohighlight">\(\\beta\)</span>, multiplied by a scalar variable <span class="math notranslate nohighlight">\(\\lambda\)</span> that we will call the <strong>ridge coefficient</strong></p>
+<p>The ridge coefficient <span class="math notranslate nohighlight">\(\\lambda\)</span> determines the <em>strength</em> of the regularization that’s applied in ridge regression:</p>
+<ul class="simple">
+<li><p>If you give <span class="math notranslate nohighlight">\(\\lambda\)</span> a large value, then the penalty term will be big relative to the loss, and the resulting weights will be very small. (In the limit of very large <span class="math notranslate nohighlight">\(\\lambda\)</span> you will force the weights to be almost exactly zero!)</p></li>
+<li><p>If you give <span class="math notranslate nohighlight">\(\\lambda\)</span> a small value, then the penalty term will be small relative to the loss, and the resulting weights will not be too different from the OLS weights. (In the limit of <span class="math notranslate nohighlight">\(\\lambda \\rightarrow 0\)</span>, the penalty term will be zero and you’ll get back exactly the OLS solution!)</p></li>
+</ul>
+<p>To get the ridge regression weights, <span class="math notranslate nohighlight">\(\\beta_{ridge}\)</span>, you minimize the ridge loss function. We don’t need to go through the full derivation of the solution (though it’s pretty fun, and easy to do based on the matrix calculus we did for the OLS solution!), so let’s just take a look at the answer:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} \\beta_{ridge} = (X^\\top X + \\lambda I)^{-1} X^\\top Y \end{split}\]</div>
+<p>Compute <span class="math notranslate nohighlight">\(R\)</span> s.t. <span class="math notranslate nohighlight">\(|| XR - Y ||^2 + alpha ||R||^2\)</span> is minimized with CV.</p>
+<div class="math notranslate nohighlight" id="equation-ridge-eq-1">
+<span class="eqno">()<a class="headerlink" href="#equation-ridge-eq-1" title="Permalink to this equation">¶</a></span>\[||y - Xw||^2_2 + alpha * ||w||^2_2\]</div>
+</div>
+<div class="section" id="implementation">
+<h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">R</span> <span class="o">=</span> <span class="n">RidgeCV</span><span class="p">(</span><span class="n">alphas</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">alphas</span><span class="p">,</span> <span class="n">fit_intercept</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">scoring</span><span class="o">=</span><span class="n">sklearn</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">SCORERS</span><span class="p">[</span><span class="s1">&#39;r2&#39;</span><span class="p">],</span>
+            <span class="n">cv</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cv</span><span class="p">)</span>
+<span class="n">R</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="useful-resources">
+<h2>Useful resources<a class="headerlink" href="#useful-resources" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://github.com/neurohackademy/nh2020-curriculum/tree/master/we-word-embeddings-huth">https://github.com/neurohackademy/nh2020-curriculum/tree/master/we-word-embeddings-huth</a></p>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+            
+
+
+
+<div class='prev-next-bottom'>
+    
+
+</div>
+        
+        </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+      <p>
+        
+          By Elizabeth DuPre<br/>
+        
+            &copy; Copyright 2020.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  
+  </body>
+</html>
