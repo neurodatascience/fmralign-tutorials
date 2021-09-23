@@ -109,3 +109,6 @@ venv.bak/
 # jupyter
 .ipynb_checkpoints/
 *.ipynb
+
+# theming
+content/_static/
