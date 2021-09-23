@@ -266,7 +266,7 @@ The deterministic SRM model assumes Gaussian noise with the same variance for al
 <p>Maximizing the log-likelihood we obtain the following optimization problem:</p>
 <div class="math notranslate nohighlight" id="equation-srm-eq-2">
 <span class="eqno">(5.2)<a class="headerlink" href="#equation-srm-eq-2" title="Permalink to this equation">¶</a></span>\[\begin{split}\min{W_1, ... ,W_n, S} \Sigma{i=1}^n ||Xi − SW_i||_2 \\
-such that \forall_i \in {1, ..., n}
+\text{such that} \forall_i \in {1, ..., n}
 \mathbf{W}_i\mathbf{W}^\intercal_i = \mathbf{I}_k\end{split}\]</div>
 <p>This can be solved efficiently using alternate minimization on <span class="math notranslate nohighlight">\((W1, ..., Wn)\)</span>
 and <span class="math notranslate nohighlight">\(S\)</span>.
@@ -275,8 +275,8 @@ solution:</p>
 <div class="math notranslate nohighlight" id="equation-srm-eq-3">
 <span class="eqno">(5.3)<a class="headerlink" href="#equation-srm-eq-3" title="Permalink to this equation">¶</a></span>\[\begin{split}\forall_i \in {1, ..., n},
 \arg\min_{\mathbf{W}}\Sigma_{j=1}^n ||X_j − SW_j||^2 = U_iV_i \\
-where Ui, Di, Vi = SVD(S^\intercalX_i) \\
-such that \mathbf{W}_i\mathbf{W}^\intercal_i = \mathbf{I}_k\end{split}\]</div>
+\text{where} Ui, Di, Vi = SVD(S^\intercalX_i) \\
+\text{such that} \mathbf{W}_i\mathbf{W}^\intercal_i = \mathbf{I}_k\end{split}\]</div>
 <div class="math notranslate nohighlight" id="equation-srm-eq-4">
 <span class="eqno">(5.4)<a class="headerlink" href="#equation-srm-eq-4" title="Permalink to this equation">¶</a></span>\[\arg\min_{\mathbf{S}}\Sigma_{i=1}^n ||X_i − SW_i||^2 = 1 / n \Sigma_{i=1}^n X_i W_i^\intercal\]</div>
 </div>

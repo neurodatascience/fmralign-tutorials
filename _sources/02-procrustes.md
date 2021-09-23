@@ -67,7 +67,7 @@ we can re-write the minimization as:
 
 ```{math}
 :label: procrustes_eq_4
-\arg\max_{\mathbf{R}} \mathrm{Tr}\hspace{1pt}(\mathbf{R} \mathbf{U} \Sigma^ \mathbf{V}^2) \\
+\arg\max_{\mathbf{R}} \mathrm{Tr}\hspace{1pt}(\mathbf{R} \mathbf{U} \Sigma \mathbf{V}^\intercal) \\
 \mathbf{R}^\intercal\mathbf{R} = \mathbf{I}
 ```
 
