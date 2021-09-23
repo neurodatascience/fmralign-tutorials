@@ -31,7 +31,7 @@ Maximizing the log-likelihood we obtain the following optimization problem:
 ```{math}
 :label: srm_eq_2
 \min{W_1, ... ,W_n, S} \Sigma{i=1}^n ||Xi − SW_i||_2 \\
-such that \forall_i \in {1, ..., n}
+\text{such that} \forall_i \in {1, ..., n}
 \mathbf{W}_i\mathbf{W}^\intercal_i = \mathbf{I}_k
 ```
 
@@ -44,8 +44,8 @@ solution:
 :label: srm_eq_3
 \forall_i \in {1, ..., n},
 \arg\min_{\mathbf{W}}\Sigma_{j=1}^n ||X_j − SW_j||^2 = U_iV_i \\
-where Ui, Di, Vi = SVD(S^\intercalX_i) \\
-such that \mathbf{W}_i\mathbf{W}^\intercal_i = \mathbf{I}_k
+\text{where} Ui, Di, Vi = SVD(S^\intercalX_i) \\
+\text{such that} \mathbf{W}_i\mathbf{W}^\intercal_i = \mathbf{I}_k
 ```
 
 ```{math}
