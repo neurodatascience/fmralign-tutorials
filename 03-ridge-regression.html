@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ridge Regression &#8212; Functional Alignment</title>
+    <title>3. Ridge Regression &#8212; Functional Alignment</title>
     
   <link href="_static/css/theme.css" rel="stylesheet" />
   <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -53,6 +53,8 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="4. Regularized Canonical Correlation Analysis" href="04-cca.html" />
+    <link rel="prev" title="2. Procrustes alignment" href="02-procrustes.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -105,10 +107,25 @@
   Associated methods
  </span>
 </p>
-<ul class="nav bd-sidenav">
+<ul class="current nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="02-procrustes.html">
    2. Procrustes alignment
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   3. Ridge Regression
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="04-cca.html">
+   4. Regularized Canonical Correlation Analysis
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="05-shared-response-model.html">
+   5. Shared Response Modelling (SRM)
   </a>
  </li>
 </ul>
@@ -120,7 +137,7 @@
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="06-related-methods.html">
-   3. What functional alignment alignment is not
+   6. Related methods
   </a>
  </li>
 </ul>
@@ -216,17 +233,17 @@
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#formalism">
-   Formalism
+   3.1. Formalism
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#implementation">
-   Implementation
+   3.2. Implementation
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#useful-resources">
-   Useful resources
+   3.3. Useful resources
   </a>
  </li>
 </ul>
@@ -241,11 +258,11 @@
               <div>
                 
   <div class="section" id="ridge-regression">
-<h1>Ridge Regression<a class="headerlink" href="#ridge-regression" title="Permalink to this headline">¶</a></h1>
+<h1><span class="section-number">3. </span>Ridge Regression<a class="headerlink" href="#ridge-regression" title="Permalink to this headline">¶</a></h1>
 <p>Manhattan or taxicab distance.
 L1 norm.</p>
 <div class="section" id="formalism">
-<h2>Formalism<a class="headerlink" href="#formalism" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">3.1. </span>Formalism<a class="headerlink" href="#formalism" title="Permalink to this headline">¶</a></h2>
 <p>You say “I can break <span class="math notranslate nohighlight">\(s(t)\)</span> into different parts, or features”. This transforms <span class="math notranslate nohighlight">\(s(t)\)</span> into some other representation that we’ll call <span class="math notranslate nohighlight">\(x(t)\)</span>. Let’s say that the number of features in <span class="math notranslate nohighlight">\(x(t)\)</span> is <span class="math notranslate nohighlight">\(p\)</span>.</p>
 <p>You say “I can predict <span class="math notranslate nohighlight">\(y(t)\)</span> from a weighted combination of the features in <span class="math notranslate nohighlight">\(x(t)\)</span>”. This means you are imagining a model that looks something like this,</p>
 <div class="math notranslate nohighlight">
@@ -288,10 +305,10 @@ To deal with these equations more easily, we’ll need to stack the values of <s
 \[\begin{split} \\beta_{ridge} = (X^\\top X + \\lambda I)^{-1} X^\\top Y \end{split}\]</div>
 <p>Compute <span class="math notranslate nohighlight">\(R\)</span> s.t. <span class="math notranslate nohighlight">\(|| XR - Y ||^2 + alpha ||R||^2\)</span> is minimized with CV.</p>
 <div class="math notranslate nohighlight" id="equation-ridge-eq-1">
-<span class="eqno">()<a class="headerlink" href="#equation-ridge-eq-1" title="Permalink to this equation">¶</a></span>\[||y - Xw||^2_2 + alpha * ||w||^2_2\]</div>
+<span class="eqno">(3.1)<a class="headerlink" href="#equation-ridge-eq-1" title="Permalink to this equation">¶</a></span>\[||y - Xw||^2_2 + alpha * ||w||^2_2\]</div>
 </div>
 <div class="section" id="implementation">
-<h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">3.2. </span>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">R</span> <span class="o">=</span> <span class="n">RidgeCV</span><span class="p">(</span><span class="n">alphas</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">alphas</span><span class="p">,</span> <span class="n">fit_intercept</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
             <span class="n">scoring</span><span class="o">=</span><span class="n">sklearn</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">SCORERS</span><span class="p">[</span><span class="s1">&#39;r2&#39;</span><span class="p">],</span>
@@ -301,7 +318,7 @@ To deal with these equations more easily, we’ll need to stack the values of <s
 </div>
 </div>
 <div class="section" id="useful-resources">
-<h2>Useful resources<a class="headerlink" href="#useful-resources" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">3.3. </span>Useful resources<a class="headerlink" href="#useful-resources" title="Permalink to this headline">¶</a></h2>
 <p><a class="reference external" href="https://github.com/neurohackademy/nh2020-curriculum/tree/master/we-word-embeddings-huth">https://github.com/neurohackademy/nh2020-curriculum/tree/master/we-word-embeddings-huth</a></p>
 </div>
 </div>
@@ -335,6 +352,24 @@ To deal with these equations more easily, we’ll need to stack the values of <s
 
 <div class='prev-next-bottom'>
     
+    <div id="prev">
+        <a class="left-prev" href="02-procrustes.html" title="previous page">
+            <i class="prevnext-label fas fa-angle-left"></i>
+            <div class="prevnext-info">
+                <p class="prevnext-label">previous</p>
+                <p class="prevnext-title"><span class="section-number">2. </span>Procrustes alignment</p>
+            </div>
+        </a>
+    </div>
+     <div id="next">
+        <a class="right-next" href="04-cca.html" title="next page">
+            <div class="prevnext-info">
+                <p class="prevnext-label">next</p>
+                <p class="prevnext-title"><span class="section-number">4. </span>Regularized Canonical Correlation Analysis</p>
+            </div>
+            <i class="prevnext-label fas fa-angle-right"></i>
+        </a>
+     </div>
 
 </div>
         

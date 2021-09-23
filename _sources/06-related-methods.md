@@ -7,7 +7,7 @@ kernelspec:
   name: python3
 ---
 
-# What functional alignment alignment is not
+# Related methods
 
 There are two other popular methods in the cognitive neuroscience literature which provide alternative solutions to the problem of individual variability: individualized parcellations and Representational Similarity Analysis (RSA).
 Although not the focus of this site,
