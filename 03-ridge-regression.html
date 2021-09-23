@@ -266,7 +266,7 @@ L1 norm.</p>
 <p>You say “I can break <span class="math notranslate nohighlight">\(s(t)\)</span> into different parts, or features”. This transforms <span class="math notranslate nohighlight">\(s(t)\)</span> into some other representation that we’ll call <span class="math notranslate nohighlight">\(x(t)\)</span>. Let’s say that the number of features in <span class="math notranslate nohighlight">\(x(t)\)</span> is <span class="math notranslate nohighlight">\(p\)</span>.</p>
 <p>You say “I can predict <span class="math notranslate nohighlight">\(y(t)\)</span> from a weighted combination of the features in <span class="math notranslate nohighlight">\(x(t)\)</span>”. This means you are imagining a model that looks something like this,</p>
 <div class="math notranslate nohighlight" id="equation-ridge-eq-1">
-<span class="eqno">(3.9)<a class="headerlink" href="#equation-ridge-eq-1" title="Permalink to this equation">¶</a></span>\[y(t) = \sum_{i=1}^p x_i(t) \beta_i + \epsilon(t)\]</div>
+<span class="eqno">(3.1)<a class="headerlink" href="#equation-ridge-eq-1" title="Permalink to this equation">¶</a></span>\[y(t) = \sum_{i=1}^p x_i(t) \beta_i + \epsilon(t)\]</div>
 <p>where:</p>
 <ul class="simple">
 <li><p><span class="math notranslate nohighlight">\(x_i(t)\)</span> refers to the <span class="math notranslate nohighlight">\(i\)</span>th feature in <span class="math notranslate nohighlight">\(x(t)\)</span></p></li>
@@ -304,8 +304,8 @@ X = \begin{bmatrix} x(t=1) \\\\ x(t=2) \\\\ \vdots \\\\ x(t=T) \end{bmatrix}\end
 <div class="math notranslate nohighlight" id="equation-ridge-eq-8">
 <span class="eqno">(3.8)<a class="headerlink" href="#equation-ridge-eq-8" title="Permalink to this equation">¶</a></span>\[\beta_{ridge} = (X^\top X + \lambda I)^{-1} X^\top Y\]</div>
 <p>Compute <span class="math notranslate nohighlight">\(R\)</span> s.t. <span class="math notranslate nohighlight">\(|| XR - Y ||^2 + alpha ||R||^2\)</span> is minimized with CV.</p>
-<div class="math notranslate nohighlight" id="equation-ridge-eq-1">
-<span class="eqno">(3.9)<a class="headerlink" href="#equation-ridge-eq-1" title="Permalink to this equation">¶</a></span>\[||y - Xw||^2_2 + alpha * ||w||^2_2\]</div>
+<div class="math notranslate nohighlight" id="equation-ridge-eq-9">
+<span class="eqno">(3.9)<a class="headerlink" href="#equation-ridge-eq-9" title="Permalink to this equation">¶</a></span>\[||y - Xw||^2_2 + alpha * ||w||^2_2\]</div>
 </div>
 <div class="section" id="implementation">
 <h2><span class="section-number">3.2. </span>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h2>

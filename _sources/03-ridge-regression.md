@@ -96,7 +96,7 @@ To get the ridge regression weights, $\beta_{ridge}$, you minimize the ridge los
 Compute $R$ s.t. $|| XR - Y ||^2 + alpha ||R||^2$ is minimized with CV.
 
 ```{math}
-:label: ridge_eq_1
+:label: ridge_eq_9
 ||y - Xw||^2_2 + alpha * ||w||^2_2
 ```
 
