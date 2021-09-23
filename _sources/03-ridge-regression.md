@@ -24,20 +24,20 @@ You say "I can predict $y(t)$ from a weighted combination of the features in $x(
 
 ```{math}
 :label: ridge_eq_1
-y(t) = \\sum_{i=1}^p x_i(t) \\beta_i + \\epsilon(t),$$
+y(t) = \sum_{i=1}^p x_i(t) \beta_i + \epsilon(t)
 ```
 
 where:
 
 * $x_i(t)$ refers to the $i$th feature in $x(t)$
-* $\\beta_i$ refers to the weight on that feature (we don't know what this weight is yet), and
-* $\\epsilon(t)$ refers to the noise, i.e. any part of $y(t)$ that you can't predict from $x(t)$ (we don't know what this is yet either)/
+* $\beta_i$ refers to the weight on that feature (we don't know what this weight is yet), and
+* $\epsilon(t)$ refers to the noise, i.e. any part of $y(t)$ that you can't predict from $x(t)$ (we don't know what this is yet either)/
 
 Since this model is just a weighted sum, we can write it more simply using a little linear algebra:
 
 ```{math}
 :label: ridge_eq_2
-y(t) = x(t) \\beta + \\epsilon(t),$$
+y(t) = x(t) \beta + \epsilon(t)
 ```
 
 where $x(t)$ is now a $1 \\times p$ vector of feature values and $\\beta$ is a $p \\times 1$ vector of weights.
@@ -45,27 +45,27 @@ To deal with these equations more easily, we'll need to stack the values of $y(t
 
 ```{math}
 :label: ridge_eq_3
-Y = \\begin{bmatrix} y(t=1) \\\\ y(t=2) \\\\ \\vdots \\\\ y(t=T) \\end{bmatrix}, \\
-X = \\begin{bmatrix} x(t=1) \\\\ x(t=2) \\\\ \\vdots \\\\ x(t=T) \\end{bmatrix}
+Y = \begin{bmatrix} y(t=1) \\\\ y(t=2) \\\\ \vdots \\\\ y(t=T) \end{bmatrix}, \\
+X = \begin{bmatrix} x(t=1) \\\\ x(t=2) \\\\ \vdots \\\\ x(t=T) \end{bmatrix}
 ```
 
-So we now have $Y$, which is a $T \\times 1$ matrix of brain responses, and $X$, which is a $T \\times p$ matrix of features that we extracted from the stimuli. If we also define $\\epsilon$ as a vector of the same size as $Y$, then we can re-write the model like this:
+So we now have $Y$, which is a $T \times 1$ matrix of brain responses, and $X$, which is a $T \times p$ matrix of features that we extracted from the stimuli. If we also define $\epsilon$ as a vector of the same size as $Y$, then we can re-write the model like this:
 
 ```{math}
 :label: ridge_eq_4
-Y = X \\beta + \\epsilon
+Y = X \beta + \epsilon
 ```
 
-Remember when we talked about the noise term, $\\epsilon(t)$? We said it was any part of $y(t)$ that couldn't be predicted from $x(t)$. We can write this mathematically as the difference between $y(t)$ and the predicted value based on $x(t)$ and our estimated weights (this comes from re-arranging the equation above:
+Remember when we talked about the noise term, $\epsilon(t)$? We said it was any part of $y(t)$ that couldn't be predicted from $x(t)$. We can write this mathematically as the difference between $y(t)$ and the predicted value based on $x(t)$ and our estimated weights (this comes from re-arranging the equation above:
 
 ```{math}
 :label: ridge_eq_5
 \epsilon(t) = y(t) - x(t) \beta_{OLS}
 ```
 
-Huh. When we write it this way, it looks a lot like the loss function $\\mathcal{L}(\\beta)$, doesn't it? In fact, the loss function is exactly the sum of the squared errors. This means our OLS regression model made the assumption that _$\\epsilon(t)$ is as small as possible_, because we selected $\\beta_{OLS}$ to minimize the size of the loss.
+Huh. When we write it this way, it looks a lot like the loss function $\mathcal{L}(\beta)$, doesn't it? In fact, the loss function is exactly the sum of the squared errors. This means our OLS regression model made the assumption that _$\epsilon(t)$ is as small as possible_, because we selected $\beta_{OLS}$ to minimize the size of the loss.
 
-The simplest way to describe ridge regression mathematically is including a **penalty** on the size of the weights in the loss function. Specifically, ridge regression penalizes the sum of the squared weights, leading to a new and improved loss function that we'll call $\\mathcal{L}_{ridge}(\\beta)$:
+The simplest way to describe ridge regression mathematically is including a **penalty** on the size of the weights in the loss function. Specifically, ridge regression penalizes the sum of the squared weights, leading to a new and improved loss function that we'll call $\mathcal{L}_{ridge}(\beta)$:
 
 ```{math}
 :label: ridge_eq_6
