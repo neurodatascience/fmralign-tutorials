@@ -9,8 +9,9 @@ parts:
 - caption: Associated methods
   chapters:
   - file: 02-procrustes
-  - file: 04-generalized-procrustes
-  - file: 05-cca
+  - file: 03-ridge-regression
+  - file: 04-cca
+  - file: 05-shared-response-model
 - caption: Related work
   chapters:
   - file: 06-related-methods
