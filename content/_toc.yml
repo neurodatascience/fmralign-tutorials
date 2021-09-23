@@ -10,8 +10,9 @@ parts:
   chapters:
   - file: 02-procrustes
   - file: 03-ridge-regression
-  - file: 04-cca
-  - file: 05-shared-response-model
+  - file: 04-optimal-transport
+  - file: 05-cca
+  - file: 06-shared-response-model
 - caption: Related work
   chapters:
-  - file: 06-related-methods
+  - file: 07-related-methods
