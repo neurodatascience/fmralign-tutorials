@@ -69,14 +69,14 @@ To understand it, we need to think outside of the box: the box of three dimensio
 Usually, we think of fMRI data in a 3D space of _x_, _y_, and _z_ coordinates.
 This is not the only way to think about our data, however.
 
-```{figure} ../images/churchland-1998.png
+```{figure} ../images/churchland_1998.png
 ---
 height: 375px
 name: churchland-1998-png
 ---
 Three different ways of conceptualizing a given voxelwise activity pattern:
 a histogram of activation levels, an activation vector, or a point in activation space.
-Figure adapted from {cite}`Churchland1998-lw`.
+Figure adapted from {cite:t}`Churchland1998-lw`.
 ```
 
 Instead, we can imagine a new space where our dimensions equal the number of voxels we’re comparing between subjects.
