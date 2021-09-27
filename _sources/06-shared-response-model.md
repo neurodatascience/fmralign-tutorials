@@ -44,7 +44,7 @@ solution:
 :label: srm_eq_3
 \forall_i \in {1, ..., n},
 \arg\min_{\mathbf{W}}\Sigma_{j=1}^n ||X_j − SW_j||^2 = U_iV_i \\
-\text{where} Ui, Di, Vi = SVD(S^\intercalX_i) \\
+\text{where} Ui, Di, Vi = SVD(S^\intercal X_i) \\
 \text{such that} \mathbf{W}_i\mathbf{W}^\intercal_i = \mathbf{I}_k
 ```
 
