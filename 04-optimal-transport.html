@@ -23,7 +23,7 @@
 
     
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/sphinx-book-theme.e2363ea40746bee74734a24ffefccd78.css" type="text/css" />
+    <link rel="stylesheet" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
@@ -42,6 +42,8 @@
     <script src="_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -52,7 +54,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="5. Regularized Canonical Correlation Analysis" href="05-cca.html" />
-    <link rel="prev" title="3. Ridge Regression" href="03-ridge-regression.html" />
+    <link rel="prev" title="3. Procrustes alignment" href="03-procrustes.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -107,13 +109,13 @@
 </p>
 <ul class="current nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="02-procrustes.html">
-   2. Procrustes alignment
+  <a class="reference internal" href="02-ridge-regression.html">
+   2. Ridge Regression
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="03-ridge-regression.html">
-   3. Ridge Regression
+  <a class="reference internal" href="03-procrustes.html">
+   3. Procrustes alignment
   </a>
  </li>
  <li class="toctree-l1 current active">
@@ -229,6 +231,24 @@
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show">
             
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#formalism">
+   4.1. Formalism
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#implementation">
+   4.2. Implementation
+  </a>
+ </li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -239,6 +259,22 @@
                 
   <div class="section" id="optimal-transport">
 <h1><span class="section-number">4. </span>Optimal Transport<a class="headerlink" href="#optimal-transport" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="formalism">
+<h2><span class="section-number">4.1. </span>Formalism<a class="headerlink" href="#formalism" title="Permalink to this headline">¶</a></h2>
+<div class="math notranslate nohighlight" id="equation-ot-eq-1">
+<span class="eqno">(4.1)<a class="headerlink" href="#equation-ot-eq-1" title="Permalink to this equation">¶</a></span>\[\begin{split}\mathbf{C}_{i, j}(\mathbf{X}, \mathbf{Y}) = ||\mathbf{X}_i - \mathbf{Y}_j|| \\\end{split}\]</div>
+<p>To allow for a more efficient estimation, we slightly relax this constraint with an additional entropic smoothing term. We can then find <span class="math notranslate nohighlight">\(\mathbf{R}\)</span>, the regularized Optimal Transport plan by finding a minimum through the Sinkhorn algorithm.</p>
+<div class="math notranslate nohighlight" id="equation-ot-eq-2">
+<span class="eqno">(4.2)<a class="headerlink" href="#equation-ot-eq-2" title="Permalink to this equation">¶</a></span>\[\begin{split}    \min_{\substack{\mathbf{R} \in \mathbb{R_+}^{p\times p}; \\ \mathbf{R} \mathbf{1} = 1/p, \enskip \mathbf{1} \mathbf{R}^\top = 1/p}}\Tr({\mathbf{R}\cdot\mathbf{C})}  - \epsilon  \mathbf{H}(\mathbf{R})\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\epsilon &gt; 0\)</span>, and  the discrete entropy of the transformation <span class="math notranslate nohighlight">\(\mathbf{H}(\mathbf{R})\)</span> is defined as:</p>
+<div class="math notranslate nohighlight" id="equation-ot-eq-3">
+<span class="eqno">(4.3)<a class="headerlink" href="#equation-ot-eq-3" title="Permalink to this equation">¶</a></span>\[\mathbf{H}(\mathbf{R}) \overset{\mathrm{def.}}{=} - \sum_{i,j} \mathbf{R}_{i,j}(\log(\mathbf{R}_{i, j}) - 1)\]</div>
+<p>This method differs from Procrustes analysis in that it yields a sparser mapping between source and target voxels with high functional similarity, making it less sensitive to noisy voxels on both ends. The level of sparsity is controlled by the user-supplied hyper-parameter <span class="math notranslate nohighlight">\(\epsilon\)</span>.</p>
+</div>
+<div class="section" id="implementation">
+<h2><span class="section-number">4.2. </span>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h2>
+<p>Efficient implementations in Python are available through the <code class="docutils literal notranslate"><span class="pre">POT</span></code> and <code class="docutils literal notranslate"><span class="pre">OTT</span></code> packages.</p>
+</div>
 </div>
 
     <script type="text/x-thebe-config">
@@ -271,11 +307,11 @@
 <div class='prev-next-bottom'>
     
     <div id="prev">
-        <a class="left-prev" href="03-ridge-regression.html" title="previous page">
+        <a class="left-prev" href="03-procrustes.html" title="previous page">
             <i class="prevnext-label fas fa-angle-left"></i>
             <div class="prevnext-info">
                 <p class="prevnext-label">previous</p>
-                <p class="prevnext-title"><span class="section-number">3. </span>Ridge Regression</p>
+                <p class="prevnext-title"><span class="section-number">3. </span>Procrustes alignment</p>
             </div>
         </a>
     </div>
