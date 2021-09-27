@@ -68,6 +68,17 @@ To understand it, we need to think outside of the box: the box of three dimensio
 
 Usually, we think of fMRI data in a 3D space of _x_, _y_, and _z_ coordinates.
 This is not the only way to think about our data, however.
+
+```{figure} ../images/churchland-1998.png
+---
+height: 375px
+name: churchland-1998-png
+---
+Three different ways of conceptualizing a given voxelwise activity pattern:
+a histogram of activation levels, an activation vector, or a point in activation space.
+Figure adapted from {cite}`Churchland1998-lw`.
+```
+
 Instead, we can imagine a new space where our dimensions equal the number of voxels we’re comparing between subjects.
 To keep things simple, let’s first pretend we are only interested in two voxels.
 
@@ -175,3 +186,8 @@ For some methods, we will enforce that every distribution has exactly the same n
 Other methods will allow the number of voxels to vary across distributions.
 When variable voxels are allowed, we will denote the number of voxels as $p_1$ or $p_2$,
 corresponding to the relevant distribution.
+
+```{bibliography} references.bib
+:style: unsrt
+:filter: docname in docnames
+```
