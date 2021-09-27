@@ -8,8 +8,8 @@ parts:
   - file: 01-functional-alignment
 - caption: Associated methods
   chapters:
-  - file: 02-procrustes
-  - file: 03-ridge-regression
+  - file: 02-ridge-regression
+  - file: 03-procrustes
   - file: 04-optimal-transport
   - file: 05-cca
   - file: 06-shared-response-model
