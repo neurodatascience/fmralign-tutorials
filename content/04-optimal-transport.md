@@ -24,7 +24,7 @@ To allow for a more efficient estimation, we slightly relax this constraint with
 
 ```{math}
 :label: ot_eq_2
-    \min_{\substack{\mathbf{R} \in \mathbb{R_+}^{p\times p}; \\ \mathbf{R} \mathbf{1} = 1/p, \enskip \mathbf{1} \mathbf{R}^\top = 1/p}}\Tr({\mathbf{R}\cdot\mathbf{C})}  - \epsilon  \mathbf{H}(\mathbf{R})
+    \min_{\substack{\mathbf{R} \in \mathbb{R_+}^{p\times p}; \\ \mathbf{R} \mathbf{1} = 1/p, \mathbf{1} \mathbf{R}^\top = 1/p}}\mathrm{Tr}({\mathbf{R}\cdot\mathbf{C})}  - \epsilon  \mathbf{H}(\mathbf{R})
 ```
 
 where $\epsilon > 0$, and  the discrete entropy of the transformation $\mathbf{H}(\mathbf{R})$ is defined as:
