@@ -69,10 +69,10 @@ To understand it, we need to think outside of the box: the box of three dimensio
 Usually, we think of fMRI data in a 3D space of _x_, _y_, and _z_ coordinates.
 This is not the only way to think about our data, however.
 
-```{figure} ../images/churchland_1998.png
+```{figure} ../images/churchland-1998-fig1.png
 ---
 height: 375px
-name: churchland-1998-png
+name: churchland-1998-fig1-png
 ---
 Three different ways of conceptualizing a given voxelwise activity pattern:
 a histogram of activation levels, an activation vector, or a point in activation space.
@@ -116,6 +116,16 @@ and it's important to note that [our default intution is often wrong](https://ma
 
 At a high-level, the goal is to make two distributions of participant activity patterns look as similar as possible,
 given certain constraints on the transformation.
+
+```{figure} ../images/churchland-1998-fig2.png
+---
+height: 375px
+name: churchland-1998-fig2-png
+---
+The locations of four protoype points within the voxelwise activation spaces of two brains.
+Figure adapted from {cite:t}`Churchland1998-lw`.
+```
+
 The precise constraints differ according to the method; however, we are only interested in methods which generate linear mappings.
 The resulting transformations, then, should improve functional similarity while retaining as much information as possible about individual participants or conditions.
 
