@@ -12,6 +12,21 @@ from sklearn.metrics.pairwise import pairwise_distances
 # num_colors = range(8)
 # colors = [f"#{random.randrange(0x1000000):06x}" for n in num_colors]
 
+def print_colorbar():
+    """
+    Used in Churchland figures
+    """
+    from matplotlib import cm, figure
+
+    cmap = cm.get_cmap('magma', 100)
+    colors = cmap(np.arange(cmap.N))
+    fig = figure(figsize=(8, 4), dpi=400)
+    ax = fig.add_subplot(111, xticks=[], yticks=[])
+    ax.imshow([colors], extent=[0, 10, 0, 1])
+    plt.show()
+    return
+
+
 
 def plot_matrices(A, B):
     """
