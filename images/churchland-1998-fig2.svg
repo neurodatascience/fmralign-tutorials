@@ -24,9 +24,9 @@
      inkscape:document-units="mm"
      showgrid="false"
      width="300mm"
-     inkscape:zoom="0.33301348"
-     inkscape:cx="216.20747"
-     inkscape:cy="798.76647"
+     inkscape:zoom="0.39356403"
+     inkscape:cx="459.89975"
+     inkscape:cy="675.87477"
      inkscape:window-width="1280"
      inkscape:window-height="656"
      inkscape:window-x="0"
@@ -36,6 +36,18 @@
      showguides="false" />
   <defs
      id="defs2">
+    <rect
+       x="95.7502"
+       y="181.17382"
+       width="480.85433"
+       height="129.14526"
+       id="rect17277" />
+    <rect
+       x="112.15494"
+       y="272.97703"
+       width="154.30712"
+       height="47.154073"
+       id="rect5149" />
     <rect
        x="-419.82051"
        y="743.36592"
@@ -198,6 +210,66 @@
        width="298.06924"
        height="89.621788"
        id="rect52333-9-4" />
+    <rect
+       x="112.15494"
+       y="272.97702"
+       width="154.30711"
+       height="47.154072"
+       id="rect5149-3" />
+    <rect
+       x="112.15494"
+       y="272.97702"
+       width="154.30711"
+       height="47.154072"
+       id="rect5149-5" />
+    <rect
+       x="112.15494"
+       y="272.97702"
+       width="154.30711"
+       height="47.154072"
+       id="rect5149-6" />
+    <rect
+       x="95.750198"
+       y="181.17381"
+       width="480.85434"
+       height="129.14526"
+       id="rect17277-1" />
+    <rect
+       x="95.750198"
+       y="181.17381"
+       width="480.85434"
+       height="129.14526"
+       id="rect17277-1-7" />
+    <rect
+       x="95.750198"
+       y="181.17381"
+       width="480.85434"
+       height="129.14526"
+       id="rect17277-1-7-9" />
+    <rect
+       x="95.750198"
+       y="181.17381"
+       width="480.85434"
+       height="129.14526"
+       id="rect17277-1-7-9-6" />
+    <rect
+       x="95.750198"
+       y="181.17381"
+       width="480.85434"
+       height="129.14526"
+       id="rect17277-1-7-6" />
+    <rect
+       x="95.750198"
+       y="181.17381"
+       width="480.85434"
+       height="129.14526"
+       id="rect17277-6" />
+    <rect
+       x="95.750198"
+       y="181.17381"
+       width="480.85434"
+       height="129.14526"
+       id="rect17277-1-8" />
   </defs>
   <g
      inkscape:label="Layer 1"
@@ -347,7 +419,7 @@
        inkscape:export-ydpi="96"><tspan
          x="74.271484"
          y="570.28519"
-         id="tspan81549">0</tspan></text>
+         id="tspan7802">0</tspan></text>
     <text
        xml:space="preserve"
        transform="matrix(0.26458333,0,0,0.26458333,145.69956,78.618477)"
@@ -358,7 +430,7 @@
        inkscape:export-ydpi="96"><tspan
          x="74.271484"
          y="570.28519"
-         id="tspan81551">0</tspan></text>
+         id="tspan7804">0</tspan></text>
     <text
        xml:space="preserve"
        transform="matrix(0.26458333,0,0,0.26458333,-57.231857,177.37847)"
@@ -371,9 +443,9 @@
        inkscape:export-ydpi="96"><tspan
          x="456.49757"
          y="316.71875"
-         id="tspan81555"><tspan
+         id="tspan7808"><tspan
            style="font-size:21.3333px;text-align:center;text-anchor:middle"
-           id="tspan81553">Activation space #1</tspan></tspan></text>
+           id="tspan7806">Activation space #1</tspan></tspan></text>
     <text
        xml:space="preserve"
        transform="matrix(0.26458333,0,0,0.26458333,66.065569,177.37847)"
@@ -386,9 +458,9 @@
        inkscape:export-ydpi="96"><tspan
          x="456.49757"
          y="316.71875"
-         id="tspan81559"><tspan
+         id="tspan7812"><tspan
            style="font-size:21.3333px;text-align:center;text-anchor:middle"
-           id="tspan81557">Activation space #2</tspan></tspan></text>
+           id="tspan7810">Activation space #2</tspan></tspan></text>
     <g
        id="g3390"
        transform="matrix(1.6110923,0,0,1.6110923,-434.33351,79.292955)"
@@ -506,38 +578,38 @@
          ry="0" />
     </g>
     <rect
-       style="fill:#ccaaff;fill-opacity:1;stroke:#c8675c;stroke-width:8.97001;stroke-dasharray:0, 98.67;stroke-opacity:0.741844"
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.6;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:6;stroke-opacity:0.741844"
        id="rect389"
        width="7.9623432"
        height="7.9623432"
-       x="88.908066"
-       y="127.77411"
+       x="89.9664"
+       y="136.76982"
        inkscape:export-filename="/home/emdupre/Desktop/dissertation/Aim1/fmralign-tutorials/images/churchland-1998-fig2.png"
        inkscape:export-xdpi="96"
        inkscape:export-ydpi="96" />
     <rect
-       style="fill:#9955ff;fill-opacity:1;stroke:#c8675c;stroke-width:8.97001;stroke-dasharray:0, 98.67;stroke-opacity:0.741844"
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.6;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:6;stroke-opacity:0.741844"
        id="rect389-3"
        width="7.9623432"
        height="7.9623432"
-       x="64.253891"
-       y="127.77411"
+       x="65.312225"
+       y="136.76982"
        inkscape:export-filename="/home/emdupre/Desktop/dissertation/Aim1/fmralign-tutorials/images/churchland-1998-fig2.png"
        inkscape:export-xdpi="96"
        inkscape:export-ydpi="96" />
     <rect
-       style="fill:#b380ff;fill-opacity:1;stroke:#c8675c;stroke-width:8.97001;stroke-dasharray:0, 98.67;stroke-opacity:0.741844"
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.6;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:1;stroke-opacity:0.741844"
        id="rect389-6"
        width="7.9623432"
        height="7.9623432"
-       x="76.596481"
-       y="127.77411"
+       x="77.654816"
+       y="136.76982"
        inkscape:export-filename="/home/emdupre/Desktop/dissertation/Aim1/fmralign-tutorials/images/churchland-1998-fig2.png"
        inkscape:export-xdpi="96"
        inkscape:export-ydpi="96" />
     <g
        id="g17026"
-       transform="translate(312.4977,-247.87502)"
+       transform="translate(312.4977,-248.70059)"
        inkscape:export-filename="/home/emdupre/Desktop/dissertation/Aim1/fmralign-tutorials/images/churchland-1998-fig2.png"
        inkscape:export-xdpi="96"
        inkscape:export-ydpi="96">
@@ -545,32 +617,32 @@
          xml:space="preserve"
          transform="matrix(0.26458333,0,0,0.26458333,-262.92951,347.32993)"
          id="text14319-6"
-         style="font-size:24px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;white-space:pre;shape-inside:url(#rect14321-36)"><tspan
+         style="font-size:22.6667px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;white-space:pre;shape-inside:url(#rect14321-36)"><tspan
            x="109.67188"
-           y="166.375"
-           id="tspan81563">Y<tspan
+           y="165.19534"
+           id="tspan7816">Y<tspan
    style="font-size:65%;baseline-shift:sub"
-   id="tspan81561">1</tspan></tspan></text>
+   id="tspan7814">1</tspan></tspan></text>
       <text
          xml:space="preserve"
          transform="matrix(0.26458333,0,0,0.26458333,-275.41782,347.32993)"
          id="text14319-5-1"
-         style="font-size:24px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;white-space:pre;shape-inside:url(#rect14321-7-0)"><tspan
+         style="font-size:22.6667px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;white-space:pre;shape-inside:url(#rect14321-7-0)"><tspan
            x="109.67188"
-           y="166.375"
-           id="tspan81567">X<tspan
+           y="165.19534"
+           id="tspan7820">X<tspan
    style="font-size:65%;baseline-shift:sub"
-   id="tspan81565">1</tspan></tspan></text>
+   id="tspan7818">1</tspan></tspan></text>
       <text
          xml:space="preserve"
          transform="matrix(0.26458333,0,0,0.26458333,-250.62103,347.32993)"
          id="text14319-56-8"
-         style="font-size:24px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;white-space:pre;shape-inside:url(#rect14321-3-6)"><tspan
+         style="font-size:22.6667px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;white-space:pre;shape-inside:url(#rect14321-3-6)"><tspan
            x="109.67188"
-           y="166.375"
-           id="tspan81571">Z<tspan
+           y="165.19534"
+           id="tspan7824">Z<tspan
    style="font-size:65%;baseline-shift:sub"
-   id="tspan81569">1</tspan></tspan></text>
+   id="tspan7822">1</tspan></tspan></text>
     </g>
     <g
        id="g3390-9"
@@ -698,77 +770,84 @@
        inkscape:export-filename="/home/emdupre/Desktop/dissertation/Aim1/fmralign-tutorials/images/churchland-1998-fig2.png"
        inkscape:export-xdpi="96"
        inkscape:export-ydpi="96"><tspan
-         x="478.4188"
+         x="516.02812"
          y="300.2031"
-         id="tspan81575"><tspan
+         id="tspan7828"><tspan
            style="text-align:center;text-anchor:middle"
-           id="tspan81573">Activation pattern #2</tspan></tspan></text>
+           id="tspan7826">Brain state #2</tspan></tspan></text>
     <rect
-       style="fill:#ccaaff;fill-opacity:1;stroke:#c8675c;stroke-width:8.97001;stroke-dasharray:0, 98.67;stroke-opacity:0.741844"
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.6;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:6;stroke-opacity:0.741844"
        id="rect389-7"
        width="7.9623432"
        height="7.9623432"
-       x="209.55013"
-       y="126.83171"
+       x="198.82603"
+       y="136.76982"
        inkscape:export-filename="/home/emdupre/Desktop/dissertation/Aim1/fmralign-tutorials/images/churchland-1998-fig2.png"
        inkscape:export-xdpi="96"
        inkscape:export-ydpi="96" />
     <rect
-       style="fill:#9955ff;fill-opacity:1;stroke:#c8675c;stroke-width:8.97001;stroke-dasharray:0, 98.67;stroke-opacity:0.741844"
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.6;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:6;stroke-opacity:0.741844"
        id="rect389-3-5"
        width="7.9623432"
        height="7.9623432"
-       x="184.89597"
-       y="126.83171"
+       x="211.13762"
+       y="136.76982"
        inkscape:export-filename="/home/emdupre/Desktop/dissertation/Aim1/fmralign-tutorials/images/churchland-1998-fig2.png"
        inkscape:export-xdpi="96"
        inkscape:export-ydpi="96" />
     <rect
-       style="fill:#b380ff;fill-opacity:1;stroke:#c8675c;stroke-width:8.97001;stroke-dasharray:0, 98.67;stroke-opacity:0.741844"
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.6;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:6;stroke-opacity:0.741844"
        id="rect389-6-9"
        width="7.9623432"
        height="7.9623432"
-       x="197.23854"
-       y="126.83171"
+       x="186.48346"
+       y="136.76982"
        inkscape:export-filename="/home/emdupre/Desktop/dissertation/Aim1/fmralign-tutorials/images/churchland-1998-fig2.png"
        inkscape:export-xdpi="96"
        inkscape:export-ydpi="96" />
     <g
-       id="g17026-2"
-       transform="translate(433.13977,-248.81743)"
+       id="g41859"
+       transform="translate(2.1166667,10.171068)"
        inkscape:export-filename="/home/emdupre/Desktop/dissertation/Aim1/fmralign-tutorials/images/churchland-1998-fig2.png"
        inkscape:export-xdpi="96"
        inkscape:export-ydpi="96">
-      <text
-         xml:space="preserve"
-         transform="matrix(0.26458333,0,0,0.26458333,-262.92951,347.32993)"
-         id="text14319-6-2"
-         style="font-size:24px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;white-space:pre;shape-inside:url(#rect14321-36-5)"><tspan
-           x="109.67188"
-           y="166.375"
-           id="tspan81579">Y<tspan
+      <g
+         id="g17026-2"
+         transform="translate(431.55226,-258.87166)"
+         inkscape:export-filename="/home/emdupre/Desktop/dissertation/Aim1/fmralign-tutorials/images/churchland-1998-fig2.png"
+         inkscape:export-xdpi="96"
+         inkscape:export-ydpi="96">
+        <text
+           xml:space="preserve"
+           transform="matrix(0.26458333,0,0,0.26458333,-262.92951,347.32993)"
+           id="text14319-6-2"
+           style="font-size:22.6667px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;white-space:pre;shape-inside:url(#rect14321-36-5)"><tspan
+             x="109.67188"
+             y="165.19534"
+             id="tspan7832">Y<tspan
    style="font-size:65%;baseline-shift:sub"
-   id="tspan81577">2</tspan></tspan></text>
-      <text
-         xml:space="preserve"
-         transform="matrix(0.26458333,0,0,0.26458333,-275.41782,347.32993)"
-         id="text14319-5-1-8"
-         style="font-size:24px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;white-space:pre;shape-inside:url(#rect14321-7-0-6)"><tspan
-           x="109.67188"
-           y="166.375"
-           id="tspan81583">X<tspan
+   id="tspan7830">2</tspan></tspan></text>
+        <text
+           xml:space="preserve"
+           transform="matrix(0.26458333,0,0,0.26458333,-275.41782,347.32993)"
+           id="text14319-5-1-8"
+           style="font-size:22.6667px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;white-space:pre;shape-inside:url(#rect14321-7-0-6)"><tspan
+             x="109.67188"
+             y="165.19534"
+             id="tspan7836">X<tspan
    style="font-size:65%;baseline-shift:sub"
-   id="tspan81581">2</tspan></tspan></text>
-      <text
-         xml:space="preserve"
-         transform="matrix(0.26458333,0,0,0.26458333,-250.62103,347.32993)"
-         id="text14319-56-8-9"
-         style="font-size:24px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;white-space:pre;shape-inside:url(#rect14321-3-6-2)"><tspan
-           x="109.67188"
-           y="166.375"
-           id="tspan81587">Z<tspan
+   id="tspan7834">2</tspan></tspan></text>
+        <text
+           xml:space="preserve"
+           transform="matrix(0.26458333,0,0,0.26458333,-250.62103,347.32993)"
+           id="text14319-56-8-9"
+           style="font-size:22.6667px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;white-space:pre;shape-inside:url(#rect14321-3-6-2)"><tspan
+             x="109.67188"
+             y="165.19534"
+             id="tspan7840">Z<tspan
    style="font-size:65%;baseline-shift:sub"
-   id="tspan81585">2</tspan></tspan></text>
+   id="tspan7838">2</tspan></tspan></text>
+      </g>
     </g>
     <text
        xml:space="preserve"
@@ -780,11 +859,11 @@
        inkscape:export-filename="/home/emdupre/Desktop/dissertation/Aim1/fmralign-tutorials/images/churchland-1998-fig2.png"
        inkscape:export-xdpi="96"
        inkscape:export-ydpi="96"><tspan
-         x="478.4188"
+         x="516.02812"
          y="300.2031"
-         id="tspan81591"><tspan
+         id="tspan7844"><tspan
            style="text-align:center;text-anchor:middle"
-           id="tspan81589">Activation pattern #1</tspan></tspan></text>
+           id="tspan7842">Brain state #1</tspan></tspan></text>
     <path
        style="fill:none;stroke:#000000;stroke-width:0.26458299;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend);stroke-miterlimit:4;stroke-dasharray:0.26458299,0.79374896;stroke-dashoffset:0"
        d="m 126.86802,149.24754 21.38858,12.34871 -10.73494,18.59346"
@@ -811,9 +890,9 @@
          style="font-size:18.6667px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;white-space:pre;shape-inside:url(#rect52333)"><tspan
            x="-419.82031"
            y="759.88089"
-           id="tspan81595">Voxel X<tspan
+           id="tspan7848">Voxel X<tspan
    style="font-size:65%;baseline-shift:sub"
-   id="tspan81593">1</tspan></tspan></text>
+   id="tspan7846">1</tspan></tspan></text>
       <text
          xml:space="preserve"
          transform="matrix(0.00279719,-0.26456855,0.26456855,0.00279719,-151.06079,104.24237)"
@@ -821,9 +900,9 @@
          style="font-size:18.6667px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;white-space:pre;shape-inside:url(#rect52333-9)"><tspan
            x="-419.82031"
            y="759.88089"
-           id="tspan81599">Voxel Z<tspan
+           id="tspan7852">Voxel Z<tspan
    style="font-size:65%;baseline-shift:sub"
-   id="tspan81597">1</tspan></tspan></text>
+   id="tspan7850">1</tspan></tspan></text>
       <text
          xml:space="preserve"
          transform="matrix(0.25451702,-0.07228714,0.07228714,0.25451702,157.36291,23.681197)"
@@ -831,9 +910,9 @@
          style="font-size:18.6667px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;white-space:pre;shape-inside:url(#rect52333-19)"><tspan
            x="-419.82031"
            y="759.88089"
-           id="tspan81603">Voxel Y<tspan
+           id="tspan7856">Voxel Y<tspan
    style="font-size:65%;baseline-shift:sub"
-   id="tspan81601">1</tspan></tspan></text>
+   id="tspan7854">1</tspan></tspan></text>
     </g>
     <g
        id="g77993"
@@ -848,9 +927,9 @@
          style="font-size:18.6667px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;white-space:pre;shape-inside:url(#rect52333-8)"><tspan
            x="-419.82031"
            y="759.88089"
-           id="tspan81607">Voxel X<tspan
+           id="tspan7860">Voxel X<tspan
    style="font-size:65%;baseline-shift:sub"
-   id="tspan81605">2</tspan></tspan></text>
+   id="tspan7858">2</tspan></tspan></text>
       <text
          xml:space="preserve"
          transform="matrix(0.00279719,-0.26456855,0.26456855,0.00279719,-35.299692,104.16412)"
@@ -858,9 +937,9 @@
          style="font-size:18.6667px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;white-space:pre;shape-inside:url(#rect52333-9-4)"><tspan
            x="-419.82031"
            y="759.88089"
-           id="tspan81611">Voxel Z<tspan
+           id="tspan7864">Voxel Z<tspan
    style="font-size:65%;baseline-shift:sub"
-   id="tspan81609">2</tspan></tspan></text>
+   id="tspan7862">2</tspan></tspan></text>
       <text
          xml:space="preserve"
          transform="matrix(0.25451702,-0.07228714,0.07228714,0.25451702,273.12401,23.60295)"
@@ -868,9 +947,9 @@
          style="font-size:18.6667px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;white-space:pre;shape-inside:url(#rect52333-19-7)"><tspan
            x="-419.82031"
            y="759.88089"
-           id="tspan81615">Voxel Y<tspan
+           id="tspan7868">Voxel Y<tspan
    style="font-size:65%;baseline-shift:sub"
-   id="tspan81613">2</tspan></tspan></text>
+   id="tspan7866">2</tspan></tspan></text>
     </g>
     <g
        id="g80270"
@@ -956,6 +1035,17 @@
        inkscape:export-filename="/home/emdupre/Desktop/dissertation/Aim1/fmralign-tutorials/images/churchland-1998-fig2.png"
        inkscape:export-xdpi="96"
        inkscape:export-ydpi="96" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,182.32367,185.47405)"
+       id="text17275-2-0-3-0"
+       style="font-size:14.6667px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;white-space:pre;shape-inside:url(#rect17277-1-7-9-6)"
+       inkscape:export-filename="/home/emdupre/Desktop/dissertation/Aim1/fmralign-tutorials/images/churchland-1998-fig2.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"><tspan
+         x="95.75"
+         y="194.15042"
+         id="tspan7870">Tool</tspan></text>
     <g
        id="g80270-6"
        transform="rotate(90,153.55917,283.28345)"
@@ -1013,5 +1103,161 @@
        inkscape:export-filename="/home/emdupre/Desktop/dissertation/Aim1/fmralign-tutorials/images/churchland-1998-fig2.png"
        inkscape:export-xdpi="96"
        inkscape:export-ydpi="96" />
+    <g
+       id="g13203"
+       transform="translate(-1.3229167)"
+       inkscape:export-filename="/home/emdupre/Desktop/dissertation/Aim1/fmralign-tutorials/images/churchland-1998-fig2.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96">
+      <g
+         id="g13139"
+         transform="translate(-14.035621,18.463738)">
+        <circle
+           style="opacity:1;fill:none;stroke:#000000;stroke-width:0.414;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+           id="path198"
+           cx="146.60005"
+           cy="93.432068"
+           r="2.7494073" />
+        <text
+           xml:space="preserve"
+           transform="matrix(0.26458333,0,0,0.26458333,122.84531,18.602521)"
+           id="text5147"
+           style="font-size:18.6667px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;white-space:pre;shape-inside:url(#rect5149)"><tspan
+             x="112.1543"
+             y="289.49222"
+             id="tspan7872">Face</tspan></text>
+      </g>
+      <g
+         id="g13144"
+         transform="translate(12.292067,6.524676)">
+        <circle
+           style="fill:none;stroke:#000000;stroke-width:0.414;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+           id="path198-6"
+           cx="146.60005"
+           cy="105.37113"
+           r="2.7494073" />
+        <text
+           xml:space="preserve"
+           transform="matrix(0.26458333,0,0,0.26458333,122.84531,30.541581)"
+           id="text5147-7"
+           style="font-size:18.6667px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;white-space:pre;shape-inside:url(#rect5149-3)"><tspan
+             x="112.1543"
+             y="289.49222"
+             id="tspan7874">Place</tspan></text>
+      </g>
+      <g
+         id="g13149"
+         transform="translate(-14.035621,3.816171)">
+        <circle
+           style="fill:none;stroke:#000000;stroke-width:0.414;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+           id="path198-3"
+           cx="146.60005"
+           cy="116.4045"
+           r="2.7494073" />
+        <text
+           xml:space="preserve"
+           transform="matrix(0.26458333,0,0,0.26458333,122.84531,41.574957)"
+           id="text5147-5"
+           style="font-size:18.6667px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;white-space:pre;shape-inside:url(#rect5149-5)"><tspan
+             x="112.1543"
+             y="289.49222"
+             id="tspan7876">Body</tspan></text>
+      </g>
+      <g
+         id="g13154"
+         transform="translate(12.292067,-8.742018)">
+        <circle
+           style="fill:none;stroke:#000000;stroke-width:0.414;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+           id="path198-2"
+           cx="146.60005"
+           cy="128.96269"
+           r="2.7494073" />
+        <text
+           xml:space="preserve"
+           transform="matrix(0.26458333,0,0,0.26458333,123.3445,54.133153)"
+           id="text5147-9"
+           style="font-size:18.6667px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;white-space:pre;shape-inside:url(#rect5149-6)"><tspan
+             x="112.1543"
+             y="289.49222"
+             id="tspan7878">Tool</tspan></text>
+      </g>
+    </g>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,28.807659,164.51122)"
+       id="text17275"
+       style="font-size:14.6667px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;white-space:pre;shape-inside:url(#rect17277)"
+       inkscape:export-filename="/home/emdupre/Desktop/dissertation/Aim1/fmralign-tutorials/images/churchland-1998-fig2.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"><tspan
+         x="95.75"
+         y="194.15042"
+         id="tspan7880">Face</tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,33.121711,148.39527)"
+       id="text17275-2"
+       style="font-size:14.6667px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;white-space:pre;shape-inside:url(#rect17277-1)"
+       inkscape:export-filename="/home/emdupre/Desktop/dissertation/Aim1/fmralign-tutorials/images/churchland-1998-fig2.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"><tspan
+         x="95.75"
+         y="194.15042"
+         id="tspan7882">Place</tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,59.224908,160.99716)"
+       id="text17275-2-0"
+       style="font-size:14.6667px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;white-space:pre;shape-inside:url(#rect17277-1-7)"
+       inkscape:export-filename="/home/emdupre/Desktop/dissertation/Aim1/fmralign-tutorials/images/churchland-1998-fig2.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"><tspan
+         x="95.75"
+         y="194.15042"
+         id="tspan7884">Body</tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,75.239534,179.0564)"
+       id="text17275-2-0-3"
+       style="font-size:14.6667px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;white-space:pre;shape-inside:url(#rect17277-1-7-9)"
+       inkscape:export-filename="/home/emdupre/Desktop/dissertation/Aim1/fmralign-tutorials/images/churchland-1998-fig2.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"><tspan
+         x="95.75"
+         y="194.15042"
+         id="tspan7886">Tool</tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,180.72544,158.6443)"
+       id="text17275-2-0-2"
+       style="font-size:14.6667px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;white-space:pre;shape-inside:url(#rect17277-1-7-6)"
+       inkscape:export-filename="/home/emdupre/Desktop/dissertation/Aim1/fmralign-tutorials/images/churchland-1998-fig2.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"><tspan
+         x="95.75"
+         y="194.15042"
+         id="tspan7888">Body</tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,214.80491,154.67672)"
+       id="text17275-1"
+       style="font-size:14.6667px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;white-space:pre;shape-inside:url(#rect17277-6)"
+       inkscape:export-filename="/home/emdupre/Desktop/dissertation/Aim1/fmralign-tutorials/images/churchland-1998-fig2.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"><tspan
+         x="95.75"
+         y="194.15042"
+         id="tspan7890">Face</tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,200.56645,143.58239)"
+       id="text17275-2-7"
+       style="font-size:14.6667px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;white-space:pre;shape-inside:url(#rect17277-1-8)"
+       inkscape:export-filename="/home/emdupre/Desktop/dissertation/Aim1/fmralign-tutorials/images/churchland-1998-fig2.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"><tspan
+         x="95.75"
+         y="194.15042"
+         id="tspan7892">Place</tspan></text>
   </g>
 </svg>
