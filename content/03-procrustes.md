@@ -112,7 +112,7 @@ Optimized implementations are available in `scipy.spatial.procrustes`.
 
 ## Useful resources
 
-https://simonensemble.github.io/2018-10/orthogonal-procrustes.html
+- [Cory Simon blog on orthogonal Procrustes](https://simonensemble.github.io/2018-10/orthogonal-procrustes.html)
 
 ```{bibliography} references.bib
 :style: unsrt
