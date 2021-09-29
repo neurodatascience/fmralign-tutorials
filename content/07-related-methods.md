@@ -13,6 +13,44 @@ There are two other popular methods in the cognitive neuroscience literature whi
 Although not the focus of this site,
 we briefly contrast these methods with functional alignment to provide a clearer understanding of what functional alignment entails.
 
+## Contrasting anatomically-based alignment
+
+With neuroimaging data, we usually make inferences across subjects by creating a mapping between each subject’s neuroanatomy;
+this is usually done by normalizing their anatomical (T1-weighted) MRI scan to a standard template such as the MNI152.
+We can then look at similarities across individuals in this standardized space.
+Although this approach allows us to learnt commonalities across subjects, it can obscure important individual information.
+
+A relevant analogy here---originally suggested by [Jack Gallant](https://smartech.gatech.edu/handle/1853/60990)---is to the idea of face averaging.
+Much like sulci and gyri in MRI data,
+faces also have relevant landmarks (e.g. eyes) that can be used to generate a mapping between individual's faces.
+
+```{figure} ../images/facial_landmarks.png
+---
+height: 350px
+name: facial-landmarks-png
+---
+Identifying relevant facial landmarks [using OpenCV](https://learnopencv.com/delaunay-triangulation-and-voronoi-diagram-using-opencv-c-python/).
+With thanks to [Satya Mallick](https://learnopencv.com/about/).
+```
+
+By using these landmarks, we can identify relevant internal structure within an individual's face; for example, the distance between their eyes.
+Importantly, because these landmarks are shared across faces, we can generate a mapping between different individual's facial structures.
+These mappings can then be used to bring one or more faces into alignment, where they can then be averaged, as shown in {numref}`average-president-jpg`
+
+```{figure} ../images/average-president.jpg
+---
+height: 350px
+name: average-president-jpg
+---
+An average face from six US presidents, generaged [using OpenCV](https://learnopencv.com/average-face-opencv-c-python-tutorial/).
+With thanks to [Satya Mallick](https://learnopencv.com/about/).
+
+```
+
+The resulting composite or "average face" retains important structure that is consistent across individuals,
+but this structure is largely defined by the chosen landmarks.
+This means that idiosyncratic information---particularly information that is not represented in the original landmarks, such as their hairline---is not well-represented in the composite face.
+
 ## Individualized parcellations
 
 High-dimensional neural recordings, such as those achieved through fMRI,
@@ -72,3 +110,42 @@ Ideal functional alignment stimuli are those which richly sample functional spac
 rather than stimuli which precisely align to an investigator's hypothesis.
 As a result, functional alignment methods do not provide a clear path to representational models,
 even though--like RSA--they involve examining individual-level representational geometries.
+
+
+## Constraining functional alignment to local neighborhoods
+
+Since functional alignment is not guided by anatomical landmarks,
+considering a large number of voxels can generate biologically implausible transformations.
+For example, we may maximize distribution similarity while aligning voxel activity from one participant's visual cortex to another participant's prefrontal cortex.
+To avoid this, we can constrain the voxels included in calculating each functional alignment transformation to smaller, local neighborhoods.
+
+A relevant neighborhood might be defined by an _a priori_ region of interest (ROI).
+That is, a researcher may have identified a relevant patch of cortex through functional localizers or anatomical tracing.
+They can then only consider voxels within this ROI and functionally align their activity across participants.
+
+To generate a whole brain transformation, however, we must define many more local neighborhoods.
+There are two primary strategies to do so.
+The first is through a deterministic or non-overlapping parcellation.
+This can be considered as an extension of the ROI-based approach, in that we now have as many ROIs as there are parcels.
+Transformations are calculated separately for each parcel and then aggregated into a larger whole brain transformation matrix.
+
+Alternatively, we can define our local neighborhoods using a searchlight approach.
+Here, a searchlight is a small sphere of defined radius that we can iterate through a brain volume.
+Importantly, the centroids of each searchlight are selected such that the spheres slightly overlap.
+When generating an aggregated transformation, then, this overlap must be accounted for in the transformation itself;
+for example, by averaging or summing the calculated transformation from two overlapping searchlights.
+You can see an example of these different local neighborhood methods in {numref}`parcellation-searchlight-png`.
+
+```{figure} ../images/parcellation_v_searchlight.png
+---
+height: 350px
+name: parcellation-searchlight-png
+---
+Two different methods to constrain functional alignment transformations:
+non-overlapping parcels from a deterministic parcellation or partially overlapping searchlights.
+```
+
+Importantly, when functional alignment transformations are aggregated using the searchlight methods,
+the final transformations are no longer guaranteed to have the same properties as the initial, unaggregated transforms.
+In this work, we therefore assume that functional alignment transformations are calculated in non-overlapping neighborhoods,
+such as an ROI or a whole brain deterministic parcellation.
