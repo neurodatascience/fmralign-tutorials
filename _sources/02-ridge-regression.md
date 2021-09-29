@@ -111,4 +111,4 @@ R.fit(X, Y)
 
 ## Useful resources
 
-- https://github.com/neurohackademy/nh2020-curriculum/tree/master/we-word-embeddings-huth
+- [Alexander Huth tutorial on ridge regression with word embeddings](https://github.com/neurohackademy/nh2020-curriculum/tree/master/we-word-embeddings-huth)

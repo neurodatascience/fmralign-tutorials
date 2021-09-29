@@ -128,7 +128,8 @@ The next five tutorials detail different methods for functionally aligning two (
 
 ## Useful resources
 
-- https://marckhoury.github.io/blog/counterintuitive-properties-of-high-dimensional-space
+- [3Blue1Brown video on high-dimensional spaces](https://www.youtube.com/watch?v=zwAD6dRSVyI)
+- [Marc Khoury blog on counterintuitive properties of high-dimensional spaces](https://marckhoury.github.io/blog/counterintuitive-properties-of-high-dimensional-space)
 
 ```{bibliography} references.bib
 :style: unsrt
