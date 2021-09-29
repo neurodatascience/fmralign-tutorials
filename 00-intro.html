@@ -51,7 +51,7 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="1. Functional alignment" href="01-functional-alignment.html" />
+    <link rel="next" title="1. Overview" href="01-functional-alignment.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -95,7 +95,7 @@
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="01-functional-alignment.html">
-   1. Functional alignment
+   1. Overview
   </a>
  </li>
 </ul>
@@ -264,6 +264,10 @@
 <p>This is a series of tutorials to introduce the idea of “functional alignment” and its associated statistical methods.
 We aim to provide the intuitions behind each method alongside their mathematical definitions.
 We also illustrate their use on real functional magnetic resonance imaging (fMRI) data.</p>
+<p>Although this class of methods is broadly referred to as both <em>functional alignment methods</em> and <em>hyperalignment methods</em>,
+we adopt the term <em>functional alignment methods</em> to better distinguish from the specific Procrustes-based hyperalignment method in use in the literature.</p>
+<p>For these tutorials, we further constrain our definition of functional alignment to only include those methods which learn linear transformations.
+Other, non-linear methods are in active development, but we focus on linear methods as these broadly retain individual-specific information.</p>
 <p>Please note that these tutorials do not provide new implementations for functional alignment.
 There are already many of these available in existing software toolboxes,
 including <a class="reference external" href="https://parietal-inria.github.io/fmralign-docs">fmralign</a>,
@@ -271,12 +275,13 @@ including <a class="reference external" href="https://parietal-inria.github.io/f
 <div class="section" id="what-we-ll-cover">
 <h2>What we’ll cover<a class="headerlink" href="#what-we-ll-cover" title="Permalink to this headline">¶</a></h2>
 <p>First, we provide a brief summary of the intutions behind functional alignment.
-We then review four of the most popular methods for functional alignment:</p>
+We then review five of the most popular methods for functional alignment:</p>
 <ul class="simple">
+<li><p>Ridge regression</p></li>
 <li><p>Procrustes analysis</p></li>
 <li><p>Optimal transport</p></li>
+<li><p>Canonical Correlation Analysis (CCA)</p></li>
 <li><p>Shared Response Modelling (SRM)</p></li>
-<li><p>Ridge regression</p></li>
 </ul>
 <p>Throughout, we focus on concrete applications to real-world data.</p>
 </div>
@@ -336,7 +341,7 @@ For interested readers, we include a brief annotated bibliography in the final s
         <a class="right-next" href="01-functional-alignment.html" title="next page">
             <div class="prevnext-info">
                 <p class="prevnext-label">next</p>
-                <p class="prevnext-title"><span class="section-number">1. </span>Functional alignment</p>
+                <p class="prevnext-title"><span class="section-number">1. </span>Overview</p>
             </div>
             <i class="prevnext-label fas fa-angle-right"></i>
         </a>

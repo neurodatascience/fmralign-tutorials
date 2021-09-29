@@ -17,6 +17,12 @@ This is a series of tutorials to introduce the idea of "functional alignment" an
 We aim to provide the intuitions behind each method alongside their mathematical definitions.
 We also illustrate their use on real functional magnetic resonance imaging (fMRI) data.
 
+Although this class of methods is broadly referred to as both _functional alignment methods_ and _hyperalignment methods_,
+we adopt the term _functional alignment methods_ to better distinguish from the specific Procrustes-based hyperalignment method in use in the literature.
+
+For these tutorials, we further constrain our definition of functional alignment to only include those methods which learn linear transformations.
+Other, non-linear methods are in active development, but we focus on linear methods as these broadly retain individual-specific information.
+
 Please note that these tutorials do not provide new implementations for functional alignment.
 There are already many of these available in existing software toolboxes,
 including [fmralign](https://parietal-inria.github.io/fmralign-docs),
@@ -25,12 +31,13 @@ including [fmralign](https://parietal-inria.github.io/fmralign-docs),
 ## What we'll cover
 
 First, we provide a brief summary of the intutions behind functional alignment.
-We then review four of the most popular methods for functional alignment:
+We then review five of the most popular methods for functional alignment:
 
+- Ridge regression
 - Procrustes analysis
 - Optimal transport
+- Canonical Correlation Analysis (CCA)
 - Shared Response Modelling (SRM)
-- Ridge regression
 
 Throughout, we focus on concrete applications to real-world data.
 
