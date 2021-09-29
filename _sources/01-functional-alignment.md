@@ -27,13 +27,11 @@ There are other, non-spatial ways that we can conceptualize our data, however.
 At each time point, we can look at the relative activation of each voxel and create multiple, unique representations of our data.
 For example, three equivalent representation of a given voxelwise activity pattern might be:
 
-- As a histogram showing the distribution of activity profiles
-- As a vector of relative activations for each voxel
-- As activity points in an _N_-dimensional activity space, where _N_ is equal to the number of voxels
+- As a **histogram** showing the distribution of activity profiles
+- As a **vector** of relative activations for each voxel
+- As activity points in an **_N_-dimensional activation space**, where _N_ is equal to the number of voxels
 
 Each of these methods are illustrated in {numref}`churchland-1998-fig1-png`.
-Although all of them equivalently represent the data,
-we focus on the _N_-dimensional activity space to highlight a more geometric intuition for these methods.
 
 ```{figure} ../images/churchland-1998-fig1.png
 ---
@@ -61,6 +59,8 @@ Moving from anatomical space to a high-dimensional voxel space.
 Here, we only consider two voxels to aid in visualization.
 ```
 
+Although each of these representations equivalently summarize the data,
+we focus on the _N_-dimensional activity space to highlight a more geometric intuition for these methods.
 Note that as we increase the number of voxels, we also increase the number of dimensions.
 
 ```{margin}
@@ -70,10 +70,12 @@ and we can therefore capture relevant information even in a lower dimensional sp
 We will cover one such latent factor model, the Shared Response Model, in these tutorials.
 ```
 
-Traditionally, we would extract the activity time courses for these voxels,
+## Comparing across functional spaces
+
+Traditionally, we would extract the activity time courses for voxels of interest,
 such that we had two graphs of voxel activity over time.
 We could then compare the similarity of these time courses using techniques such as correlation.
-An alternative way to think about these voxel activity profiles is in a new, functional space.
+To compare across individuals or brain states, then, we would compare summary-level statistics from e.g. network analysis.
 
 As shown in {numref}`churchland-1998-fig2-png`,
 our question then is how best to find correspondence between two (or more) unique functional spaces.
@@ -126,7 +128,7 @@ The next five tutorials detail different methods for functionally aligning two (
 
 ## Useful resources
 
-https://marckhoury.github.io/blog/counterintuitive-properties-of-high-dimensional-space
+- https://marckhoury.github.io/blog/counterintuitive-properties-of-high-dimensional-space
 
 ```{bibliography} references.bib
 :style: unsrt

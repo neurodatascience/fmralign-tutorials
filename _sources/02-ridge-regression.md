@@ -111,4 +111,4 @@ R.fit(X, Y)
 
 ## Useful resources
 
-https://github.com/neurohackademy/nh2020-curriculum/tree/master/we-word-embeddings-huth
+- https://github.com/neurohackademy/nh2020-curriculum/tree/master/we-word-embeddings-huth

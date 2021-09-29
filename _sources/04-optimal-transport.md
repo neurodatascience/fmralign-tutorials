@@ -39,3 +39,8 @@ This method differs from Procrustes analysis in that it yields a sparser mapping
 ## Implementation
 
 Efficient implementations in Python are available through the `POT` and `OTT` packages.
+
+## Useful resources
+
+- http://lytarhan.rbind.io/post/brain-mover-s-distance/
+- http://lytarhan.rbind.io/post/brain-mover-s-distance-2/

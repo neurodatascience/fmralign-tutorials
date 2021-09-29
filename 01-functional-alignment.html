@@ -242,18 +242,23 @@
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#comparing-across-functional-spaces">
+   1.2. Comparing across functional spaces
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#formalizing-the-problem">
-   1.2. Formalizing the problem
+   1.3. Formalizing the problem
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#finding-similarity-with-functional-alignment">
-   1.3. Finding similarity with functional alignment
+   1.4. Finding similarity with functional alignment
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#useful-resources">
-   1.4. Useful resources
+   1.5. Useful resources
   </a>
  </li>
 </ul>
@@ -281,13 +286,11 @@ i.e., how near or far it is from another voxel of interest.</p>
 At each time point, we can look at the relative activation of each voxel and create multiple, unique representations of our data.
 For example, three equivalent representation of a given voxelwise activity pattern might be:</p>
 <ul class="simple">
-<li><p>As a histogram showing the distribution of activity profiles</p></li>
-<li><p>As a vector of relative activations for each voxel</p></li>
-<li><p>As activity points in an <em>N</em>-dimensional activity space, where <em>N</em> is equal to the number of voxels</p></li>
+<li><p>As a <strong>histogram</strong> showing the distribution of activity profiles</p></li>
+<li><p>As a <strong>vector</strong> of relative activations for each voxel</p></li>
+<li><p>As activity points in an <strong><em>N</em>-dimensional activation space</strong>, where <em>N</em> is equal to the number of voxels</p></li>
 </ul>
-<p>Each of these methods are illustrated in <a class="reference internal" href="#churchland-1998-fig1-png"><span class="std std-numref">Fig. 1.1</span></a>.
-Although all of them equivalently represent the data,
-we focus on the <em>N</em>-dimensional activity space to highlight a more geometric intuition for these methods.</p>
+<p>Each of these methods are illustrated in <a class="reference internal" href="#churchland-1998-fig1-png"><span class="std std-numref">Fig. 1.1</span></a>.</p>
 <div class="figure align-default" id="churchland-1998-fig1-png">
 <a class="reference internal image-reference" href="_images/churchland-1998-fig1.png"><img alt="_images/churchland-1998-fig1.png" src="_images/churchland-1998-fig1.png" style="height: 375px;" /></a>
 <p class="caption"><span class="caption-number">Fig. 1.1 </span><span class="caption-text">Three different ways of conceptualizing a given voxelwise activity pattern:
@@ -305,7 +308,9 @@ This basic idea is illustrated in <a class="reference internal" href="#voxel-spa
 <p class="caption"><span class="caption-number">Fig. 1.2 </span><span class="caption-text">Moving from anatomical space to a high-dimensional voxel space.
 Here, we only consider two voxels to aid in visualization.</span><a class="headerlink" href="#voxel-space-gif" title="Permalink to this image">¶</a></p>
 </div>
-<p>Note that as we increase the number of voxels, we also increase the number of dimensions.</p>
+<p>Although each of these representations equivalently summarize the data,
+we focus on the <em>N</em>-dimensional activity space to highlight a more geometric intuition for these methods.
+Note that as we increase the number of voxels, we also increase the number of dimensions.</p>
 <div class="margin sidebar">
 <p class="sidebar-title"></p>
 <p>Some <em>latent factor models</em> reduce the number of dimensions using an initial decomposition.
@@ -313,10 +318,13 @@ The idea is that there may be several latent factors supporting voxel-level acti
 and we can therefore capture relevant information even in a lower dimensional space.
 We will cover one such latent factor model, the Shared Response Model, in these tutorials.</p>
 </div>
-<p>Traditionally, we would extract the activity time courses for these voxels,
+</div>
+<div class="section" id="comparing-across-functional-spaces">
+<h2><span class="section-number">1.2. </span>Comparing across functional spaces<a class="headerlink" href="#comparing-across-functional-spaces" title="Permalink to this headline">¶</a></h2>
+<p>Traditionally, we would extract the activity time courses for voxels of interest,
 such that we had two graphs of voxel activity over time.
 We could then compare the similarity of these time courses using techniques such as correlation.
-An alternative way to think about these voxel activity profiles is in a new, functional space.</p>
+To compare across individuals or brain states, then, we would compare summary-level statistics from e.g. network analysis.</p>
 <p>As shown in <a class="reference internal" href="#churchland-1998-fig2-png"><span class="std std-numref">Fig. 1.3</span></a>,
 our question then is how best to find correspondence between two (or more) unique functional spaces.</p>
 <div class="figure align-default" id="churchland-1998-fig2-png">
@@ -326,7 +334,7 @@ Figure adapted from <a href="#id3"><span class="problematic" id="id4">:cite:t:`C
 </div>
 </div>
 <div class="section" id="formalizing-the-problem">
-<h2><span class="section-number">1.2. </span>Formalizing the problem<a class="headerlink" href="#formalizing-the-problem" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">1.3. </span>Formalizing the problem<a class="headerlink" href="#formalizing-the-problem" title="Permalink to this headline">¶</a></h2>
 <p>Suppose we have two data distributions, <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>.
 These distributions may come from voxel activity time series sampled from two different participants
 or from the same participant in two different psychological tasks.</p>
@@ -345,7 +353,7 @@ When variable voxels are allowed, we will denote the number of voxels as <span c
 corresponding to the relevant distribution.</p>
 </div>
 <div class="section" id="finding-similarity-with-functional-alignment">
-<h2><span class="section-number">1.3. </span>Finding similarity with functional alignment<a class="headerlink" href="#finding-similarity-with-functional-alignment" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">1.4. </span>Finding similarity with functional alignment<a class="headerlink" href="#finding-similarity-with-functional-alignment" title="Permalink to this headline">¶</a></h2>
 <p>At a high-level, the goal of functional alignmentis to make two distributions of participant activity patterns look as similar as possible,
 given certain constraints on the transformation.
 The precise constraints differ according to the method; however, we are only interested in methods which generate linear mappings.
@@ -357,8 +365,10 @@ rather than transferring a learnt relationship from one distribution to another.
 <p>The next five tutorials detail different methods for functionally aligning two (or more) high-dimensional, voxel spaces.</p>
 </div>
 <div class="section" id="useful-resources">
-<h2><span class="section-number">1.4. </span>Useful resources<a class="headerlink" href="#useful-resources" title="Permalink to this headline">¶</a></h2>
-<p><a class="reference external" href="https://marckhoury.github.io/blog/counterintuitive-properties-of-high-dimensional-space">https://marckhoury.github.io/blog/counterintuitive-properties-of-high-dimensional-space</a></p>
+<h2><span class="section-number">1.5. </span>Useful resources<a class="headerlink" href="#useful-resources" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://marckhoury.github.io/blog/counterintuitive-properties-of-high-dimensional-space">https://marckhoury.github.io/blog/counterintuitive-properties-of-high-dimensional-space</a></p></li>
+</ul>
 </div>
 </div>
 
