@@ -72,6 +72,8 @@ which corresponds to the elementwise Euclidean distance.
 ```
 
 ```{code-cell} python3
+from scipy.linalg import svd
+
 A = Y.T.dot(X)
 U, s, V = svd(A, full_matrices=0)
 ```

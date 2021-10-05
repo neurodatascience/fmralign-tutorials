@@ -57,3 +57,6 @@ solution:
 
 Accessible implementations are available in `brainiak.funcalign.srm.DetSRM`,
 with an optimized implementation in `brainiak.funcalign.fastsrm.FastSRM`.
+
+```{code-cell} python3
+```

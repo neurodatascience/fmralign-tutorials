@@ -102,6 +102,8 @@ Compute $R$ s.t. $|| XR - Y ||^2 + alpha ||R||^2$ is minimized with CV.
 ## Implementation
 
 ```{code} python3
+from sklearn.linear_model import RidgeCV
+
 R = RidgeCV(alphas=self.alphas, fit_intercept=True,
             normalize=False,
             scoring=sklearn.metrics.SCORERS['r2'],

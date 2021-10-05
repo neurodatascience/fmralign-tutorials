@@ -40,6 +40,10 @@ This method differs from Procrustes analysis in that it yields a sparser mapping
 
 Efficient implementations in Python are available through the `POT` and `OTT` packages.
 
+```{code-cell} python3
+import POT
+```
+
 ## Useful resources
 
 - [Leyla Tarhan's blogpost series on Wasserstein distance](http://lytarhan.rbind.io/categories/wasserstein-distance/)
