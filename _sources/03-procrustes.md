@@ -39,58 +39,61 @@ and to quantify how much they differ after this alignment.
 
 ### Formalism
 
+```{code-cell} python3
+:tags: ["hide-input"]
+import numpy as np
+
+X = np.random.rand(20, 100)
+Y = np.random.rand(20, 100)
+```
+
 For our two distributions $\mathbf{X} \in \mathbb{R}^{n \times p}$ and
 $\mathbf{Y} \in \mathbb{R}^{n \times p}$, Procrustes solves the following minimization:
 
 ```{math}
 :label: procrustes_eq_1
-\arg\min_{\mathbf{R}} \sum_{i = 1}^{n} ||\mathbf{R} \mathbf{x}_i - \mathbf{y}_i||_F^2 \\
+\arg\min_{\mathbf{R}} ||\mathbf{R} \mathbf{X} - \mathbf{Y}||_F^2 \\
 \mathbf{R}^\intercal\mathbf{R} = \mathbf{I}
 ```
 
 Where $|| \cdot ||_F$ indicates the Frobenius norm,
 which corresponds to the elementwise Euclidean distance.
-By assuming that the index-based correspondence across our two distributions is implicit,
-we can re-write the minimization as:
 
 ```{math}
 :label: procrustes_eq_2
-\arg\min_{\mathbf{R}} ||\mathbf{R} \mathbf{X} - \mathbf{Y}||_F^2 \\
-\mathbf{R}^\intercal\mathbf{R} = \mathbf{I}
-```
-
-```{math}
-:label: procrustes_eq_3
 \arg\max_{\mathbf{R}} \mathrm{Tr}\hspace{1pt}(\mathbf{R} \mathbf{X} \mathbf{Y}^T) \\
 \mathbf{R}^\intercal\mathbf{R} = \mathbf{I}
 ```
 
 ```{math}
-:label: procrustes_eq_4
+:label: procrustes_eq_3
 \arg\max_{\mathbf{R}} \mathrm{Tr}\hspace{1pt}(\mathbf{R} \mathbf{U} \Sigma \mathbf{V}^\intercal) \\
 \mathbf{R}^\intercal\mathbf{R} = \mathbf{I}
 ```
 
-### Implementation
-
-```{code} python3
-import numpy as np
-
-X = np.random.rand(20, 100)
-Y = np.random.rand(20, 100)
-
+```{code-cell} python3
 A = Y.T.dot(X)
 U, s, V = svd(A, full_matrices=0)
-R = U.dot(V)
+```
 
+```{code-cell} python3
+R = U.dot(V)
 sc = s.sum() / np.linalg.norm(X) ** 2)
 ```
 
+### Implementation
+
 Optimized implementations are available in `scipy.linalg.orthogonal_procrustes`.
+
+```{code-cell} python3
+from scipy.linalg import orthogonal_procrustes
+
+R, sc = orthogonal_procrustes(X, Y)
+```
 
 ## Generalized Procrustes
 
-Generalized Procrustes analysis differs from Procrustes analysis in two significant ways.
+Generalized Procrustes analysis differs from Procrustes analysis in two ways.
 First, generalized Procrustes includes both the orthogonal transformations of Procrustes (i.e., rotations and reflections),
 as well as additional scaling and translation transformations.
 Second, generalized Procrustes can be applied to more than two shapes through the iterative use of a reference shape.
@@ -105,10 +108,20 @@ s\in\mathbb{R^+}, \enspace \mathbf{M} \in \mathbb{R}^{p \times p} \text{ s.t. } 
 
 ### Formalism
 
+```{math}
+:label: general_procrustes_eq_2
+A = B + C
+```
 
 ### Implementation
 
 Optimized implementations are available in `scipy.spatial.procrustes`.
+
+```{code-cell} python3
+from scipy.spatial import procrustes
+
+mtx1, mtx2, disp = procrustes(X, Y)
+```
 
 ## Useful resources
 

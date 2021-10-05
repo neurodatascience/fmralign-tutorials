@@ -311,58 +311,98 @@ Procrustes analysis allows us to align the shapes as closely as possible through
 and to quantify how much they differ after this alignment.</p>
 <div class="section" id="formalism">
 <h3><span class="section-number">3.1.1. </span>Formalism<a class="headerlink" href="#formalism" title="Permalink to this headline">¶</a></h3>
-<p>For our two distributions <span class="math notranslate nohighlight">\(\mathbf{X} \in \mathbb{R}^{n \times p}\)</span> and
-<span class="math notranslate nohighlight">\(\mathbf{Y} \in \mathbb{R}^{n \times p}\)</span>, Procrustes solves the following minimization:</p>
-<div class="math notranslate nohighlight" id="equation-procrustes-eq-1">
-<span class="eqno">(3.1)<a class="headerlink" href="#equation-procrustes-eq-1" title="Permalink to this equation">¶</a></span>\[\begin{split}\arg\min_{\mathbf{R}} \sum_{i = 1}^{n} ||\mathbf{R} \mathbf{x}_i - \mathbf{y}_i||_F^2 \\
-\mathbf{R}^\intercal\mathbf{R} = \mathbf{I}\end{split}\]</div>
-<p>Where <span class="math notranslate nohighlight">\(|| \cdot ||_F\)</span> indicates the Frobenius norm,
-which corresponds to the elementwise Euclidean distance.
-By assuming that the index-based correspondence across our two distributions is implicit,
-we can re-write the minimization as:</p>
-<div class="math notranslate nohighlight" id="equation-procrustes-eq-2">
-<span class="eqno">(3.2)<a class="headerlink" href="#equation-procrustes-eq-2" title="Permalink to this equation">¶</a></span>\[\begin{split}\arg\min_{\mathbf{R}} ||\mathbf{R} \mathbf{X} - \mathbf{Y}||_F^2 \\
-\mathbf{R}^\intercal\mathbf{R} = \mathbf{I}\end{split}\]</div>
-<div class="math notranslate nohighlight" id="equation-procrustes-eq-3">
-<span class="eqno">(3.3)<a class="headerlink" href="#equation-procrustes-eq-3" title="Permalink to this equation">¶</a></span>\[\begin{split}\arg\max_{\mathbf{R}} \mathrm{Tr}\hspace{1pt}(\mathbf{R} \mathbf{X} \mathbf{Y}^T) \\
-\mathbf{R}^\intercal\mathbf{R} = \mathbf{I}\end{split}\]</div>
-<div class="math notranslate nohighlight" id="equation-procrustes-eq-4">
-<span class="eqno">(3.4)<a class="headerlink" href="#equation-procrustes-eq-4" title="Permalink to this equation">¶</a></span>\[\begin{split}\arg\max_{\mathbf{R}} \mathrm{Tr}\hspace{1pt}(\mathbf{R} \mathbf{U} \Sigma \mathbf{V}^\intercal) \\
-\mathbf{R}^\intercal\mathbf{R} = \mathbf{I}\end{split}\]</div>
-</div>
-<div class="section" id="implementation">
-<h3><span class="section-number">3.1.2. </span>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
 <span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
-
-<span class="n">A</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>For our two distributions <span class="math notranslate nohighlight">\(\mathbf{X} \in \mathbb{R}^{n \times p}\)</span> and
+<span class="math notranslate nohighlight">\(\mathbf{Y} \in \mathbb{R}^{n \times p}\)</span>, Procrustes solves the following minimization:</p>
+<div class="math notranslate nohighlight" id="equation-procrustes-eq-1">
+<span class="eqno">(3.1)<a class="headerlink" href="#equation-procrustes-eq-1" title="Permalink to this equation">¶</a></span>\[\begin{split}\arg\min_{\mathbf{R}} ||\mathbf{R} \mathbf{X} - \mathbf{Y}||_F^2 \\
+\mathbf{R}^\intercal\mathbf{R} = \mathbf{I}\end{split}\]</div>
+<p>Where <span class="math notranslate nohighlight">\(|| \cdot ||_F\)</span> indicates the Frobenius norm,
+which corresponds to the elementwise Euclidean distance.</p>
+<div class="math notranslate nohighlight" id="equation-procrustes-eq-2">
+<span class="eqno">(3.2)<a class="headerlink" href="#equation-procrustes-eq-2" title="Permalink to this equation">¶</a></span>\[\begin{split}\arg\max_{\mathbf{R}} \mathrm{Tr}\hspace{1pt}(\mathbf{R} \mathbf{X} \mathbf{Y}^T) \\
+\mathbf{R}^\intercal\mathbf{R} = \mathbf{I}\end{split}\]</div>
+<div class="math notranslate nohighlight" id="equation-procrustes-eq-3">
+<span class="eqno">(3.3)<a class="headerlink" href="#equation-procrustes-eq-3" title="Permalink to this equation">¶</a></span>\[\begin{split}\arg\max_{\mathbf{R}} \mathrm{Tr}\hspace{1pt}(\mathbf{R} \mathbf{U} \Sigma \mathbf{V}^\intercal) \\
+\mathbf{R}^\intercal\mathbf{R} = \mathbf{I}\end{split}\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 <span class="n">U</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">V</span> <span class="o">=</span> <span class="n">svd</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">full_matrices</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">R</span> <span class="o">=</span> <span class="n">U</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">ipykernel_1651</span><span class="o">/</span><span class="mf">707179284.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">A</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">U</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">V</span> <span class="o">=</span> <span class="n">svd</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">full_matrices</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
+<span class="ne">NameError</span>: name &#39;svd&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">R</span> <span class="o">=</span> <span class="n">U</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
 <span class="n">sc</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+</div>
+</div>
+<div class="section" id="implementation">
+<h3><span class="section-number">3.1.2. </span>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h3>
 <p>Optimized implementations are available in <code class="docutils literal notranslate"><span class="pre">scipy.linalg.orthogonal_procrustes</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.linalg</span> <span class="kn">import</span> <span class="n">orthogonal_procrustes</span>
+
+<span class="n">R</span><span class="p">,</span> <span class="n">sc</span> <span class="o">=</span> <span class="n">orthogonal_procrustes</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div class="section" id="generalized-procrustes">
 <h2><span class="section-number">3.2. </span>Generalized Procrustes<a class="headerlink" href="#generalized-procrustes" title="Permalink to this headline">¶</a></h2>
-<p>Generalized Procrustes analysis differs from Procrustes analysis in two significant ways.
+<p>Generalized Procrustes analysis differs from Procrustes analysis in two ways.
 First, generalized Procrustes includes both the orthogonal transformations of Procrustes (i.e., rotations and reflections),
 as well as additional scaling and translation transformations.
 Second, generalized Procrustes can be applied to more than two shapes through the iterative use of a reference shape.</p>
 <p>We can formally express the generalized Procrustes problem as:</p>
 <div class="math notranslate nohighlight" id="equation-general-procrustes-eq-1">
-<span class="eqno">(3.5)<a class="headerlink" href="#equation-general-procrustes-eq-1" title="Permalink to this equation">¶</a></span>\[\begin{split}\min_{\mathbf{R}= s\mathbf{M}} ||\mathbf{R} \mathbf{X} - \mathbf{Y}||_F^2 \\
+<span class="eqno">(3.4)<a class="headerlink" href="#equation-general-procrustes-eq-1" title="Permalink to this equation">¶</a></span>\[\begin{split}\min_{\mathbf{R}= s\mathbf{M}} ||\mathbf{R} \mathbf{X} - \mathbf{Y}||_F^2 \\
 s\in\mathbb{R^+}, \enspace \mathbf{M} \in \mathbb{R}^{p \times p} \text{ s.t. } \mathbf{M}^\intercal\mathbf{M} = \mathbf{I}_p\end{split}\]</div>
 <div class="section" id="id3">
 <h3><span class="section-number">3.2.1. </span>Formalism<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<div class="math notranslate nohighlight" id="equation-general-procrustes-eq-2">
+<span class="eqno">(3.5)<a class="headerlink" href="#equation-general-procrustes-eq-2" title="Permalink to this equation">¶</a></span>\[A = B + C\]</div>
 </div>
 <div class="section" id="id4">
 <h3><span class="section-number">3.2.2. </span>Implementation<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <p>Optimized implementations are available in <code class="docutils literal notranslate"><span class="pre">scipy.spatial.procrustes</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.spatial</span> <span class="kn">import</span> <span class="n">procrustes</span>
+
+<span class="n">mtx1</span><span class="p">,</span> <span class="n">mtx2</span><span class="p">,</span> <span class="n">disp</span> <span class="o">=</span> <span class="n">procrustes</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div class="section" id="useful-resources">
