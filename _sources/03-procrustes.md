@@ -80,7 +80,7 @@ U, s, V = svd(A, full_matrices=0)
 
 ```{code-cell} python3
 R = U.dot(V)
-sc = s.sum() / np.linalg.norm(X) ** 2)
+sc = s.sum() / (np.linalg.norm(X) ** 2)
 ```
 
 ### Implementation

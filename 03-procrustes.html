@@ -214,7 +214,7 @@
         aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://mybinder.org/v2/gh/neurodatascience/fmralign-tutorials/master?urlpath=tree/content/03-procrustes.md"><button type="button"
+        <a class="binder-button" href="https://mybinder.org/v2/gh/neurodatascience/fmralign-tutorials/main?urlpath=tree/content/03-procrustes.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
                 data-placement="left"><img class="binder-button-logo"
                     src="_static/images/logo_binder.svg"
@@ -347,15 +347,7 @@ which corresponds to the elementwise Euclidean distance.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">R</span> <span class="o">=</span> <span class="n">U</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
-<span class="n">sc</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">  File</span><span class="nn"> &quot;/tmp/ipykernel_1695/98277865.py&quot;</span><span class="gt">, line </span><span class="mi">2</span>
-    <span class="n">sc</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
-                                         <span class="o">^</span>
-<span class="ne">SyntaxError</span>: invalid syntax
+<span class="n">sc</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
