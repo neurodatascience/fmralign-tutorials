@@ -39,7 +39,6 @@ We then review five of the most popular methods for functional alignment:
 - Canonical Correlation Analysis (CCA)
 - Shared Response Modelling (SRM)
 
-Throughout, we focus on concrete applications to real-world data.
 
 ## Running the tutorials
 

@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>4. Optimal Transport &#8212; Functional Alignment</title>
+    <title>fmralign tutorials &#8212; Functional Alignment</title>
     
   <link href="_static/css/theme.css" rel="stylesheet" />
   <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -42,8 +42,6 @@
     <script src="_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -53,8 +51,7 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="5. Regularized Canonical Correlation Analysis" href="05-cca.html" />
-    <link rel="prev" title="3. Procrustes alignment" href="03-procrustes.html" />
+    <link rel="next" title="1. Defining functional spaces" href="0-1-functional-spaces.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -84,8 +81,8 @@
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
         <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="00-intro.html">
+ <li class="toctree-l1 current">
+  <a class="reference internal" href="#">
    fmralign tutorials
   </a>
  </li>
@@ -97,8 +94,13 @@
 </p>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="01-functional-alignment.html">
-   1. Overview
+  <a class="reference internal" href="0-1-functional-spaces.html">
+   1. Defining functional spaces
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="0-2-comparing-spaces.html">
+   2. Comparing across functional spaces
   </a>
  </li>
 </ul>
@@ -107,30 +109,35 @@
   Associated methods
  </span>
 </p>
-<ul class="current nav bd-sidenav">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="02-ridge-regression.html">
-   2. Ridge Regression
+  <a class="reference internal" href="1-1-intro.html">
+   3. Finding similarity with functional alignment
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="03-procrustes.html">
-   3. Procrustes alignment
-  </a>
- </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   4. Optimal Transport
+  <a class="reference internal" href="1-2-ridge-regression.html">
+   4. Ridge Regression
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="05-cca.html">
-   5. Regularized Canonical Correlation Analysis
+  <a class="reference internal" href="1-3-procrustes.html">
+   5. Procrustes alignment
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="06-shared-response-model.html">
-   6. Shared Response Modelling (SRM)
+  <a class="reference internal" href="1-4-optimal-transport.html">
+   6. Optimal Transport
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="1-5-cca.html">
+   7. Regularized Canonical Correlation Analysis
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="1-6-shared-response-model.html">
+   8. Shared Response Modelling (SRM)
   </a>
  </li>
 </ul>
@@ -141,8 +148,8 @@
 </p>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="07-related-methods.html">
-   7. Related methods
+  <a class="reference internal" href="2-1-related-methods.html">
+   9. Related methods
   </a>
  </li>
 </ul>
@@ -185,11 +192,11 @@
     <div class="dropdown-buttons">
         <!-- ipynb file if we had a myst markdown file -->
         <a class="dropdown-buttons"
-            href="_sources/04-optimal-transport.ipynb"><button type="button"
+            href="_sources/00-overview.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download notebook file" data-toggle="tooltip"
                 data-placement="left">.ipynb</button></a>
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/04-optimal-transport.md"><button type="button"
+        <a class="dropdown-buttons" href="_sources/00-overview.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -214,7 +221,7 @@
         aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://mybinder.org/v2/gh/neurodatascience/fmralign-tutorials/main?urlpath=tree/content/04-optimal-transport.md"><button type="button"
+        <a class="binder-button" href="https://mybinder.org/v2/gh/neurodatascience/fmralign-tutorials/main?urlpath=tree/content/00-overview.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
                 data-placement="left"><img class="binder-button-logo"
                     src="_static/images/logo_binder.svg"
@@ -237,18 +244,18 @@
             <nav id="bd-toc-nav" aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#formalism">
-   4.1. Formalism
+  <a class="reference internal nav-link" href="#what-we-ll-cover">
+   What we’ll cover
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#implementation">
-   4.2. Implementation
+  <a class="reference internal nav-link" href="#running-the-tutorials">
+   Running the tutorials
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#useful-resources">
-   4.3. Useful resources
+  <a class="reference internal nav-link" href="#related-work">
+   Related work
   </a>
  </li>
 </ul>
@@ -262,47 +269,51 @@
         
               <div>
                 
-  <div class="section" id="optimal-transport">
-<h1><span class="section-number">4. </span>Optimal Transport<a class="headerlink" href="#optimal-transport" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="formalism">
-<h2><span class="section-number">4.1. </span>Formalism<a class="headerlink" href="#formalism" title="Permalink to this headline">¶</a></h2>
-<div class="math notranslate nohighlight" id="equation-ot-eq-1">
-<span class="eqno">(4.1)<a class="headerlink" href="#equation-ot-eq-1" title="Permalink to this equation">¶</a></span>\[\begin{split}\mathbf{C}_{i, j}(\mathbf{X}, \mathbf{Y}) = ||\mathbf{X}_i - \mathbf{Y}_j|| \\\end{split}\]</div>
-<p>To allow for a more efficient estimation, we slightly relax this constraint with an additional entropic smoothing term. We can then find <span class="math notranslate nohighlight">\(\mathbf{R}\)</span>, the regularized Optimal Transport plan by finding a minimum through the Sinkhorn algorithm.</p>
-<div class="math notranslate nohighlight" id="equation-ot-eq-2">
-<span class="eqno">(4.2)<a class="headerlink" href="#equation-ot-eq-2" title="Permalink to this equation">¶</a></span>\[\begin{split}    \min_{\substack{\mathbf{R} \in \mathbb{R_+}^{p\times p}; \\ \mathbf{R} \mathbf{1} = 1/p, \mathbf{1} \mathbf{R}^\top = 1/p}}\mathrm{Tr}({\mathbf{R}\cdot\mathbf{C})}  - \epsilon  \mathbf{H}(\mathbf{R})\end{split}\]</div>
-<p>where <span class="math notranslate nohighlight">\(\epsilon &gt; 0\)</span>, and  the discrete entropy of the transformation <span class="math notranslate nohighlight">\(\mathbf{H}(\mathbf{R})\)</span> is defined as:</p>
-<div class="math notranslate nohighlight" id="equation-ot-eq-3">
-<span class="eqno">(4.3)<a class="headerlink" href="#equation-ot-eq-3" title="Permalink to this equation">¶</a></span>\[\mathbf{H}(\mathbf{R}) \overset{\mathrm{def.}}{=} - \sum_{i,j} \mathbf{R}_{i,j}(\log(\mathbf{R}_{i, j}) - 1)\]</div>
-<p>This method differs from Procrustes analysis in that it yields a sparser mapping between source and target voxels with high functional similarity, making it less sensitive to noisy voxels on both ends. The level of sparsity is controlled by the user-supplied hyper-parameter <span class="math notranslate nohighlight">\(\epsilon\)</span>.</p>
-</div>
-<div class="section" id="implementation">
-<h2><span class="section-number">4.2. </span>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h2>
-<p>Efficient implementations in Python are available through the <code class="docutils literal notranslate"><span class="pre">POT</span></code> and <code class="docutils literal notranslate"><span class="pre">OTT</span></code> packages.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">POT</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">ipykernel_1820</span><span class="o">/</span><span class="mf">2921906687.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="kn">import</span> <span class="nn">POT</span>
-
-<span class="ne">ModuleNotFoundError</span>: No module named &#39;POT&#39;
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="section" id="useful-resources">
-<h2><span class="section-number">4.3. </span>Useful resources<a class="headerlink" href="#useful-resources" title="Permalink to this headline">¶</a></h2>
+  <div class="section" id="fmralign-tutorials">
+<h1>fmralign tutorials<a class="headerlink" href="#fmralign-tutorials" title="Permalink to this headline">¶</a></h1>
+<p>This is a series of tutorials to introduce the idea of “functional alignment” and its associated statistical methods.
+We aim to provide the intuitions behind each method alongside their mathematical definitions.
+We also illustrate their use on real functional magnetic resonance imaging (fMRI) data.</p>
+<p>Although this class of methods is broadly referred to as both <em>functional alignment methods</em> and <em>hyperalignment methods</em>,
+we adopt the term <em>functional alignment methods</em> to better distinguish from the specific Procrustes-based hyperalignment method in use in the literature.</p>
+<p>For these tutorials, we further constrain our definition of functional alignment to only include those methods which learn linear transformations.
+Other, non-linear methods are in active development, but we focus on linear methods as these broadly retain individual-specific information.</p>
+<p>Please note that these tutorials do not provide new implementations for functional alignment.
+There are already many of these available in existing software toolboxes,
+including <a class="reference external" href="https://parietal-inria.github.io/fmralign-docs">fmralign</a>,
+<a class="reference external" href="http://www.pymvpa.org/">PyMVPA</a>, or <a class="reference external" href="https://brainiak.org/">BrainIAK</a>.</p>
+<div class="section" id="what-we-ll-cover">
+<h2>What we’ll cover<a class="headerlink" href="#what-we-ll-cover" title="Permalink to this headline">¶</a></h2>
+<p>First, we provide a brief summary of the intutions behind functional alignment.
+We then review five of the most popular methods for functional alignment:</p>
 <ul class="simple">
-<li><p><a class="reference external" href="http://lytarhan.rbind.io/categories/wasserstein-distance/">Leyla Tarhan’s blogpost series on Wasserstein distance</a></p></li>
-<li><p><a class="reference external" href="https://www.youtube.com/watch?v=aio1lAE-h_I">Broad Institute summary of applied Optimal Transport</a></p></li>
+<li><p>Ridge regression</p></li>
+<li><p>Procrustes analysis</p></li>
+<li><p>Optimal transport</p></li>
+<li><p>Canonical Correlation Analysis (CCA)</p></li>
+<li><p>Shared Response Modelling (SRM)</p></li>
 </ul>
+</div>
+<div class="section" id="running-the-tutorials">
+<h2>Running the tutorials<a class="headerlink" href="#running-the-tutorials" title="Permalink to this headline">¶</a></h2>
+<p>These tutorials are developed as a <a class="reference external" href="https://jupyter-book.org">Jupyter Book</a>,
+which means that you can view the text, code, and outputs directly in your web browser.
+If you would like to run or modify the code yourself,
+you can do so using the <a class="reference external" href="https://mybinder.org">Binder</a> links available on each page.
+You can also download and run these files locally.</p>
+</div>
+<div class="section" id="related-work">
+<h2>Related work<a class="headerlink" href="#related-work" title="Permalink to this headline">¶</a></h2>
+<p>Although functional alignment is used across several fields and research contexts,
+in these tutorials we draw on examples from our own field of cognitive neuroscience.
+The associated code and methods, however, can easily be adapted for other domains.
+For interested readers, we include a brief annotated bibliography in the final section.</p>
+</div>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
 </div>
 </div>
 
@@ -335,20 +346,11 @@
 
 <div class='prev-next-bottom'>
     
-    <div id="prev">
-        <a class="left-prev" href="03-procrustes.html" title="previous page">
-            <i class="prevnext-label fas fa-angle-left"></i>
-            <div class="prevnext-info">
-                <p class="prevnext-label">previous</p>
-                <p class="prevnext-title"><span class="section-number">3. </span>Procrustes alignment</p>
-            </div>
-        </a>
-    </div>
      <div id="next">
-        <a class="right-next" href="05-cca.html" title="next page">
+        <a class="right-next" href="0-1-functional-spaces.html" title="next page">
             <div class="prevnext-info">
                 <p class="prevnext-label">next</p>
-                <p class="prevnext-title"><span class="section-number">5. </span>Regularized Canonical Correlation Analysis</p>
+                <p class="prevnext-title"><span class="section-number">1. </span>Defining functional spaces</p>
             </div>
             <i class="prevnext-label fas fa-angle-right"></i>
         </a>
