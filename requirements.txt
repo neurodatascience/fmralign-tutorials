@@ -1,5 +1,9 @@
 ghp-import
 jupyter-book
 jupytext[myst]
-numpy
 matplotlib
+numpy
+cython
+scipy
+scikit-learn
+POT
