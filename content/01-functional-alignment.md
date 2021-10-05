@@ -25,7 +25,7 @@ i.e., how near or far it is from another voxel of interest.
 
 There are other, non-spatial ways that we can conceptualize our data, however.
 At each time point, we can look at the relative activation of each voxel and create multiple, unique representations of our data.
-For example, three equivalent representation of a given voxelwise activity pattern might be:
+For example, three representations of a given voxelwise activity pattern might be:
 
 - As a **histogram** showing the distribution of activity profiles
 - As a **vector** of relative activations for each voxel

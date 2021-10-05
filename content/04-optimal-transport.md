@@ -42,5 +42,5 @@ Efficient implementations in Python are available through the `POT` and `OTT` pa
 
 ## Useful resources
 
-- http://lytarhan.rbind.io/post/brain-mover-s-distance/
-- http://lytarhan.rbind.io/post/brain-mover-s-distance-2/
+- [Leyla Tarhan's blogpost series on Wasserstein distance](http://lytarhan.rbind.io/categories/wasserstein-distance/)
+- [Broad Institute summary of applied Optimal Transport](https://www.youtube.com/watch?v=aio1lAE-h_I)
