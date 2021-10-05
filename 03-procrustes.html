@@ -259,12 +259,12 @@
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id3">
+    <a class="reference internal nav-link" href="#id2">
      3.2.1. Formalism
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id4">
+    <a class="reference internal nav-link" href="#id3">
      3.2.2. Implementation
     </a>
    </li>
@@ -288,7 +288,7 @@
                 
   <div class="section" id="procrustes-alignment">
 <h1><span class="section-number">3. </span>Procrustes alignment<a class="headerlink" href="#procrustes-alignment" title="Permalink to this headline">¶</a></h1>
-<p>Originally introduced in <a href="#id1"><span class="problematic" id="id2">:cite:`Schonemann1966-qq`</span></a>,
+<p>Originally introduced in <span id="id1">[<a class="reference internal" href="#id14">Schönemann, 1966</a>]</span>,
 Procrustes analysis is a form of statistical shape analysis which focusses on comparing the geometry of two objects or data sets.
 Although it may seem unusual to think of distributions in terms of geometry,
 this makes more sense when we consider the distributions as point sets in some activation space.</p>
@@ -377,13 +377,13 @@ Second, generalized Procrustes can be applied to more than two shapes through th
 <div class="math notranslate nohighlight" id="equation-general-procrustes-eq-1">
 <span class="eqno">(3.4)<a class="headerlink" href="#equation-general-procrustes-eq-1" title="Permalink to this equation">¶</a></span>\[\begin{split}\min_{\mathbf{R}= s\mathbf{M}} ||\mathbf{R} \mathbf{X} - \mathbf{Y}||_F^2 \\
 s\in\mathbb{R^+}, \enspace \mathbf{M} \in \mathbb{R}^{p \times p} \text{ s.t. } \mathbf{M}^\intercal\mathbf{M} = \mathbf{I}_p\end{split}\]</div>
-<div class="section" id="id3">
-<h3><span class="section-number">3.2.1. </span>Formalism<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id2">
+<h3><span class="section-number">3.2.1. </span>Formalism<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <div class="math notranslate nohighlight" id="equation-general-procrustes-eq-2">
 <span class="eqno">(3.5)<a class="headerlink" href="#equation-general-procrustes-eq-2" title="Permalink to this equation">¶</a></span>\[A = B + C\]</div>
 </div>
-<div class="section" id="id4">
-<h3><span class="section-number">3.2.2. </span>Implementation<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id3">
+<h3><span class="section-number">3.2.2. </span>Implementation<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <p>Optimized implementations are available in <code class="docutils literal notranslate"><span class="pre">scipy.spatial.procrustes</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -401,6 +401,12 @@ s\in\mathbb{R^+}, \enspace \mathbf{M} \in \mathbb{R}^{p \times p} \text{ s.t. } 
 <ul class="simple">
 <li><p><a class="reference external" href="https://simonensemble.github.io/2018-10/orthogonal-procrustes.html">Cory Simon blog on orthogonal Procrustes</a></p></li>
 </ul>
+<p id="id4"><dl class="citation">
+<dt class="label" id="id14"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>Peter H Schönemann. A generalized solution of the orthogonal procrustes problem. <em>Psychometrika</em>, 31(1):1–10, March 1966.</p>
+</dd>
+</dl>
+</p>
 </div>
 </div>
 

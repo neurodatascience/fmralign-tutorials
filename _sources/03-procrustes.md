@@ -129,7 +129,7 @@ mtx1, mtx2, disp = procrustes(X, Y)
 
 - [Cory Simon blog on orthogonal Procrustes](https://simonensemble.github.io/2018-10/orthogonal-procrustes.html)
 
-```{bibliography} references.bib
+```{bibliography}
 :style: unsrt
 :filter: docname in docnames
 ```

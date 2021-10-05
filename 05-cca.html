@@ -325,7 +325,7 @@ Two datasets <span class="math notranslate nohighlight">\(X_a \in \mathbb{R}^{n 
 <span class="math notranslate nohighlight">\((\mathbf{v}_a, \mathbf{v}_b)\)</span> and
 <span class="math notranslate nohighlight">\((\mathbf{u}_a, \mathbf{u}_b)\)</span>
 are maximally correlated with unit length in the projected space.
-Figure from Gregory Gundersen <a href="#id1"><span class="problematic" id="id2">:cite:`Gundersen2018-pe`</span></a>.</span><a class="headerlink" href="#cca-gundersen" title="Permalink to this image">¶</a></p>
+Figure from Gregory Gundersen <span id="id1">[<a class="reference internal" href="#id5">Gundersen, 2018</a>]</span>.</span><a class="headerlink" href="#cca-gundersen" title="Permalink to this image">¶</a></p>
 </div>
 <div class="section" id="working-with-well-sampled-data">
 <h3><span class="section-number">5.1.1. </span>Working with well-sampled data<a class="headerlink" href="#working-with-well-sampled-data" title="Permalink to this headline">¶</a></h3>
@@ -363,7 +363,7 @@ we can see that:</p>
 = \max_{ \textbf{w}_a, \textbf{w}_b }
 \{ \textbf{w}_a^{\top} \Sigma_{ab} \textbf{w}_b \}\]</div>
 <p>This equation can be solved using eigenvalue decomposition,
-as proposed by <a href="#id3"><span class="problematic" id="id4">:cite:`Hotelling1936-th`</span></a>.
+as proposed by <span id="id2">[<a class="reference internal" href="#id12">Hotelling, 1936</a>]</span>.
 For a detailed walk-through of this solution,
 see <a class="reference internal" href="#cca-gundersen"><span class="std std-numref">Fig. 5.1</span></a>.</p>
 </div>
@@ -373,7 +373,7 @@ see <a class="reference internal" href="#cca-gundersen"><span class="std std-num
 we are often not working with well-sampled data sets.
 In this case, we can return to <a class="reference internal" href="#equation-cca-eq-2">(5.2)</a> and ask:
 what we can do when our empiricial covariance matrices are unlikely to reflect our theoretical covariance matrices?</p>
-<p>We know from <a href="#id5"><span class="problematic" id="id6">:cite:`Pezeshki2004-yb`</span></a> that if our <span class="math notranslate nohighlight">\(n\)</span> observations are less than the sum of <span class="math notranslate nohighlight">\(p_1\)</span> and <span class="math notranslate nohighlight">\(p_2\)</span>,
+<p>We know from <span id="id3">[<a class="reference internal" href="#id13">Pezeshki <em>et al.</em>, 2004</a>]</span> that if our <span class="math notranslate nohighlight">\(n\)</span> observations are less than the sum of <span class="math notranslate nohighlight">\(p_1\)</span> and <span class="math notranslate nohighlight">\(p_2\)</span>,
 then <span class="math notranslate nohighlight">\((p_1 + p_2) − n\)</span> canonical correlations will be equal to one.
 This means these canonical correlations do not carry any information about their true population values.</p>
 <p>Why might this be?</p>
@@ -420,6 +420,18 @@ z_{a}^{i} \perp z_{a}^{j} \quad \quad z_{b}^{i} \perp z_{b}^{j}
 <ul class="simple">
 <li><p><a class="reference external" href="https://gregorygundersen.com/blog/2018/07/17/cca/">https://gregorygundersen.com/blog/2018/07/17/cca/</a></p></li>
 </ul>
+<p id="id4"><dl class="citation">
+<dt class="label" id="id5"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>Gregory Gundersen. Canonical correlation analysis in detail. <span><a class="reference external" href="#"></a></span>https://gregorygundersen.com/blog/2018/07/17/cca/, July 2018.</p>
+</dd>
+<dt class="label" id="id12"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd><p>Harold Hotelling. Relations between two sets of variates. <em>Biometrika</em>, 28(3-4):321–377, December 1936.</p>
+</dd>
+<dt class="label" id="id13"><span class="brackets"><a class="fn-backref" href="#id3">3</a></span></dt>
+<dd><p>A Pezeshki, L L Scharf, M R Azimi-Sadjadi, and M Lundberg. Empirical canonical correlation analysis in subspaces. In <em>Conference Record of the Thirty-Eighth Asilomar Conference on Signals, Systems and Computers, 2004.</em>, volume 1, 994–997 Vol.1. November 2004.</p>
+</dd>
+</dl>
+</p>
 </div>
 </div>
 

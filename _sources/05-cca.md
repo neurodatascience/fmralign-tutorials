@@ -196,7 +196,7 @@ x_b = np.random.rand(1, 3)
 
 - https://gregorygundersen.com/blog/2018/07/17/cca/
 
-```{bibliography} references.bib
+```{bibliography}
 :style: unsrt
 :filter: docname in docnames
 ```
