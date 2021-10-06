@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Shared Response Modelling (SRM) &#8212; Functional Alignment</title>
+    <title>Finding similarity with functional alignment &#8212; Functional Alignment</title>
     
   <link href="_static/css/theme.css" rel="stylesheet" />
   <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -42,8 +42,6 @@
     <script src="_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -53,6 +51,8 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Ridge Regression" href="1-1-ridge-regression.html" />
+    <link rel="prev" title="Comparing across functional spaces" href="0-2-comparing-spaces.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -105,6 +105,55 @@
   </a>
  </li>
 </ul>
+<p class="caption">
+ <span class="caption-text">
+  Associated methods
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Finding similarity with functional alignment
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="1-1-ridge-regression.html">
+   Ridge Regression
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="1-2-procrustes.html">
+   Procrustes alignment
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="1-3-optimal-transport.html">
+   Optimal Transport
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="1-4-cca.html">
+   Regularized Canonical Correlation Analysis
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="1-5-shared-response-model.html">
+   Shared Response Modelling (SRM)
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Related work
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="2-0-related-methods.html">
+   Related methods
+  </a>
+ </li>
+</ul>
 
     </div>
 </nav> <!-- To handle the deprecated key -->
@@ -144,11 +193,11 @@
     <div class="dropdown-buttons">
         <!-- ipynb file if we had a myst markdown file -->
         <a class="dropdown-buttons"
-            href="_sources/1-6-shared-response-model.ipynb"><button type="button"
+            href="_sources/1-0-intro.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download notebook file" data-toggle="tooltip"
                 data-placement="left">.ipynb</button></a>
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/1-6-shared-response-model.md"><button type="button"
+        <a class="dropdown-buttons" href="_sources/1-0-intro.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -173,7 +222,7 @@
         aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://mybinder.org/v2/gh/neurodatascience/fmralign-tutorials/main?urlpath=tree/content/1-6-shared-response-model.md"><button type="button"
+        <a class="binder-button" href="https://mybinder.org/v2/gh/neurodatascience/fmralign-tutorials/main?urlpath=tree/content/1-0-intro.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
                 data-placement="left"><img class="binder-button-logo"
                     src="_static/images/logo_binder.svg"
@@ -190,24 +239,6 @@
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show">
             
-            <div class="tocsection onthispage pt-5 pb-3">
-                <i class="fas fa-list"></i> Contents
-            </div>
-            <nav id="bd-toc-nav" aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#formalism">
-   Formalism
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#implementation">
-   Implementation
-  </a>
- </li>
-</ul>
-
-            </nav>
         </div>
     </div>
 </div>
@@ -216,39 +247,17 @@
         
               <div>
                 
-  <div class="section" id="shared-response-modelling-srm">
-<h1>Shared Response Modelling (SRM)<a class="headerlink" href="#shared-response-modelling-srm" title="Permalink to this headline">¶</a></h1>
-<p>Shared Response Modelling (SRM) is a <em>latent factor model</em>.
-This means that–rather than searching for direct correspondences across subjects–an initial dimensionality reduction is
-used to identify latent factors that support the observed measreuments and are shared across subjects.
-The deterministic SRM model assumes Gaussian noise with the same variance for all subjects and orthonormal spatial components.</p>
-<div class="section" id="formalism">
-<h2>Formalism<a class="headerlink" href="#formalism" title="Permalink to this headline">¶</a></h2>
-<div class="math notranslate nohighlight" id="equation-srm-eq-1">
-<span class="eqno">()<a class="headerlink" href="#equation-srm-eq-1" title="Permalink to this equation">¶</a></span>\[\begin{split}\forall_i \in {1 ... n}, X_i[τ] ~ N(S[τ]W_i, σ^2 I_v) \\
-\mathbf{W}_i\mathbf{W}^\intercal_i = \mathbf{I}_k\end{split}\]</div>
-<p>Maximizing the log-likelihood we obtain the following optimization problem:</p>
-<div class="math notranslate nohighlight" id="equation-srm-eq-2">
-<span class="eqno">()<a class="headerlink" href="#equation-srm-eq-2" title="Permalink to this equation">¶</a></span>\[\begin{split}\min{W_1, ... ,W_n, S} \Sigma{i=1}^n ||Xi − SW_i||_2 \\
-\text{such that} \forall_i \in {1, ..., n}
-\mathbf{W}_i\mathbf{W}^\intercal_i = \mathbf{I}_k\end{split}\]</div>
-<p>This can be solved efficiently using alternate minimization on <span class="math notranslate nohighlight">\((W1, ..., Wn)\)</span>
-and <span class="math notranslate nohighlight">\(S\)</span>.
-At each iteration we have two problems to solve that have a closed form
-solution:</p>
-<div class="math notranslate nohighlight" id="equation-srm-eq-3">
-<span class="eqno">()<a class="headerlink" href="#equation-srm-eq-3" title="Permalink to this equation">¶</a></span>\[\begin{split}\forall_i \in {1, ..., n},
-\arg\min_{\mathbf{W}}\Sigma_{j=1}^n ||X_j − SW_j||^2 = U_iV_i \\
-\text{where} Ui, Di, Vi = SVD(S^\intercal X_i) \\
-\text{such that} \mathbf{W}_i\mathbf{W}^\intercal_i = \mathbf{I}_k\end{split}\]</div>
-<div class="math notranslate nohighlight" id="equation-srm-eq-4">
-<span class="eqno">()<a class="headerlink" href="#equation-srm-eq-4" title="Permalink to this equation">¶</a></span>\[\arg\min_{\mathbf{S}}\Sigma_{i=1}^n ||X_i − SW_i||^2 = 1 / n \Sigma_{i=1}^n X_i W_i^\intercal\]</div>
-</div>
-<div class="section" id="implementation">
-<h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h2>
-<p>Accessible implementations are available in <code class="docutils literal notranslate"><span class="pre">brainiak.funcalign.srm.DetSRM</span></code>,
-with an optimized implementation in <code class="docutils literal notranslate"><span class="pre">brainiak.funcalign.fastsrm.FastSRM</span></code>.</p>
-</div>
+  <div class="section" id="finding-similarity-with-functional-alignment">
+<h1>Finding similarity with functional alignment<a class="headerlink" href="#finding-similarity-with-functional-alignment" title="Permalink to this headline">¶</a></h1>
+<p>At a high-level, the goal of functional alignmentis to make two distributions of participant activity patterns look as similar as possible,
+given certain constraints on the transformation.
+The precise constraints differ according to the method; however, we are only interested in methods which generate linear mappings.
+The resulting transformations, then, should improve functional similarity while retaining as much information as possible about individual participants or conditions.</p>
+<p>The methods used to create these transformations can be considered as part of a broader class of “distribution alignment” methods.
+Although distribution alignment is used in domain adaptation,
+functional alignment is unique in that we generally have access to both the “source” and “target” distributions and are trying to learn a relationship between them,
+rather than transferring a learnt relationship from one distribution to another.</p>
+<p>The next five tutorials detail different methods for functionally aligning two (or more) high-dimensional, voxel spaces.</p>
 </div>
 
     <script type="text/x-thebe-config">
@@ -280,6 +289,24 @@ with an optimized implementation in <code class="docutils literal notranslate"><
 
 <div class='prev-next-bottom'>
     
+    <div id="prev">
+        <a class="left-prev" href="0-2-comparing-spaces.html" title="previous page">
+            <i class="prevnext-label fas fa-angle-left"></i>
+            <div class="prevnext-info">
+                <p class="prevnext-label">previous</p>
+                <p class="prevnext-title">Comparing across functional spaces</p>
+            </div>
+        </a>
+    </div>
+     <div id="next">
+        <a class="right-next" href="1-1-ridge-regression.html" title="next page">
+            <div class="prevnext-info">
+                <p class="prevnext-label">next</p>
+                <p class="prevnext-title">Ridge Regression</p>
+            </div>
+            <i class="prevnext-label fas fa-angle-right"></i>
+        </a>
+     </div>
 
 </div>
         
