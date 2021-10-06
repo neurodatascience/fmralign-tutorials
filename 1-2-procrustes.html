@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Procrustes alignment &#8212; Functional Alignment</title>
+    <title>3. Procrustes alignment &#8212; Functional Alignment</title>
     
   <link href="_static/css/theme.css" rel="stylesheet" />
   <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -53,8 +53,8 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Optimal Transport" href="1-3-optimal-transport.html" />
-    <link rel="prev" title="Ridge Regression" href="1-1-ridge-regression.html" />
+    <link rel="next" title="4. Optimal Transport" href="1-3-optimal-transport.html" />
+    <link rel="prev" title="2. Ridge Regression" href="1-1-ridge-regression.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -98,12 +98,12 @@
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="0-1-functional-spaces.html">
-   Defining functional spaces
+   1. Defining functional spaces
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="0-2-comparing-spaces.html">
-   Comparing across functional spaces
+   2. Comparing across functional spaces
   </a>
  </li>
 </ul>
@@ -115,32 +115,32 @@
 <ul class="current nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="1-0-intro.html">
-   Finding similarity with functional alignment
+   1. Finding similarity with functional alignment
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="1-1-ridge-regression.html">
-   Ridge Regression
+   2. Ridge Regression
   </a>
  </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   Procrustes alignment
+   3. Procrustes alignment
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="1-3-optimal-transport.html">
-   Optimal Transport
+   4. Optimal Transport
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="1-4-cca.html">
-   Regularized Canonical Correlation Analysis
+   5. Regularized Canonical Correlation Analysis
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="1-5-shared-response-model.html">
-   Shared Response Modelling (SRM)
+   6. Shared Response Modelling (SRM)
   </a>
  </li>
 </ul>
@@ -152,7 +152,7 @@
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="2-0-related-methods.html">
-   Related methods
+   1. Related methods
   </a>
  </li>
 </ul>
@@ -248,46 +248,46 @@
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#orthogonal-procrustes">
-   Orthogonal Procrustes
+   3.1. Orthogonal Procrustes
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#formalism">
-     Formalism
+     3.1.1. Formalism
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#implementation">
-     Implementation
+     3.1.2. Implementation
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#generalized-procrustes">
-   Generalized Procrustes
+   3.2. Generalized Procrustes
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#id2">
-     Formalism
+     3.2.1. Formalism
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#id3">
-     Implementation
+     3.2.2. Implementation
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#useful-resources">
-   Useful resources
+   3.3. Useful resources
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#references">
-   References
+   3.4. References
   </a>
  </li>
 </ul>
@@ -302,7 +302,7 @@
               <div>
                 
   <div class="section" id="procrustes-alignment">
-<h1>Procrustes alignment<a class="headerlink" href="#procrustes-alignment" title="Permalink to this headline">¶</a></h1>
+<h1><span class="section-number">3. </span>Procrustes alignment<a class="headerlink" href="#procrustes-alignment" title="Permalink to this headline">¶</a></h1>
 <p>Originally introduced in <span id="id1">[<a class="reference internal" href="#id14">Schönemann, 1966</a>]</span>,
 Procrustes analysis is a form of statistical shape analysis which focusses on comparing the geometry of two objects or data sets.
 Although it may seem unusual to think of distributions in terms of geometry,
@@ -317,7 +317,7 @@ thereby minimizing the total distance between the distributions.</p>
 the ancient innkeeper from Greek mythology who stretched or cut off traveller’s limbs so they would fit his bed.</p>
 </div>
 <div class="section" id="orthogonal-procrustes">
-<h2>Orthogonal Procrustes<a class="headerlink" href="#orthogonal-procrustes" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">3.1. </span>Orthogonal Procrustes<a class="headerlink" href="#orthogonal-procrustes" title="Permalink to this headline">¶</a></h2>
 <p>Our goal, then, is to find linear transformations that minimize the total distance between the two distributions.
 By further assuming that each distribution has exactly the same number of voxels <span class="math notranslate nohighlight">\(p\)</span> measured over the same <span class="math notranslate nohighlight">\(n\)</span> observations,
 we can consider that we are comparing two shapes with a known one-to-one mapping;
@@ -325,7 +325,7 @@ i.e. the <span class="math notranslate nohighlight">\(i\)</span>-th voxel in the
 Procrustes analysis allows us to align the shapes as closely as possible through linear mapping
 and to quantify how much they differ after this alignment.</p>
 <div class="section" id="formalism">
-<h3>Formalism<a class="headerlink" href="#formalism" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">3.1.1. </span>Formalism<a class="headerlink" href="#formalism" title="Permalink to this headline">¶</a></h3>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -339,15 +339,15 @@ and to quantify how much they differ after this alignment.</p>
 <p>For our two distributions <span class="math notranslate nohighlight">\(\mathbf{X} \in \mathbb{R}^{n \times p}\)</span> and
 <span class="math notranslate nohighlight">\(\mathbf{Y} \in \mathbb{R}^{n \times p}\)</span>, Procrustes solves the following minimization:</p>
 <div class="math notranslate nohighlight" id="equation-procrustes-eq-1">
-<span class="eqno">(9)<a class="headerlink" href="#equation-procrustes-eq-1" title="Permalink to this equation">¶</a></span>\[\begin{split}\arg\min_{\mathbf{R}} ||\mathbf{R} \mathbf{X} - \mathbf{Y}||_F^2 \\
+<span class="eqno">(3.1)<a class="headerlink" href="#equation-procrustes-eq-1" title="Permalink to this equation">¶</a></span>\[\begin{split}\arg\min_{\mathbf{R}} ||\mathbf{R} \mathbf{X} - \mathbf{Y}||_F^2 \\
 \mathbf{R}^\intercal\mathbf{R} = \mathbf{I}\end{split}\]</div>
 <p>Where <span class="math notranslate nohighlight">\(|| \cdot ||_F\)</span> indicates the Frobenius norm,
 which corresponds to the elementwise Euclidean distance.</p>
 <div class="math notranslate nohighlight" id="equation-procrustes-eq-2">
-<span class="eqno">(10)<a class="headerlink" href="#equation-procrustes-eq-2" title="Permalink to this equation">¶</a></span>\[\begin{split}\arg\max_{\mathbf{R}} \mathrm{Tr}\hspace{1pt}(\mathbf{R} \mathbf{X} \mathbf{Y}^T) \\
+<span class="eqno">(3.2)<a class="headerlink" href="#equation-procrustes-eq-2" title="Permalink to this equation">¶</a></span>\[\begin{split}\arg\max_{\mathbf{R}} \mathrm{Tr}\hspace{1pt}(\mathbf{R} \mathbf{X} \mathbf{Y}^T) \\
 \mathbf{R}^\intercal\mathbf{R} = \mathbf{I}\end{split}\]</div>
 <div class="math notranslate nohighlight" id="equation-procrustes-eq-3">
-<span class="eqno">(11)<a class="headerlink" href="#equation-procrustes-eq-3" title="Permalink to this equation">¶</a></span>\[\begin{split}\arg\max_{\mathbf{R}} \mathrm{Tr}\hspace{1pt}(\mathbf{R} \mathbf{U} \Sigma \mathbf{V}^\intercal) \\
+<span class="eqno">(3.3)<a class="headerlink" href="#equation-procrustes-eq-3" title="Permalink to this equation">¶</a></span>\[\begin{split}\arg\max_{\mathbf{R}} \mathrm{Tr}\hspace{1pt}(\mathbf{R} \mathbf{U} \Sigma \mathbf{V}^\intercal) \\
 \mathbf{R}^\intercal\mathbf{R} = \mathbf{I}\end{split}\]</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -369,7 +369,7 @@ which corresponds to the elementwise Euclidean distance.</p>
 </div>
 </div>
 <div class="section" id="implementation">
-<h3>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">3.1.2. </span>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h3>
 <p>Optimized implementations are available in <code class="docutils literal notranslate"><span class="pre">scipy.linalg.orthogonal_procrustes</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -383,22 +383,22 @@ which corresponds to the elementwise Euclidean distance.</p>
 </div>
 </div>
 <div class="section" id="generalized-procrustes">
-<h2>Generalized Procrustes<a class="headerlink" href="#generalized-procrustes" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">3.2. </span>Generalized Procrustes<a class="headerlink" href="#generalized-procrustes" title="Permalink to this headline">¶</a></h2>
 <p>Generalized Procrustes analysis differs from Procrustes analysis in two ways.
 First, generalized Procrustes includes both the orthogonal transformations of Procrustes (i.e., rotations and reflections),
 as well as additional scaling and translation transformations.
 Second, generalized Procrustes can be applied to more than two shapes through the iterative use of a reference shape.</p>
 <p>We can formally express the generalized Procrustes problem as:</p>
 <div class="math notranslate nohighlight" id="equation-general-procrustes-eq-1">
-<span class="eqno">(12)<a class="headerlink" href="#equation-general-procrustes-eq-1" title="Permalink to this equation">¶</a></span>\[\begin{split}\min_{\mathbf{R}= s\mathbf{M}} ||\mathbf{R} \mathbf{X} - \mathbf{Y}||_F^2 \\
+<span class="eqno">(3.4)<a class="headerlink" href="#equation-general-procrustes-eq-1" title="Permalink to this equation">¶</a></span>\[\begin{split}\min_{\mathbf{R}= s\mathbf{M}} ||\mathbf{R} \mathbf{X} - \mathbf{Y}||_F^2 \\
 s\in\mathbb{R^+}, \enspace \mathbf{M} \in \mathbb{R}^{p \times p} \text{ s.t. } \mathbf{M}^\intercal\mathbf{M} = \mathbf{I}_p\end{split}\]</div>
 <div class="section" id="id2">
-<h3>Formalism<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">3.2.1. </span>Formalism<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <div class="math notranslate nohighlight" id="equation-general-procrustes-eq-2">
-<span class="eqno">(13)<a class="headerlink" href="#equation-general-procrustes-eq-2" title="Permalink to this equation">¶</a></span>\[A = B + C\]</div>
+<span class="eqno">(3.5)<a class="headerlink" href="#equation-general-procrustes-eq-2" title="Permalink to this equation">¶</a></span>\[A = B + C\]</div>
 </div>
 <div class="section" id="id3">
-<h3>Implementation<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">3.2.2. </span>Implementation<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <p>Optimized implementations are available in <code class="docutils literal notranslate"><span class="pre">scipy.spatial.procrustes</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -412,13 +412,13 @@ s\in\mathbb{R^+}, \enspace \mathbf{M} \in \mathbb{R}^{p \times p} \text{ s.t. } 
 </div>
 </div>
 <div class="section" id="useful-resources">
-<h2>Useful resources<a class="headerlink" href="#useful-resources" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">3.3. </span>Useful resources<a class="headerlink" href="#useful-resources" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="https://simonensemble.github.io/2018-10/orthogonal-procrustes.html">Cory Simon blog on orthogonal Procrustes</a></p></li>
 </ul>
 </div>
 <div class="section" id="references">
-<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">3.4. </span>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
 <p id="id4"><dl class="citation">
 <dt class="label" id="id14"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
 <dd><p>Peter H Schönemann. A generalized solution of the orthogonal procrustes problem. <em>Psychometrika</em>, 31(1):1–10, March 1966.</p>
@@ -462,7 +462,7 @@ s\in\mathbb{R^+}, \enspace \mathbf{M} \in \mathbb{R}^{p \times p} \text{ s.t. } 
             <i class="prevnext-label fas fa-angle-left"></i>
             <div class="prevnext-info">
                 <p class="prevnext-label">previous</p>
-                <p class="prevnext-title">Ridge Regression</p>
+                <p class="prevnext-title"><span class="section-number">2. </span>Ridge Regression</p>
             </div>
         </a>
     </div>
@@ -470,7 +470,7 @@ s\in\mathbb{R^+}, \enspace \mathbf{M} \in \mathbb{R}^{p \times p} \text{ s.t. } 
         <a class="right-next" href="1-3-optimal-transport.html" title="next page">
             <div class="prevnext-info">
                 <p class="prevnext-label">next</p>
-                <p class="prevnext-title">Optimal Transport</p>
+                <p class="prevnext-title"><span class="section-number">4. </span>Optimal Transport</p>
             </div>
             <i class="prevnext-label fas fa-angle-right"></i>
         </a>
