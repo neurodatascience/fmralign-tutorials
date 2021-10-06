@@ -57,14 +57,14 @@ Although each of these representations equivalently summarize the data,
 we focus on the _N_-dimensional activity space to highlight a more geometric intuition for these methods.
 Note that as we increase the number of voxels, we also increase the number of dimensions.
 
-## Useful resources
-
-- [3Blue1Brown video on high-dimensional spaces](https://www.youtube.com/watch?v=zwAD6dRSVyI)
-- [Marc Khoury blog on counterintuitive properties of high-dimensional spaces](https://marckhoury.github.io/blog/counterintuitive-properties-of-high-dimensional-space)
-
 ## References
 
 ```{bibliography}
 :style: unsrt
 :filter: docname in docnames
 ```
+
+## Other useful resources
+
+- [3Blue1Brown video on high-dimensional spaces](https://www.youtube.com/watch?v=zwAD6dRSVyI)
+- [Marc Khoury blog on counterintuitive properties of high-dimensional spaces](https://marckhoury.github.io/blog/counterintuitive-properties-of-high-dimensional-space)

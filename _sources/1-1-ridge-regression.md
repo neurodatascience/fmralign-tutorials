@@ -111,7 +111,7 @@ R = RidgeCV(alphas=self.alphas, fit_intercept=True,
 R.fit(X, Y)
 ```
 
-## Useful resources
+## Other useful resources
 
 * [Alexander Huth tutorial on ridge regression with word embeddings](https://github.com/neurohackademy/nh2020-curriculum/tree/master/we-word-embeddings-huth)
 * [L1 vs L2 norms](https://www.kaggle.com/residentmario/l1-norms-versus-l2-norms)
