@@ -23,10 +23,12 @@ we can directly compare the $i$-th sample across $X$ and $Y$.
 The goal in Procrustes is to find a single orthogonal transformation that minimizes the sum-of-squares distances between all $n$ $X$, $Y$ pairs,
 thereby minimizing the total distance between the distributions.
 
-```{margin}
+````{margin}
+```{note}
 Procrustes analysis is named for the legend of Procrustes,
 the ancient innkeeper from Greek mythology who stretched or cut off traveller's limbs so they would fit his bed.
 ```
+````
 
 ## Orthogonal Procrustes
 
@@ -125,13 +127,13 @@ from scipy.spatial import procrustes
 mtx1, mtx2, disp = procrustes(X, Y)
 ```
 
-## Useful resources
-
-* [Cory Simon blog on orthogonal Procrustes](https://simonensemble.github.io/2018-10/orthogonal-procrustes.html)
-
 ## References
 
 ```{bibliography}
 :style: unsrt
 :filter: docname in docnames
 ```
+
+## Other useful resources
+
+* [Cory Simon blog on orthogonal Procrustes](https://simonensemble.github.io/2018-10/orthogonal-procrustes.html)

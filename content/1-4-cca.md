@@ -192,13 +192,13 @@ x_a = np.random.rand(1, 2)
 x_b = np.random.rand(1, 3)
 ```
 
-## Useful resources
-
-* https://gregorygundersen.com/blog/2018/07/17/cca/
-
 ## References
 
 ```{bibliography}
 :style: unsrt
 :filter: docname in docnames
 ```
+
+## Other useful resources
+
+* [Gregory Gundersen blog post](https://gregorygundersen.com/blog/2018/07/17/cca/)

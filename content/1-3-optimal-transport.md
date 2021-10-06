@@ -44,7 +44,7 @@ Efficient implementations in Python are available through the `POT` and `OTT` pa
 import POT
 ```
 
-## Useful resources
+## Other useful resources
 
 * [Leyla Tarhan's blogpost series on Wasserstein distance](http://lytarhan.rbind.io/categories/wasserstein-distance/)
 * [Broad Institute summary of applied Optimal Transport](https://www.youtube.com/watch?v=aio1lAE-h_I)

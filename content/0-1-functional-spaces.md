@@ -57,21 +57,14 @@ Although each of these representations equivalently summarize the data,
 we focus on the _N_-dimensional activity space to highlight a more geometric intuition for these methods.
 Note that as we increase the number of voxels, we also increase the number of dimensions.
 
-```{margin}
-Some _latent factor models_ reduce the number of dimensions using an initial decomposition.
-The idea is that there may be several latent factors supporting voxel-level activity patterns,
-and we can therefore capture relevant information even in a lower dimensional space.
-We will cover one such latent factor model, the Shared Response Model, in these tutorials.
-```
-
-## Useful resources
-
-- [3Blue1Brown video on high-dimensional spaces](https://www.youtube.com/watch?v=zwAD6dRSVyI)
-- [Marc Khoury blog on counterintuitive properties of high-dimensional spaces](https://marckhoury.github.io/blog/counterintuitive-properties-of-high-dimensional-space)
-
 ## References
 
 ```{bibliography}
 :style: unsrt
 :filter: docname in docnames
 ```
+
+## Other useful resources
+
+- [3Blue1Brown video on high-dimensional spaces](https://www.youtube.com/watch?v=zwAD6dRSVyI)
+- [Marc Khoury blog on counterintuitive properties of high-dimensional spaces](https://marckhoury.github.io/blog/counterintuitive-properties-of-high-dimensional-space)
