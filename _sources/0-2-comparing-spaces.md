@@ -53,6 +53,12 @@ Other methods will allow the number of voxels to vary across distributions.
 When variable voxels are allowed, we will denote the number of voxels as $p_1$ or $p_2$,
 corresponding to the relevant distribution.
 
+```{note}
+Some _latent factor models_ reduce the number of dimensions using an initial decomposition.
+The idea is that there may be several latent factors supporting voxel-level activity patterns,
+and we can therefore capture relevant information even in a lower dimensional space.
+```
+
 ## References
 
 ```{bibliography}
