@@ -11,7 +11,7 @@ kernelspec:
   name: python3
 ---
 
-# Shared Response Modelling (SRM)
+# Shared Response Model
 
 Shared Response Modelling (SRM) is a _latent factor model_.
 This means that--rather than searching for direct correspondences across subjects--an initial dimensionality reduction is

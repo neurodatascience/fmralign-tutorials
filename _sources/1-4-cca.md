@@ -7,7 +7,7 @@ kernelspec:
   name: python3
 ---
 
-# Regularized Canonical Correlation Analysis
+# Canonical Correlation Analysis
 
 Canonical correlation analysis (CCA) is a form of multi-view learning
 where we have paired observations or "views" that contain complementary information on an underlying (or "latent") process.

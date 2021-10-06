@@ -11,7 +11,7 @@ kernelspec:
   name: python3
 ---
 
-# Comparing across functional spaces
+# Distribution alignment
 
 Traditionally, we would extract the activity time courses for voxels of interest,
 such that we had two graphs of voxel activity over time.
@@ -52,7 +52,6 @@ For some methods, we will enforce that every distribution has exactly the same n
 Other methods will allow the number of voxels to vary across distributions.
 When variable voxels are allowed, we will denote the number of voxels as $p_1$ or $p_2$,
 corresponding to the relevant distribution.
-
 
 ## References
 
