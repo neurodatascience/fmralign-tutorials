@@ -11,7 +11,7 @@ kernelspec:
   name: python3
 ---
 
-# Finding similarity with functional alignment
+# Linear mappings
 
 At a high-level, the goal of functional alignmentis to make two distributions of participant activity patterns look as similar as possible,
 given certain constraints on the transformation.
