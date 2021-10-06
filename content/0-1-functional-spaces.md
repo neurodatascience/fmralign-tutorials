@@ -11,7 +11,7 @@ kernelspec:
   name: python3
 ---
 
-# Defining functional spaces
+# Functional space
 
 Usually, we think of fMRI data as voxels in a 3D space of _x_, _y_, and _z_ coordinates.
 Thinking of our data this way highlights the spatial relationship of each voxel;

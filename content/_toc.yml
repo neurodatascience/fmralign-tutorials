@@ -7,7 +7,7 @@ parts:
   chapters:
   - file: 0-1-functional-spaces
   - file: 0-2-comparing-spaces
-- caption: Associated methods
+- caption: Considered methods
   chapters:
   - file: 1-0-intro
   - file: 1-1-ridge-regression

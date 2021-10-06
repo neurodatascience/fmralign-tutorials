@@ -46,5 +46,5 @@ import POT
 
 ## Useful resources
 
-- [Leyla Tarhan's blogpost series on Wasserstein distance](http://lytarhan.rbind.io/categories/wasserstein-distance/)
-- [Broad Institute summary of applied Optimal Transport](https://www.youtube.com/watch?v=aio1lAE-h_I)
+* [Leyla Tarhan's blogpost series on Wasserstein distance](http://lytarhan.rbind.io/categories/wasserstein-distance/)
+* [Broad Institute summary of applied Optimal Transport](https://www.youtube.com/watch?v=aio1lAE-h_I)

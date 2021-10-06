@@ -11,9 +11,9 @@ kernelspec:
   name: python3
 ---
 
-# Finding similarity with functional alignment
+# Inclusion criteria
 
-At a high-level, the goal of functional alignmentis to make two distributions of participant activity patterns look as similar as possible,
+At a high-level, the goal of functional alignment is to make two distributions of participant activity patterns look as similar as possible,
 given certain constraints on the transformation.
 The precise constraints differ according to the method; however, we are only interested in methods which generate linear mappings.
 The resulting transformations, then, should improve functional similarity while retaining as much information as possible about individual participants or conditions.
