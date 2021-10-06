@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>1. Defining functional spaces &#8212; Functional Alignment</title>
+    <title>Defining functional spaces &#8212; Functional Alignment</title>
     
   <link href="_static/css/theme.css" rel="stylesheet" />
   <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -51,7 +51,7 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="2. Comparing across functional spaces" href="0-2-comparing-spaces.html" />
+    <link rel="next" title="Comparing across functional spaces" href="0-2-comparing-spaces.html" />
     <link rel="prev" title="fmralign tutorials" href="0-0-overview.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
@@ -96,12 +96,12 @@
 <ul class="current nav bd-sidenav">
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   1. Defining functional spaces
+   Defining functional spaces
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="0-2-comparing-spaces.html">
-   2. Comparing across functional spaces
+   Comparing across functional spaces
   </a>
  </li>
 </ul>
@@ -197,12 +197,12 @@
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#useful-resources">
-   1.1. Useful resources
+   Useful resources
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#references">
-   1.2. References
+   References
   </a>
  </li>
 </ul>
@@ -217,7 +217,7 @@
               <div>
                 
   <div class="section" id="defining-functional-spaces">
-<h1><span class="section-number">1. </span>Defining functional spaces<a class="headerlink" href="#defining-functional-spaces" title="Permalink to this headline">¶</a></h1>
+<h1>Defining functional spaces<a class="headerlink" href="#defining-functional-spaces" title="Permalink to this headline">¶</a></h1>
 <p>Usually, we think of fMRI data as voxels in a 3D space of <em>x</em>, <em>y</em>, and <em>z</em> coordinates.
 Thinking of our data this way highlights the spatial relationship of each voxel;
 i.e., how near or far it is from another voxel of interest.</p>
@@ -229,10 +229,10 @@ For example, three representations of a given voxelwise activation pattern might
 <li><p>As a <strong>vector</strong> of relative activations for each voxel</p></li>
 <li><p>As activity points in an <strong><em>N</em>-dimensional activation space</strong>, where <em>N</em> is equal to the number of voxels</p></li>
 </ul>
-<p>Each of these methods are illustrated in <a class="reference internal" href="#churchland-1998-fig1-png"><span class="std std-numref">Fig. 1.1</span></a>.</p>
+<p>Each of these methods are illustrated in <a class="reference internal" href="#churchland-1998-fig1-png"><span class="std std-numref">Fig. 1</span></a>.</p>
 <div class="figure align-default" id="churchland-1998-fig1-png">
 <a class="reference internal image-reference" href="_images/churchland-1998-fig1.png"><img alt="_images/churchland-1998-fig1.png" src="_images/churchland-1998-fig1.png" style="height: 375px;" /></a>
-<p class="caption"><span class="caption-number">Fig. 1.1 </span><span class="caption-text">Three different ways of conceptualizing a given voxelwise activity pattern:
+<p class="caption"><span class="caption-number">Fig. 1 </span><span class="caption-text">Three different ways of conceptualizing a given voxelwise activity pattern:
 a histogram of activation levels, an activation vector, or a point in activation space.
 Figure adapted from <span id="id1">Churchland [<a class="reference internal" href="0-2-comparing-spaces.html#id13">1998</a>]</span>.</span><a class="headerlink" href="#churchland-1998-fig1-png" title="Permalink to this image">¶</a></p>
 </div>
@@ -241,10 +241,10 @@ That is, we can define a new two-dimensional space,
 where each dimension corresponds to one voxel’s activity.
 For each time point,
 we then include a single data point that indexes the relative activity of each voxel at that time point.
-This basic idea is illustrated in <a class="reference internal" href="#voxel-space-gif"><span class="std std-numref">Fig. 1.2</span></a>.</p>
+This basic idea is illustrated in <a class="reference internal" href="#voxel-space-gif"><span class="std std-numref">Fig. 2</span></a>.</p>
 <div class="figure align-default" id="voxel-space-gif">
 <a class="reference internal image-reference" href="_images/voxel_space.gif"><img alt="_images/voxel_space.gif" src="_images/voxel_space.gif" style="height: 375px;" /></a>
-<p class="caption"><span class="caption-number">Fig. 1.2 </span><span class="caption-text">Moving from anatomical space to a high-dimensional voxel space.
+<p class="caption"><span class="caption-number">Fig. 2 </span><span class="caption-text">Moving from anatomical space to a high-dimensional voxel space.
 Here, we only consider two voxels to aid in visualization.</span><a class="headerlink" href="#voxel-space-gif" title="Permalink to this image">¶</a></p>
 </div>
 <p>Although each of these representations equivalently summarize the data,
@@ -258,14 +258,14 @@ and we can therefore capture relevant information even in a lower dimensional sp
 We will cover one such latent factor model, the Shared Response Model, in these tutorials.</p>
 </div>
 <div class="section" id="useful-resources">
-<h2><span class="section-number">1.1. </span>Useful resources<a class="headerlink" href="#useful-resources" title="Permalink to this headline">¶</a></h2>
+<h2>Useful resources<a class="headerlink" href="#useful-resources" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="https://www.youtube.com/watch?v=zwAD6dRSVyI">3Blue1Brown video on high-dimensional spaces</a></p></li>
 <li><p><a class="reference external" href="https://marckhoury.github.io/blog/counterintuitive-properties-of-high-dimensional-space">Marc Khoury blog on counterintuitive properties of high-dimensional spaces</a></p></li>
 </ul>
 </div>
 <div class="section" id="references">
-<h2><span class="section-number">1.2. </span>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
 <p id="id2"><dl class="citation">
 <dt class="label" id="id13"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
 <dd><p>Paul M Churchland. Conceptual similarity across sensory and neural diversity: the Fodor/Lepore challenge answered. <em>Journal of Philosophy</em>, 95(1):5–32, 1998.</p>
@@ -317,7 +317,7 @@ We will cover one such latent factor model, the Shared Response Model, in these 
         <a class="right-next" href="0-2-comparing-spaces.html" title="next page">
             <div class="prevnext-info">
                 <p class="prevnext-label">next</p>
-                <p class="prevnext-title"><span class="section-number">2. </span>Comparing across functional spaces</p>
+                <p class="prevnext-title">Comparing across functional spaces</p>
             </div>
             <i class="prevnext-label fas fa-angle-right"></i>
         </a>
