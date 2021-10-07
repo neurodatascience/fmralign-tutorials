@@ -47,4 +47,6 @@ import POT
 ## Other useful resources
 
 * [Leyla Tarhan's blogpost series on Wasserstein distance](http://lytarhan.rbind.io/categories/wasserstein-distance/)
-* [Broad Institute summary of applied Optimal Transport](https://www.youtube.com/watch?v=aio1lAE-h_I)
+* [Gabriel Peyré's Mathematical Tour of Optimal Transport](https://mathematical-tours.github.io/book-basics-sources/ot-sources/TransportEN.pdf)
+* [Gabriel Peyré's Numerical Tour of Optimal Transport](https://nbviewer.org/github/gpeyre/numerical-tours/blob/master/python/optimaltransp_5_entropic.ipynb)
+<!-- * [Broad Institute summary of applied Optimal Transport](https://www.youtube.com/watch?v=aio1lAE-h_I) -->

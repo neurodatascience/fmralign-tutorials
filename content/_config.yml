@@ -1,6 +1,6 @@
 #######################################################################################
 # Book settings
-title                       : "Functional Alignment"  # The title of the book. Will be placed in the left navbar.
+title                       : "fmralign-tutorials"  # The title of the book. Will be placed in the left navbar.
 author                      : Elizabeth DuPre  # The author of the book
 copyright                   : "2021"  # Copyright year to be placed in the footer
 logo                        : ""  # A path to the book logo
@@ -28,6 +28,9 @@ html:
   home_page_in_navbar       : false  # Whether to include your home page in the left Navigation Bar
   baseurl                   : ""  # The base URL where your book will be hosted. Used for creating image previews and social links. e.g.: https://mypage.com/mybook/
   use_multitoc_numbering    : false
+  comments:
+    hypothesis              : false
+    utterances              : false
 
 #######################################################################################
 # Launch button settings
