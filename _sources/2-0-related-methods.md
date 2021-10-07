@@ -111,7 +111,6 @@ rather than stimuli which precisely align to an investigator's hypothesis.
 As a result, functional alignment methods do not provide a clear path to representational models,
 even though--like RSA--they involve examining individual-level representational geometries.
 
-
 ## Constraining functional alignment to local neighborhoods
 
 Since functional alignment is not guided by anatomical landmarks,
