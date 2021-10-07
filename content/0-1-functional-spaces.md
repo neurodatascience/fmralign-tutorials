@@ -13,10 +13,6 @@ kernelspec:
 
 # Functional space
 
-Usually, we think of fMRI data as voxels in a 3D space of _x_, _y_, and _z_ coordinates.
-Thinking of our data this way highlights the spatial relationship of each voxel;
-i.e., how near or far it is from another voxel of interest.
-
 There are other, non-spatial ways that we can conceptualize our data, however.
 At each time point, we can look at the relative activation of each voxel and create multiple, unique representations of our data.
 For example, three representations of a given voxelwise activation pattern might be:
@@ -26,6 +22,10 @@ For example, three representations of a given voxelwise activation pattern might
 - As activity points in an **_N_-dimensional activation space**, where _N_ is equal to the number of voxels
 
 Each of these methods are illustrated in {numref}`churchland-1998-fig1-png`.
+
+Usually, we think of fMRI data as voxels in a 3D space of _x_, _y_, and _z_ coordinates.
+Thinking of our data this way highlights the spatial relationship of each voxel;
+i.e., how near or far it is from another voxel of interest.
 
 ```{figure} ../images/churchland-1998-fig1.png
 ---

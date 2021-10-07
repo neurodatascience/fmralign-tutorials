@@ -13,15 +13,11 @@ kernelspec:
 
 # fmralign tutorials
 
-This is a series of tutorials to introduce the idea of "functional alignment" and its associated statistical methods.
-We aim to provide the intuitions behind each method alongside their mathematical definitions.
-We also illustrate their use on real functional magnetic resonance imaging (fMRI) data.
+This is a series of tutorials to introduce the idea of "functional alignment" and associated statistical methods.
+We aim to provide the intuitions behind each method alongside their implementations.
 
 Although this class of methods is broadly referred to as both _functional alignment methods_ and _hyperalignment methods_,
 we adopt the term _functional alignment methods_ to better distinguish from the specific Procrustes-based hyperalignment method in use in the literature.
-
-For these tutorials, we further constrain our definition of functional alignment to only include those methods which learn linear transformations.
-Other, non-linear methods are in active development, but we focus on linear methods as these broadly retain individual-specific information.
 
 Please note that these tutorials do not provide new implementations for functional alignment.
 There are already many of these available in existing software toolboxes,
@@ -33,12 +29,14 @@ including [fmralign](https://parietal-inria.github.io/fmralign-docs),
 First, we provide a brief summary of the intutions behind functional alignment.
 We then review five of the most popular methods for functional alignment:
 
-- Ridge regression
-- Procrustes analysis
-- Optimal transport
-- Canonical Correlation Analysis (CCA)
-- Shared Response Modelling (SRM)
+1. Ridge regression
+2. Procrustes analysis
+3. Optimal transport
+4. Canonical Correlation Analysis (CCA)
+5. Shared Response Modelling (SRM)
 
+For each method, we provide mathematical formalisms and corresponding Python code.
+We also point to optimized implementations available in other software libraries for use on real-world data.
 
 ## Running the tutorials
 
@@ -53,4 +51,4 @@ You can also download and run these files locally.
 Although functional alignment is used across several fields and research contexts,
 in these tutorials we draw on examples from our own field of cognitive neuroscience.
 The associated code and methods, however, can easily be adapted for other domains.
-For interested readers, we include a brief annotated bibliography in the final section.
+For interested readers, we include a brief overview of applications in other fields and annotated bibliography in the final section.
