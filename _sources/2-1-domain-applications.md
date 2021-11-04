@@ -19,8 +19,16 @@ In cognitive neuroscience, functional alignment methods have been developed and 
 
 ### Key references
 
+* {cite:ts}`Bazeille2021-xp`  
+  *Benchmarking performance of a range of functional alignment algorithims when applied to fMRI data*  
+  <br>
 * {cite:ts}`Haxby2020-px`  
   *A review of functional alignment in the cognitive neuroscience literature, with an emphasis on Procrustes-based methods applied to fMRI*  
+  <br>
+* {cite:ts}`Janati2020-iu`  
+  *Applications of functional alignment to M/EEG data showing an improved ability to compare across both subjects and modalities folowing functoinal alignment*  
+
+---
 
 ## Systems neuroscience
 
@@ -34,6 +42,8 @@ In systems neuroscience, latent variable functional alignment methods are widely
 * {cite:ts}`Williams2021-ur`  
   *A recent empirical paper advancing new, generalized shape metrics for aligning both biological and artificial neural network data.*  
 
+---
+
 ## Artificial intelligence
 
 In artificial intelligence, functional alignment methods can be used to compare networks with different initializations or at different stages in training.
@@ -44,6 +54,8 @@ In artificial intelligence, functional alignment methods can be used to compare 
   *An introduction to the problem of mis-aligned representations in connectivist systems broadly, including both biological and artificial networks. This early reference focuses on the logical arguments supporting functional alignment and does not directly contain any real or simulated data.*  
   <br>
 * {cite:ts}`Kornblith2019-bk`  
+
+---
 
 ```{bibliography}
 :style: unsrt
