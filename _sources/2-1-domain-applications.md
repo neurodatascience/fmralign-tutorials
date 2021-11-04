@@ -22,19 +22,15 @@ In artificial intelligence, functional alignment methods can be used to compare 
 
 * {cite:ts}`Churchland1998-lw`  
   *An introduction to the problem of mis-aligned representations in connectivist systems broadly, including both biological and artificial networks. This early reference focuses on the logical arguments supporting functional alignment and does not directly contain any real or simulated data.*  
-  
-
+  <br>
 * {cite:ts}`Dabagia_undated-wa`  
   *An overview of functional alignment in systems neuroscience applications, particularly through combining dimensionality reduction and distribution alignment techniques.*  
-  
-
+  <br>
 * {cite:ts}`Haxby2020-px`  
   *A review of functional alignment in the cognitive neuroscience literature, with an emphasis on Procrustes-based methods applied to fMRI*  
-
-
+  <br>
 * {cite:ts}`Williams2021-ur`  
   *A recent empirical paper advancing new, generalized shape metrics for aligning both biological and artificial neural network data.*  
-  
 
 ```{bibliography}
 :style: unsrt
