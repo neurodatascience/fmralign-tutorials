@@ -18,9 +18,8 @@ L1 norm.
 
 ## Formalism
 
-You say "I can break $s(t)$ into different parts, or features\". This transforms $s(t)$ into some other representation that we'll call $x(t)$. Let's say that the number of features in $x(t)$ is $p$.
-
-You say "I can predict $y(t)$ from a weighted combination of the features in $x(t)$". This means you are imagining a model that looks something like this,
+You say "I can predict $y(t)$ from a weighted combination of the features in $x(t)$".
+This means you are imagining a model that looks something like this,
 
 ```{math}
 :label: ridge_eq_1
@@ -41,14 +40,9 @@ y(t) = x(t) \beta + \epsilon(t)
 ```
 
 where $x(t)$ is now a $1 \times p$ vector of feature values and $\beta$ is a $p \times 1$ vector of weights.
-To deal with these equations more easily, we'll need to stack the values of $y(t)$ and $x(t)$ into matrices. Let's define those matrices like this:
 
-```{math}
-Y = \begin{bmatrix} y(t=1) \\\\ y(t=2) \\\\ \vdots \\\\ y(t=T) \end{bmatrix},
-X = \begin{bmatrix} x(t=1) \\\\ x(t=2) \\\\ \vdots \\\\ x(t=T) \end{bmatrix}
-```
-
-So we now have $Y$, which is a $T \times 1$ matrix of brain responses, and $X$, which is a $T \times p$ matrix of features that we extracted from the stimuli. If we also define $\epsilon$ as a vector of the same size as $Y$, then we can re-write the model like this:
+We stack these to create $Y$, which is a $T \times 1$ matrix of brain responses, and $X$, which is a $T \times p$ matrix of features that we extracted from the stimuli.
+If we also define $\epsilon$ as a vector of the same size as $Y$, then we can re-write the model like this:
 
 ```{math}
 :label: ridge_eq_3
@@ -78,14 +72,16 @@ or, in fancy linear algebra terms:
 \mathcal{L}_{ridge}(\beta) = (Y - X\beta)^\top (Y - X \beta) + \lambda \beta^\top \beta
 ```
 
-The first term on the right hand side of this equation is the same squared error loss that we used before for OLS. The second term is the sum of the squares of all the weights in $\beta$, multiplied by a scalar variable $\lambda$ that we will call the **ridge coefficient**
+The first term on the right hand side of this equation is the same squared error loss that we used before for OLS.
+The second term is the sum of the squares of all the weights in $\beta$, multiplied by a scalar variable $\lambda$ that we will call the **ridge coefficient**
 
 The ridge coefficient $\lambda$ determines the _strength_ of the regularization that's applied in ridge regression:
 
 * If you give $\lambda$ a large value, then the penalty term will be big relative to the loss, and the resulting weights will be very small. (In the limit of very large $\lambda$ you will force the weights to be almost exactly zero!)
 * If you give $\lambda$ a small value, then the penalty term will be small relative to the loss, and the resulting weights will not be too different from the OLS weights. (In the limit of $\lambda \rightarrow 0$, the penalty term will be zero and you'll get back exactly the OLS solution!)
 
-To get the ridge regression weights, $\beta_{ridge}$, you minimize the ridge loss function. We don't need to go through the full derivation of the solution (though it's pretty fun, and easy to do based on the matrix calculus we did for the OLS solution!), so let's just take a look at the answer:
+To get the ridge regression weights, $\beta_{ridge}$, you minimize the ridge loss function.
+We don't need to go through the full derivation of the solution (though it's pretty fun, and easy to do based on the matrix calculus we did for the OLS solution!), so let's just take a look at the answer:
 
 ```{math}
 :label: ridge_eq_7

@@ -43,8 +43,15 @@ where $\mathbf{x}_i \in \mathbb{R}^p$.
 For fMRI data, then, $n$ would be the number of time points sampled,
 while $p$ is the number of voxels considered.
 
-If we stack all of our data points into two matrices
---one for each distribution-- we can represent our two distributions as
+To deal with these equations more easily, we'll need to stack the values of $x$ and $y$ into matrices.
+Let's define those matrices like this:
+
+```{math}
+Y = \begin{bmatrix} y(i=1) \\\\ y(i=2) \\\\ \vdots \\\\ y(i=n) \end{bmatrix},
+X = \begin{bmatrix} x(i=1) \\\\ x(i=2) \\\\ \vdots \\\\ x(i=n) \end{bmatrix}
+```
+
+Now we have our two distributions
 $\mathbf{X} \in \mathbb{R}^{n \times p}$ and
 $\mathbf{Y} \in \mathbb{R}^{n \times p}$.
 
