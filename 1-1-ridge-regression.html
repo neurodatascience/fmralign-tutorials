@@ -281,8 +281,8 @@
 L1 norm.</p>
 <div class="section" id="formalism">
 <h2><span class="section-number">2.1. </span>Formalism<a class="headerlink" href="#formalism" title="Permalink to this headline">¶</a></h2>
-<p>You say “I can break <span class="math notranslate nohighlight">\(s(t)\)</span> into different parts, or features”. This transforms <span class="math notranslate nohighlight">\(s(t)\)</span> into some other representation that we’ll call <span class="math notranslate nohighlight">\(x(t)\)</span>. Let’s say that the number of features in <span class="math notranslate nohighlight">\(x(t)\)</span> is <span class="math notranslate nohighlight">\(p\)</span>.</p>
-<p>You say “I can predict <span class="math notranslate nohighlight">\(y(t)\)</span> from a weighted combination of the features in <span class="math notranslate nohighlight">\(x(t)\)</span>”. This means you are imagining a model that looks something like this,</p>
+<p>You say “I can predict <span class="math notranslate nohighlight">\(y(t)\)</span> from a weighted combination of the features in <span class="math notranslate nohighlight">\(x(t)\)</span>”.
+This means you are imagining a model that looks something like this,</p>
 <div class="math notranslate nohighlight" id="equation-ridge-eq-1">
 <span class="eqno">(2.1)<a class="headerlink" href="#equation-ridge-eq-1" title="Permalink to this equation">¶</a></span>\[y(t) = \sum_{i=1}^p x_i(t) \beta_i + \epsilon(t)\]</div>
 <p>where:</p>
@@ -294,12 +294,9 @@ L1 norm.</p>
 <p>Since this model is just a weighted sum, we can write it more simply using a little linear algebra:</p>
 <div class="math notranslate nohighlight" id="equation-ridge-eq-2">
 <span class="eqno">(2.2)<a class="headerlink" href="#equation-ridge-eq-2" title="Permalink to this equation">¶</a></span>\[y(t) = x(t) \beta + \epsilon(t)\]</div>
-<p>where <span class="math notranslate nohighlight">\(x(t)\)</span> is now a <span class="math notranslate nohighlight">\(1 \times p\)</span> vector of feature values and <span class="math notranslate nohighlight">\(\beta\)</span> is a <span class="math notranslate nohighlight">\(p \times 1\)</span> vector of weights.
-To deal with these equations more easily, we’ll need to stack the values of <span class="math notranslate nohighlight">\(y(t)\)</span> and <span class="math notranslate nohighlight">\(x(t)\)</span> into matrices. Let’s define those matrices like this:</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}Y = \begin{bmatrix} y(t=1) \\\\ y(t=2) \\\\ \vdots \\\\ y(t=T) \end{bmatrix},
-X = \begin{bmatrix} x(t=1) \\\\ x(t=2) \\\\ \vdots \\\\ x(t=T) \end{bmatrix}\end{split}\]</div>
-<p>So we now have <span class="math notranslate nohighlight">\(Y\)</span>, which is a <span class="math notranslate nohighlight">\(T \times 1\)</span> matrix of brain responses, and <span class="math notranslate nohighlight">\(X\)</span>, which is a <span class="math notranslate nohighlight">\(T \times p\)</span> matrix of features that we extracted from the stimuli. If we also define <span class="math notranslate nohighlight">\(\epsilon\)</span> as a vector of the same size as <span class="math notranslate nohighlight">\(Y\)</span>, then we can re-write the model like this:</p>
+<p>where <span class="math notranslate nohighlight">\(x(t)\)</span> is now a <span class="math notranslate nohighlight">\(1 \times p\)</span> vector of feature values and <span class="math notranslate nohighlight">\(\beta\)</span> is a <span class="math notranslate nohighlight">\(p \times 1\)</span> vector of weights.</p>
+<p>We stack these to create <span class="math notranslate nohighlight">\(Y\)</span>, which is a <span class="math notranslate nohighlight">\(T \times 1\)</span> matrix of brain responses, and <span class="math notranslate nohighlight">\(X\)</span>, which is a <span class="math notranslate nohighlight">\(T \times p\)</span> matrix of features that we extracted from the stimuli.
+If we also define <span class="math notranslate nohighlight">\(\epsilon\)</span> as a vector of the same size as <span class="math notranslate nohighlight">\(Y\)</span>, then we can re-write the model like this:</p>
 <div class="math notranslate nohighlight" id="equation-ridge-eq-3">
 <span class="eqno">(2.3)<a class="headerlink" href="#equation-ridge-eq-3" title="Permalink to this equation">¶</a></span>\[Y = X \beta + \epsilon\]</div>
 <p>Remember when we talked about the noise term, <span class="math notranslate nohighlight">\(\epsilon(t)\)</span>? We said it was any part of <span class="math notranslate nohighlight">\(y(t)\)</span> that couldn’t be predicted from <span class="math notranslate nohighlight">\(x(t)\)</span>. We can write this mathematically as the difference between <span class="math notranslate nohighlight">\(y(t)\)</span> and the predicted value based on <span class="math notranslate nohighlight">\(x(t)\)</span> and our estimated weights (this comes from re-arranging the equation above:</p>
@@ -312,13 +309,15 @@ X = \begin{bmatrix} x(t=1) \\\\ x(t=2) \\\\ \vdots \\\\ x(t=T) \end{bmatrix}\end
 <p>or, in fancy linear algebra terms:</p>
 <div class="math notranslate nohighlight" id="equation-ridge-eq-6">
 <span class="eqno">(2.6)<a class="headerlink" href="#equation-ridge-eq-6" title="Permalink to this equation">¶</a></span>\[\mathcal{L}_{ridge}(\beta) = (Y - X\beta)^\top (Y - X \beta) + \lambda \beta^\top \beta\]</div>
-<p>The first term on the right hand side of this equation is the same squared error loss that we used before for OLS. The second term is the sum of the squares of all the weights in <span class="math notranslate nohighlight">\(\beta\)</span>, multiplied by a scalar variable <span class="math notranslate nohighlight">\(\lambda\)</span> that we will call the <strong>ridge coefficient</strong></p>
+<p>The first term on the right hand side of this equation is the same squared error loss that we used before for OLS.
+The second term is the sum of the squares of all the weights in <span class="math notranslate nohighlight">\(\beta\)</span>, multiplied by a scalar variable <span class="math notranslate nohighlight">\(\lambda\)</span> that we will call the <strong>ridge coefficient</strong></p>
 <p>The ridge coefficient <span class="math notranslate nohighlight">\(\lambda\)</span> determines the <em>strength</em> of the regularization that’s applied in ridge regression:</p>
 <ul class="simple">
 <li><p>If you give <span class="math notranslate nohighlight">\(\lambda\)</span> a large value, then the penalty term will be big relative to the loss, and the resulting weights will be very small. (In the limit of very large <span class="math notranslate nohighlight">\(\lambda\)</span> you will force the weights to be almost exactly zero!)</p></li>
 <li><p>If you give <span class="math notranslate nohighlight">\(\lambda\)</span> a small value, then the penalty term will be small relative to the loss, and the resulting weights will not be too different from the OLS weights. (In the limit of <span class="math notranslate nohighlight">\(\lambda \rightarrow 0\)</span>, the penalty term will be zero and you’ll get back exactly the OLS solution!)</p></li>
 </ul>
-<p>To get the ridge regression weights, <span class="math notranslate nohighlight">\(\beta_{ridge}\)</span>, you minimize the ridge loss function. We don’t need to go through the full derivation of the solution (though it’s pretty fun, and easy to do based on the matrix calculus we did for the OLS solution!), so let’s just take a look at the answer:</p>
+<p>To get the ridge regression weights, <span class="math notranslate nohighlight">\(\beta_{ridge}\)</span>, you minimize the ridge loss function.
+We don’t need to go through the full derivation of the solution (though it’s pretty fun, and easy to do based on the matrix calculus we did for the OLS solution!), so let’s just take a look at the answer:</p>
 <div class="math notranslate nohighlight" id="equation-ridge-eq-7">
 <span class="eqno">(2.7)<a class="headerlink" href="#equation-ridge-eq-7" title="Permalink to this equation">¶</a></span>\[\beta_{ridge} = (X^\top X + \lambda I)^{-1} X^\top Y\]</div>
 <p>Compute <span class="math notranslate nohighlight">\(R\)</span> s.t. <span class="math notranslate nohighlight">\(|| XR - Y ||^2 + alpha ||R||^2\)</span> is minimized with CV.</p>

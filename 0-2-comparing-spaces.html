@@ -293,8 +293,12 @@ or from the same participant in two different psychological tasks.</p>
 where <span class="math notranslate nohighlight">\(\mathbf{x}_i \in \mathbb{R}^p\)</span>.</p>
 <p>For fMRI data, then, <span class="math notranslate nohighlight">\(n\)</span> would be the number of time points sampled,
 while <span class="math notranslate nohighlight">\(p\)</span> is the number of voxels considered.</p>
-<p>If we stack all of our data points into two matrices
-–one for each distribution– we can represent our two distributions as
+<p>To deal with these equations more easily, we’ll need to stack the values of <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> into matrices.
+Let’s define those matrices like this:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}Y = \begin{bmatrix} y(i=1) \\\\ y(i=2) \\\\ \vdots \\\\ y(i=n) \end{bmatrix},
+X = \begin{bmatrix} x(i=1) \\\\ x(i=2) \\\\ \vdots \\\\ x(i=n) \end{bmatrix}\end{split}\]</div>
+<p>Now we have our two distributions
 <span class="math notranslate nohighlight">\(\mathbf{X} \in \mathbb{R}^{n \times p}\)</span> and
 <span class="math notranslate nohighlight">\(\mathbf{Y} \in \mathbb{R}^{n \times p}\)</span>.</p>
 <p>For some methods, we will enforce that every distribution has exactly the same number of voxels <span class="math notranslate nohighlight">\(p\)</span>.
