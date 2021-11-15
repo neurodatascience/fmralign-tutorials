@@ -15,11 +15,6 @@ we briefly contrast these methods with functional alignment to provide a clearer
 
 ## Contrasting anatomically-based alignment
 
-With neuroimaging data, we usually make inferences across subjects by creating a mapping between each subject’s neuroanatomy;
-this is usually done by normalizing their anatomical (T1-weighted) MRI scan to a standard template such as the MNI152.
-We can then look at similarities across individuals in this standardized space.
-Although this approach allows us to learnt commonalities across subjects, it can obscure important individual information.
-
 A relevant analogy here---originally suggested by [Jack Gallant](https://smartech.gatech.edu/handle/1853/60990)---is to the idea of face averaging.
 Much like sulci and gyri in MRI data,
 faces also have relevant landmarks (e.g. eyes) that can be used to generate a mapping between individual's faces.

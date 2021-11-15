@@ -12,18 +12,23 @@ from sklearn.metrics.pairwise import pairwise_distances
 # num_colors = range(8)
 # colors = [f"#{random.randrange(0x1000000):06x}" for n in num_colors]
 
+
 def print_colorbar():
     """
     Used in Churchland figures
     """
-    from matplotlib import cm, figure
+    from matplotlib import cm, colors
 
-    cmap = cm.get_cmap('magma', 100)
-    colors = cmap(np.arange(cmap.N))
-    fig = figure(figsize=(8, 4), dpi=400)
+    cmap = cm.get_cmap('inferno', 100)
+    cmap_bins = cmap(np.arange(cmap.N))
+    fig = plt.figure(figsize=(10, 2), dpi=400)
     ax = fig.add_subplot(111, xticks=[], yticks=[])
-    ax.imshow([colors], extent=[0, 10, 0, 1])
-    plt.show()
+    ax.imshow([cmap_bins], extent=[0, 10, 0, 1])
+    plt.savefig("inferno.svg", transparent=True, bbox_inches="tight")
+    for n in range(3):
+        idx = np.random.choice(np.arange(30, 100, 5), 9, replace=False)
+        print([colors.rgb2hex(cmap_bins[i]) for i in idx])
+    # plt.show()
     return
 
 

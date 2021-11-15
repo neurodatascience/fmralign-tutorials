@@ -13,8 +13,12 @@ kernelspec:
 
 # Distribution alignment
 
-Traditionally, we would extract the activity time courses for voxels of interest,
-such that we had two graphs of voxel activity over time.
+With neuroimaging data, we usually make inferences across subjects by creating a mapping between each subject’s neuroanatomy;
+this is typically done by normalizing their anatomical (T1-weighted) MRI scan to a standard template such as the MNI152.
+We can then look at similarities across individuals in this standardized space, assuming that voxel $X_1, Y_1, Z_1$ corresponds across individuals.
+
+Assuming we'd like to work with voxelwise data, we would then extract the activity time courses for all given voxels of interest,
+such that we had graphs of voxel activity over time.
 We could then compare the similarity of these time courses using techniques such as correlation.
 To compare across individuals or brain states, then, we would compare summary-level statistics from e.g. network analysis.
 
@@ -51,7 +55,7 @@ Y = \begin{bmatrix} y(i=1) \\\\ y(i=2) \\\\ \vdots \\\\ y(i=n) \end{bmatrix},
 X = \begin{bmatrix} x(i=1) \\\\ x(i=2) \\\\ \vdots \\\\ x(i=n) \end{bmatrix}
 ```
 
-Now we have our two distributions
+Now we have two matrices, where each matrix represents one of our two distributions
 $\mathbf{X} \in \mathbb{R}^{n \times p}$ and
 $\mathbf{Y} \in \mathbb{R}^{n \times p}$.
 
