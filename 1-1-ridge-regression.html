@@ -7,8 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>2. Ridge Regression &#8212; fmralign tutorials</title>
     
-  <link href="_static/css/theme.css" rel="stylesheet" />
-  <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+  <link href="_static/css/theme.css" rel="stylesheet">
+  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -31,7 +31,7 @@
     <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
     <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
     
-  <link rel="preload" as="script" href="_static/js/index.1c5a1a01449ed65a7b51.js">
+  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
 
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
@@ -42,7 +42,7 @@
     <script src="_static/copybutton.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
-    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
     <script>
@@ -56,7 +56,10 @@
     <link rel="next" title="3. Procrustes alignment" href="1-2-procrustes.html" />
     <link rel="prev" title="1. Inclusion criteria" href="1-0-intro.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="en" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
     
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
@@ -88,7 +91,7 @@
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
-        <p class="caption" role="heading">
+        <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Background
  </span>
@@ -105,7 +108,7 @@
   </a>
  </li>
 </ul>
-<p class="caption" role="heading">
+<p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Considered methods
  </span>
@@ -142,7 +145,7 @@
   </a>
  </li>
 </ul>
-<p class="caption" role="heading">
+<p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Extensions and applications
  </span>
@@ -250,18 +253,32 @@
             <nav id="bd-toc-nav" aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#formalism">
-   2.1. Formalism
+  <a class="reference internal nav-link" href="#learning-the-beta-weights">
+   2.1. Learning the
+   <span class="math notranslate nohighlight">
+    \(\beta\)
+   </span>
+   weights
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#implementation">
-   2.2. Implementation
+  <a class="reference internal nav-link" href="#improving-performance-with-an-l2-penalty">
+   2.2. Improving performance with an L2 penalty
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#implementing-directly-in-nilearn">
+   2.3. Implementing directly in nilearn
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#other-useful-resources">
-   2.3. Other useful resources
+   2.4. Other useful resources
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#references">
+   2.5. References
   </a>
  </li>
 </ul>
@@ -277,38 +294,36 @@
                 
   <div class="tex2jax_ignore mathjax_ignore section" id="ridge-regression">
 <h1><span class="section-number">2. </span>Ridge Regression<a class="headerlink" href="#ridge-regression" title="Permalink to this headline">¶</a></h1>
-<p>Manhattan or taxicab distance.
-L1 norm.</p>
-<div class="section" id="formalism">
-<h2><span class="section-number">2.1. </span>Formalism<a class="headerlink" href="#formalism" title="Permalink to this headline">¶</a></h2>
-<p>You say “I can predict <span class="math notranslate nohighlight">\(y(t)\)</span> from a weighted combination of the features in <span class="math notranslate nohighlight">\(x(t)\)</span>”.
-This means you are imagining a model that looks something like this,</p>
+<p>Let’s say that you’d like to predict one distribution <em>Y</em> from the other distribution <em>X</em>.
+In previous work <span id="id1">Tavor, Jones, Mars, Smith, Behrens, and Jbabdi [<a class="reference internal" href="#id19">2016</a>]</span>, we’ve seen this method used to predict one task condition (such as a working memory task) from another (such as resting-state) within the same participant.</p>
+<p>Here, we don’t expect that every voxel will provide equal information across the two tasks.
+Instead, we’d like to learn more from informative voxels than from non-informative voxels.
+We can do so by predicting <span class="math notranslate nohighlight">\(Y\)</span> as a <em>weighted combination</em> of information from <span class="math notranslate nohighlight">\(X\)</span>.
+The corresponding model would look something like this,</p>
 <div class="math notranslate nohighlight" id="equation-ridge-eq-1">
-<span class="eqno">(2.1)<a class="headerlink" href="#equation-ridge-eq-1" title="Permalink to this equation">¶</a></span>\[y(t) = \sum_{i=1}^p x_i(t) \beta_i + \epsilon(t)\]</div>
-<p>where:</p>
+<span class="eqno">(2.1)<a class="headerlink" href="#equation-ridge-eq-1" title="Permalink to this equation">¶</a></span>\[Y = X \beta + \epsilon\]</div>
+<p>where</p>
 <ul class="simple">
-<li><p><span class="math notranslate nohighlight">\(x_i(t)\)</span> refers to the <span class="math notranslate nohighlight">\(i\)</span>th feature in <span class="math notranslate nohighlight">\(x(t)\)</span></p></li>
-<li><p><span class="math notranslate nohighlight">\(\beta_i\)</span> refers to the weight on that feature (we don’t know what this weight is yet), and</p></li>
-<li><p><span class="math notranslate nohighlight">\(\epsilon(t)\)</span> refers to the noise, i.e. any part of <span class="math notranslate nohighlight">\(y(t)\)</span> that you can’t predict from <span class="math notranslate nohighlight">\(x(t)\)</span> (we don’t know what this is yet either)</p></li>
+<li><p><span class="math notranslate nohighlight">\(\beta\)</span> refers to a matrix of weights, one for each voxel (we don’t know what the weights are yet), and</p></li>
+<li><p><span class="math notranslate nohighlight">\(\epsilon\)</span> refers to the noise, i.e. any part of <span class="math notranslate nohighlight">\(Y\)</span> that you can’t predict from <span class="math notranslate nohighlight">\(X\)</span> (we don’t know what this is yet either).
+<span class="math notranslate nohighlight">\(\epsilon\)</span> as a matrix of the same size as <span class="math notranslate nohighlight">\(Y\)</span></p></li>
 </ul>
-<p>Since this model is just a weighted sum, we can write it more simply using a little linear algebra:</p>
+<div class="section" id="learning-the-beta-weights">
+<h2><span class="section-number">2.1. </span>Learning the <span class="math notranslate nohighlight">\(\beta\)</span> weights<a class="headerlink" href="#learning-the-beta-weights" title="Permalink to this headline">¶</a></h2>
+<p>Going forward, we’re going to refer to this regression procedure as ordinary least squares or OLS, and the solution that we derived as “the OLS solution” or <span class="math notranslate nohighlight">\(\beta_{OLS}\)</span>.</p>
+<p>We can write <span class="math notranslate nohighlight">\(\epsilon\)</span> mathematically as the difference between <span class="math notranslate nohighlight">\(Y\)</span> and the predicted value based on <span class="math notranslate nohighlight">\(X\)</span> and our estimated <span class="math notranslate nohighlight">\(\beta\)</span> weights:</p>
 <div class="math notranslate nohighlight" id="equation-ridge-eq-2">
-<span class="eqno">(2.2)<a class="headerlink" href="#equation-ridge-eq-2" title="Permalink to this equation">¶</a></span>\[y(t) = x(t) \beta + \epsilon(t)\]</div>
-<p>where <span class="math notranslate nohighlight">\(x(t)\)</span> is now a <span class="math notranslate nohighlight">\(1 \times p\)</span> vector of feature values and <span class="math notranslate nohighlight">\(\beta\)</span> is a <span class="math notranslate nohighlight">\(p \times 1\)</span> vector of weights.</p>
-<p>We stack these to create <span class="math notranslate nohighlight">\(Y\)</span>, which is a <span class="math notranslate nohighlight">\(T \times 1\)</span> matrix of brain responses, and <span class="math notranslate nohighlight">\(X\)</span>, which is a <span class="math notranslate nohighlight">\(T \times p\)</span> matrix of features that we extracted from the stimuli.
-If we also define <span class="math notranslate nohighlight">\(\epsilon\)</span> as a vector of the same size as <span class="math notranslate nohighlight">\(Y\)</span>, then we can re-write the model like this:</p>
-<div class="math notranslate nohighlight" id="equation-ridge-eq-3">
-<span class="eqno">(2.3)<a class="headerlink" href="#equation-ridge-eq-3" title="Permalink to this equation">¶</a></span>\[Y = X \beta + \epsilon\]</div>
-<p>Remember when we talked about the noise term, <span class="math notranslate nohighlight">\(\epsilon(t)\)</span>? We said it was any part of <span class="math notranslate nohighlight">\(y(t)\)</span> that couldn’t be predicted from <span class="math notranslate nohighlight">\(x(t)\)</span>. We can write this mathematically as the difference between <span class="math notranslate nohighlight">\(y(t)\)</span> and the predicted value based on <span class="math notranslate nohighlight">\(x(t)\)</span> and our estimated weights (this comes from re-arranging the equation above:</p>
-<div class="math notranslate nohighlight" id="equation-ridge-eq-4">
-<span class="eqno">(2.4)<a class="headerlink" href="#equation-ridge-eq-4" title="Permalink to this equation">¶</a></span>\[\epsilon(t) = y(t) - x(t) \beta_{OLS}\]</div>
+<span class="eqno">(2.2)<a class="headerlink" href="#equation-ridge-eq-2" title="Permalink to this equation">¶</a></span>\[\epsilon = Y - X \beta_{OLS}\]</div>
 <p>Huh. When we write it this way, it looks a lot like the loss function <span class="math notranslate nohighlight">\(\mathcal{L}(\beta)\)</span>, doesn’t it? In fact, the loss function is exactly the sum of the squared errors. This means our OLS regression model made the assumption that <em><span class="math notranslate nohighlight">\(\epsilon(t)\)</span> is as small as possible</em>, because we selected <span class="math notranslate nohighlight">\(\beta_{OLS}\)</span> to minimize the size of the loss.</p>
+</div>
+<div class="section" id="improving-performance-with-an-l2-penalty">
+<h2><span class="section-number">2.2. </span>Improving performance with an L2 penalty<a class="headerlink" href="#improving-performance-with-an-l2-penalty" title="Permalink to this headline">¶</a></h2>
 <p>The simplest way to describe ridge regression mathematically is including a <strong>penalty</strong> on the size of the weights in the loss function. Specifically, ridge regression penalizes the sum of the squared weights, leading to a new and improved loss function that we’ll call <span class="math notranslate nohighlight">\(\mathcal{L}_{ridge}(\beta)\)</span>:</p>
 <div class="math notranslate nohighlight" id="equation-ridge-eq-5">
-<span class="eqno">(2.5)<a class="headerlink" href="#equation-ridge-eq-5" title="Permalink to this equation">¶</a></span>\[\mathcal{L}_{ridge}(\beta) = \sum_{t=1}^T (y(t) - x(t) \beta)^2 + \lambda \sum_{i=1}^p \beta_i^2\]</div>
+<span class="eqno">(2.3)<a class="headerlink" href="#equation-ridge-eq-5" title="Permalink to this equation">¶</a></span>\[\mathcal{L}_{ridge}(\beta) = \sum_{t=1}^T (y(t) - x(t) \beta)^2 + \lambda \sum_{i=1}^p \beta_i^2\]</div>
 <p>or, in fancy linear algebra terms:</p>
 <div class="math notranslate nohighlight" id="equation-ridge-eq-6">
-<span class="eqno">(2.6)<a class="headerlink" href="#equation-ridge-eq-6" title="Permalink to this equation">¶</a></span>\[\mathcal{L}_{ridge}(\beta) = (Y - X\beta)^\top (Y - X \beta) + \lambda \beta^\top \beta\]</div>
+<span class="eqno">(2.4)<a class="headerlink" href="#equation-ridge-eq-6" title="Permalink to this equation">¶</a></span>\[\mathcal{L}_{ridge}(\beta) = (Y - X\beta)^\top (Y - X \beta) + \lambda \beta^\top \beta\]</div>
 <p>The first term on the right hand side of this equation is the same squared error loss that we used before for OLS.
 The second term is the sum of the squares of all the weights in <span class="math notranslate nohighlight">\(\beta\)</span>, multiplied by a scalar variable <span class="math notranslate nohighlight">\(\lambda\)</span> that we will call the <strong>ridge coefficient</strong></p>
 <p>The ridge coefficient <span class="math notranslate nohighlight">\(\lambda\)</span> determines the <em>strength</em> of the regularization that’s applied in ridge regression:</p>
@@ -319,13 +334,15 @@ The second term is the sum of the squares of all the weights in <span class="mat
 <p>To get the ridge regression weights, <span class="math notranslate nohighlight">\(\beta_{ridge}\)</span>, you minimize the ridge loss function.
 We don’t need to go through the full derivation of the solution (though it’s pretty fun, and easy to do based on the matrix calculus we did for the OLS solution!), so let’s just take a look at the answer:</p>
 <div class="math notranslate nohighlight" id="equation-ridge-eq-7">
-<span class="eqno">(2.7)<a class="headerlink" href="#equation-ridge-eq-7" title="Permalink to this equation">¶</a></span>\[\beta_{ridge} = (X^\top X + \lambda I)^{-1} X^\top Y\]</div>
+<span class="eqno">(2.5)<a class="headerlink" href="#equation-ridge-eq-7" title="Permalink to this equation">¶</a></span>\[\beta_{ridge} = (X^\top X + \lambda I)^{-1} X^\top Y\]</div>
 <p>Compute <span class="math notranslate nohighlight">\(R\)</span> s.t. <span class="math notranslate nohighlight">\(|| XR - Y ||^2 + alpha ||R||^2\)</span> is minimized with CV.</p>
 <div class="math notranslate nohighlight" id="equation-ridge-eq-8">
-<span class="eqno">(2.8)<a class="headerlink" href="#equation-ridge-eq-8" title="Permalink to this equation">¶</a></span>\[||y - Xw||^2_2 + alpha * ||w||^2_2\]</div>
+<span class="eqno">(2.6)<a class="headerlink" href="#equation-ridge-eq-8" title="Permalink to this equation">¶</a></span>\[||y - Xw||^2_2 + alpha * ||w||^2_2\]</div>
 </div>
-<div class="section" id="implementation">
-<h2><span class="section-number">2.2. </span>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="implementing-directly-in-nilearn">
+<h2><span class="section-number">2.3. </span>Implementing directly in nilearn<a class="headerlink" href="#implementing-directly-in-nilearn" title="Permalink to this headline">¶</a></h2>
+<p>There’s an <a class="reference external" href="https://nilearn.github.io/auto_examples/02_decoding/plot_miyawaki_encoding.html">example in the Nilearn gallery</a> that uses ridge regression to predict fMRI activity from visual stimuli.</p>
+<p>We can lightly adapt this example to predict fMRI activity in one condition from another condition.</p>
 <div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">RidgeCV</span>
 
 <span class="n">R</span> <span class="o">=</span> <span class="n">RidgeCV</span><span class="p">(</span><span class="n">alphas</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">alphas</span><span class="p">,</span> <span class="n">fit_intercept</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -337,11 +354,20 @@ We don’t need to go through the full derivation of the solution (though it’s
 </div>
 </div>
 <div class="section" id="other-useful-resources">
-<h2><span class="section-number">2.3. </span>Other useful resources<a class="headerlink" href="#other-useful-resources" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">2.4. </span>Other useful resources<a class="headerlink" href="#other-useful-resources" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="https://github.com/neurohackademy/nh2020-curriculum/tree/master/we-word-embeddings-huth">Alexander Huth tutorial on ridge regression with word embeddings</a></p></li>
-<li><p><a class="reference external" href="https://www.kaggle.com/residentmario/l1-norms-versus-l2-norms">L1 vs L2 norms</a></p></li>
+<li><p><a class="reference external" href="https://towardsdatascience.com/9-distance-measures-in-data-science-918109d069fa">9 Distance Measures in Data Science</a></p></li>
 </ul>
+</div>
+<div class="section" id="references">
+<h2><span class="section-number">2.5. </span>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<p id="id2"><dl class="citation">
+<dt class="label" id="id19"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>Ido Tavor, O Parker Jones, Rogier B Mars, SM Smith, TE Behrens, and Saad Jbabdi. Task-free mri predicts individual differences in brain activity during task performance. <em>Science</em>, 352(6282):216–220, 2016.</p>
+</dd>
+</dl>
+</p>
 </div>
 </div>
 
@@ -368,31 +394,22 @@ We don’t need to go through the full derivation of the solution (though it’s
               </div>
               
         
-            
-
-
-
-<div class='prev-next-bottom'>
-    
-    <div id="prev">
-        <a class="left-prev" href="1-0-intro.html" title="previous page">
-            <i class="prevnext-label fas fa-angle-left"></i>
-            <div class="prevnext-info">
-                <p class="prevnext-label">previous</p>
-                <p class="prevnext-title"><span class="section-number">1. </span>Inclusion criteria</p>
-            </div>
-        </a>
+            <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="1-0-intro.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title"><span class="section-number">1. </span>Inclusion criteria</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="1-2-procrustes.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">3. </span>Procrustes alignment</p>
     </div>
-     <div id="next">
-        <a class="right-next" href="1-2-procrustes.html" title="next page">
-            <div class="prevnext-info">
-                <p class="prevnext-label">next</p>
-                <p class="prevnext-title"><span class="section-number">3. </span>Procrustes alignment</p>
-            </div>
-            <i class="prevnext-label fas fa-angle-right"></i>
-        </a>
-     </div>
-
+    <i class="fas fa-angle-right"></i>
+    </a>
 </div>
         
         </div>
@@ -413,8 +430,7 @@ We don’t need to go through the full derivation of the solution (though it’s
       </div>
     </div>
   
-  <script src="_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
 
-  
   </body>
 </html>

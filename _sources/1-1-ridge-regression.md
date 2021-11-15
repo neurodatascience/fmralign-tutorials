@@ -13,50 +13,39 @@ kernelspec:
 
 # Ridge Regression
 
-Manhattan or taxicab distance.
-L1 norm.
+Let's say that you'd like to predict one distribution _Y_ from the other distribution _X_.
+In previous work {cite:ts}`tavor2016task`, we've seen this method used to predict one task condition (such as a working memory task) from another (such as resting-state) within the same participant.
 
-## Formalism
-
-You say "I can predict $y(t)$ from a weighted combination of the features in $x(t)$".
-This means you are imagining a model that looks something like this,
+Here, we don't expect that every voxel will provide equal information across the two tasks.
+Instead, we'd like to learn more from informative voxels than from non-informative voxels.
+We can do so by predicting $Y$ as a _weighted combination_ of information from $X$.
+The corresponding model would look something like this,
 
 ```{math}
 :label: ridge_eq_1
-y(t) = \sum_{i=1}^p x_i(t) \beta_i + \epsilon(t)
-```
-
-where:
-
-* $x_i(t)$ refers to the $i$th feature in $x(t)$
-* $\beta_i$ refers to the weight on that feature (we don't know what this weight is yet), and
-* $\epsilon(t)$ refers to the noise, i.e. any part of $y(t)$ that you can't predict from $x(t)$ (we don't know what this is yet either)
-
-Since this model is just a weighted sum, we can write it more simply using a little linear algebra:
-
-```{math}
-:label: ridge_eq_2
-y(t) = x(t) \beta + \epsilon(t)
-```
-
-where $x(t)$ is now a $1 \times p$ vector of feature values and $\beta$ is a $p \times 1$ vector of weights.
-
-We stack these to create $Y$, which is a $T \times 1$ matrix of brain responses, and $X$, which is a $T \times p$ matrix of features that we extracted from the stimuli.
-If we also define $\epsilon$ as a vector of the same size as $Y$, then we can re-write the model like this:
-
-```{math}
-:label: ridge_eq_3
 Y = X \beta + \epsilon
 ```
 
-Remember when we talked about the noise term, $\epsilon(t)$? We said it was any part of $y(t)$ that couldn't be predicted from $x(t)$. We can write this mathematically as the difference between $y(t)$ and the predicted value based on $x(t)$ and our estimated weights (this comes from re-arranging the equation above:
+where
+
+* $\beta$ refers to a matrix of weights, one for each voxel (we don't know what the weights are yet), and
+* $\epsilon$ refers to the noise, i.e. any part of $Y$ that you can't predict from $X$ (we don't know what this is yet either).
+  $\epsilon$ as a matrix of the same size as $Y$
+
+## Learning the $\beta$ weights
+
+Going forward, we're going to refer to this regression procedure as ordinary least squares or OLS, and the solution that we derived as "the OLS solution" or $\beta_{OLS}$.
+
+We can write $\epsilon$ mathematically as the difference between $Y$ and the predicted value based on $X$ and our estimated $\beta$ weights:
 
 ```{math}
-:label: ridge_eq_4
-\epsilon(t) = y(t) - x(t) \beta_{OLS}
+:label: ridge_eq_2
+\epsilon = Y - X \beta_{OLS}
 ```
 
 Huh. When we write it this way, it looks a lot like the loss function $\mathcal{L}(\beta)$, doesn't it? In fact, the loss function is exactly the sum of the squared errors. This means our OLS regression model made the assumption that _$\epsilon(t)$ is as small as possible_, because we selected $\beta_{OLS}$ to minimize the size of the loss.
+
+## Improving performance with an L2 penalty
 
 The simplest way to describe ridge regression mathematically is including a **penalty** on the size of the weights in the loss function. Specifically, ridge regression penalizes the sum of the squared weights, leading to a new and improved loss function that we'll call $\mathcal{L}_{ridge}(\beta)$:
 
@@ -95,7 +84,11 @@ Compute $R$ s.t. $|| XR - Y ||^2 + alpha ||R||^2$ is minimized with CV.
 ||y - Xw||^2_2 + alpha * ||w||^2_2
 ```
 
-## Implementation
+## Implementing directly in nilearn
+
+There's an [example in the Nilearn gallery](https://nilearn.github.io/auto_examples/02_decoding/plot_miyawaki_encoding.html) that uses ridge regression to predict fMRI activity from visual stimuli.
+
+We can lightly adapt this example to predict fMRI activity in one condition from another condition.
 
 ```{code} python3
 from sklearn.linear_model import RidgeCV
@@ -110,4 +103,11 @@ R.fit(X, Y)
 ## Other useful resources
 
 * [Alexander Huth tutorial on ridge regression with word embeddings](https://github.com/neurohackademy/nh2020-curriculum/tree/master/we-word-embeddings-huth)
-* [L1 vs L2 norms](https://www.kaggle.com/residentmario/l1-norms-versus-l2-norms)
+* [9 Distance Measures in Data Science](https://towardsdatascience.com/9-distance-measures-in-data-science-918109d069fa)
+
+## References
+
+```{bibliography}
+:style: unsrt
+:filter: docname in docnames
+```

@@ -7,8 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>2. Distribution alignment &#8212; fmralign tutorials</title>
     
-  <link href="_static/css/theme.css" rel="stylesheet" />
-  <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+  <link href="_static/css/theme.css" rel="stylesheet">
+  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -31,7 +31,7 @@
     <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
     <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
     
-  <link rel="preload" as="script" href="_static/js/index.1c5a1a01449ed65a7b51.js">
+  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
 
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
@@ -42,7 +42,7 @@
     <script src="_static/copybutton.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
-    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
     <script>
@@ -56,7 +56,10 @@
     <link rel="next" title="1. Inclusion criteria" href="1-0-intro.html" />
     <link rel="prev" title="1. Functional space" href="0-1-functional-spaces.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="en" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
     
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
@@ -88,7 +91,7 @@
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
-        <p class="caption" role="heading">
+        <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Background
  </span>
@@ -105,7 +108,7 @@
   </a>
  </li>
 </ul>
-<p class="caption" role="heading">
+<p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Considered methods
  </span>
@@ -142,7 +145,7 @@
   </a>
  </li>
 </ul>
-<p class="caption" role="heading">
+<p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Extensions and applications
  </span>
@@ -272,8 +275,11 @@
                 
   <div class="tex2jax_ignore mathjax_ignore section" id="distribution-alignment">
 <h1><span class="section-number">2. </span>Distribution alignment<a class="headerlink" href="#distribution-alignment" title="Permalink to this headline">¶</a></h1>
-<p>Traditionally, we would extract the activity time courses for voxels of interest,
-such that we had two graphs of voxel activity over time.
+<p>With neuroimaging data, we usually make inferences across subjects by creating a mapping between each subject’s neuroanatomy;
+this is typically done by normalizing their anatomical (T1-weighted) MRI scan to a standard template such as the MNI152.
+We can then look at similarities across individuals in this standardized space, assuming that voxel <span class="math notranslate nohighlight">\(X_1, Y_1, Z_1\)</span> corresponds across individuals.</p>
+<p>Assuming we’d like to work with voxelwise data, we would then extract the activity time courses for all given voxels of interest,
+such that we had graphs of voxel activity over time.
 We could then compare the similarity of these time courses using techniques such as correlation.
 To compare across individuals or brain states, then, we would compare summary-level statistics from e.g. network analysis.</p>
 <p>As shown in <a class="reference internal" href="#churchland-1998-fig2-png"><span class="std std-numref">Fig. 2.1</span></a>,
@@ -298,7 +304,7 @@ Let’s define those matrices like this:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}Y = \begin{bmatrix} y(i=1) \\\\ y(i=2) \\\\ \vdots \\\\ y(i=n) \end{bmatrix},
 X = \begin{bmatrix} x(i=1) \\\\ x(i=2) \\\\ \vdots \\\\ x(i=n) \end{bmatrix}\end{split}\]</div>
-<p>Now we have our two distributions
+<p>Now we have two matrices, where each matrix represents one of our two distributions
 <span class="math notranslate nohighlight">\(\mathbf{X} \in \mathbb{R}^{n \times p}\)</span> and
 <span class="math notranslate nohighlight">\(\mathbf{Y} \in \mathbb{R}^{n \times p}\)</span>.</p>
 <p>For some methods, we will enforce that every distribution has exactly the same number of voxels <span class="math notranslate nohighlight">\(p\)</span>.
@@ -346,31 +352,22 @@ and we can therefore capture relevant information even in a lower dimensional sp
               </div>
               
         
-            
-
-
-
-<div class='prev-next-bottom'>
-    
-    <div id="prev">
-        <a class="left-prev" href="0-1-functional-spaces.html" title="previous page">
-            <i class="prevnext-label fas fa-angle-left"></i>
-            <div class="prevnext-info">
-                <p class="prevnext-label">previous</p>
-                <p class="prevnext-title"><span class="section-number">1. </span>Functional space</p>
-            </div>
-        </a>
+            <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="0-1-functional-spaces.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title"><span class="section-number">1. </span>Functional space</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="1-0-intro.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">1. </span>Inclusion criteria</p>
     </div>
-     <div id="next">
-        <a class="right-next" href="1-0-intro.html" title="next page">
-            <div class="prevnext-info">
-                <p class="prevnext-label">next</p>
-                <p class="prevnext-title"><span class="section-number">1. </span>Inclusion criteria</p>
-            </div>
-            <i class="prevnext-label fas fa-angle-right"></i>
-        </a>
-     </div>
-
+    <i class="fas fa-angle-right"></i>
+    </a>
 </div>
         
         </div>
@@ -391,8 +388,7 @@ and we can therefore capture relevant information even in a lower dimensional sp
       </div>
     </div>
   
-  <script src="_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
 
-  
   </body>
 </html>
