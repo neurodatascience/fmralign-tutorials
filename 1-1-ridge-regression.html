@@ -295,35 +295,37 @@
   <div class="tex2jax_ignore mathjax_ignore section" id="ridge-regression">
 <h1><span class="section-number">2. </span>Ridge Regression<a class="headerlink" href="#ridge-regression" title="Permalink to this headline">¶</a></h1>
 <p>Let’s say that you’d like to predict one distribution <em>Y</em> from the other distribution <em>X</em>.
-In previous work <span id="id1">Tavor, Jones, Mars, Smith, Behrens, and Jbabdi [<a class="reference internal" href="#id19">2016</a>]</span>, we’ve seen this method used to predict one task condition (such as a working memory task) from another (such as resting-state) within the same participant.</p>
-<p>Here, we don’t expect that every voxel will provide equal information across the two tasks.
-Instead, we’d like to learn more from informative voxels than from non-informative voxels.
-We can do so by predicting <span class="math notranslate nohighlight">\(Y\)</span> as a <em>weighted combination</em> of information from <span class="math notranslate nohighlight">\(X\)</span>.
+In previous work such as <span id="id1">Tavor, Jones, Mars, Smith, Behrens, and Jbabdi [<a class="reference internal" href="#id19">2016</a>]</span>, we’ve seen this method used to predict one task condition (such as a working memory task) from another (such as resting-state) within the same participant.</p>
+<p>We can do so by predicting <span class="math notranslate nohighlight">\(Y\)</span> as a <em>weighted combination</em> of information from <span class="math notranslate nohighlight">\(X\)</span>.
 The corresponding model would look something like this,</p>
 <div class="math notranslate nohighlight" id="equation-ridge-eq-1">
 <span class="eqno">(2.1)<a class="headerlink" href="#equation-ridge-eq-1" title="Permalink to this equation">¶</a></span>\[Y = X \beta + \epsilon\]</div>
-<p>where</p>
+<p>where we have two unknowns:</p>
 <ul class="simple">
-<li><p><span class="math notranslate nohighlight">\(\beta\)</span> refers to a matrix of weights, one for each voxel (we don’t know what the weights are yet), and</p></li>
-<li><p><span class="math notranslate nohighlight">\(\epsilon\)</span> refers to the noise, i.e. any part of <span class="math notranslate nohighlight">\(Y\)</span> that you can’t predict from <span class="math notranslate nohighlight">\(X\)</span> (we don’t know what this is yet either).
-<span class="math notranslate nohighlight">\(\epsilon\)</span> as a matrix of the same size as <span class="math notranslate nohighlight">\(Y\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\beta\)</span> refers to a matrix of weights, one for each voxel, and</p></li>
+<li><p><span class="math notranslate nohighlight">\(\epsilon\)</span> refers to a matrix of noise, i.e. any part of <span class="math notranslate nohighlight">\(Y\)</span> that you can’t predict from <span class="math notranslate nohighlight">\(X\)</span>.</p></li>
 </ul>
 <div class="section" id="learning-the-beta-weights">
 <h2><span class="section-number">2.1. </span>Learning the <span class="math notranslate nohighlight">\(\beta\)</span> weights<a class="headerlink" href="#learning-the-beta-weights" title="Permalink to this headline">¶</a></h2>
-<p>Going forward, we’re going to refer to this regression procedure as ordinary least squares or OLS, and the solution that we derived as “the OLS solution” or <span class="math notranslate nohighlight">\(\beta_{OLS}\)</span>.</p>
-<p>We can write <span class="math notranslate nohighlight">\(\epsilon\)</span> mathematically as the difference between <span class="math notranslate nohighlight">\(Y\)</span> and the predicted value based on <span class="math notranslate nohighlight">\(X\)</span> and our estimated <span class="math notranslate nohighlight">\(\beta\)</span> weights:</p>
-<div class="math notranslate nohighlight" id="equation-ridge-eq-2">
-<span class="eqno">(2.2)<a class="headerlink" href="#equation-ridge-eq-2" title="Permalink to this equation">¶</a></span>\[\epsilon = Y - X \beta_{OLS}\]</div>
-<p>Huh. When we write it this way, it looks a lot like the loss function <span class="math notranslate nohighlight">\(\mathcal{L}(\beta)\)</span>, doesn’t it? In fact, the loss function is exactly the sum of the squared errors. This means our OLS regression model made the assumption that <em><span class="math notranslate nohighlight">\(\epsilon(t)\)</span> is as small as possible</em>, because we selected <span class="math notranslate nohighlight">\(\beta_{OLS}\)</span> to minimize the size of the loss.</p>
+<p>Our goal is to learn the <span class="math notranslate nohighlight">\(\beta\)</span> weights that minimize our “noise” or error values, <span class="math notranslate nohighlight">\(\epsilon\)</span>.
+Ordinary Least Squares (OLS) is an ideal approach to solving this regression in that it provides the Best Linear Unbiased Estimator (BLUE).
+A nice introduction to OLS is available from <a class="reference external" href="https://mumfordbrainstats.tumblr.com/post/124743714561/day-2-simple-linear-regression">Mumford Brain Stats</a>.</p>
+<p>Unfortunately, using OLS regression tends to overfit to a given data sample, meaning that our learned <span class="math notranslate nohighlight">\(\beta\)</span> values will not generalize well to new data.
+This is important, as we do not want to learn mappings between only two sets of samples (i.e. one run each of resting-state and task).
+Instead, we want to learn mappings that <em>generalize</em> to new samples collected under the same conditions.
+We therefore need to reduce how much we’re overfitting to our training samples.</p>
+<p>To do so, we can modify the learnt <span class="math notranslate nohighlight">\(\beta\)</span> weights using a set rule.
+Although many different rules are possible, here we’ll use “ridge,” from which ridge regression gets its name.
+This is also known as an L2 penalty.</p>
 </div>
 <div class="section" id="improving-performance-with-an-l2-penalty">
 <h2><span class="section-number">2.2. </span>Improving performance with an L2 penalty<a class="headerlink" href="#improving-performance-with-an-l2-penalty" title="Permalink to this headline">¶</a></h2>
 <p>The simplest way to describe ridge regression mathematically is including a <strong>penalty</strong> on the size of the weights in the loss function. Specifically, ridge regression penalizes the sum of the squared weights, leading to a new and improved loss function that we’ll call <span class="math notranslate nohighlight">\(\mathcal{L}_{ridge}(\beta)\)</span>:</p>
 <div class="math notranslate nohighlight" id="equation-ridge-eq-5">
-<span class="eqno">(2.3)<a class="headerlink" href="#equation-ridge-eq-5" title="Permalink to this equation">¶</a></span>\[\mathcal{L}_{ridge}(\beta) = \sum_{t=1}^T (y(t) - x(t) \beta)^2 + \lambda \sum_{i=1}^p \beta_i^2\]</div>
+<span class="eqno">(2.2)<a class="headerlink" href="#equation-ridge-eq-5" title="Permalink to this equation">¶</a></span>\[\mathcal{L}_{ridge}(\beta) = \sum_{t=1}^T (y(t) - x(t) \beta)^2 + \lambda \sum_{i=1}^p \beta_i^2\]</div>
 <p>or, in fancy linear algebra terms:</p>
 <div class="math notranslate nohighlight" id="equation-ridge-eq-6">
-<span class="eqno">(2.4)<a class="headerlink" href="#equation-ridge-eq-6" title="Permalink to this equation">¶</a></span>\[\mathcal{L}_{ridge}(\beta) = (Y - X\beta)^\top (Y - X \beta) + \lambda \beta^\top \beta\]</div>
+<span class="eqno">(2.3)<a class="headerlink" href="#equation-ridge-eq-6" title="Permalink to this equation">¶</a></span>\[\mathcal{L}_{ridge}(\beta) = (Y - X\beta)^\top (Y - X \beta) + \lambda \beta^\top \beta\]</div>
 <p>The first term on the right hand side of this equation is the same squared error loss that we used before for OLS.
 The second term is the sum of the squares of all the weights in <span class="math notranslate nohighlight">\(\beta\)</span>, multiplied by a scalar variable <span class="math notranslate nohighlight">\(\lambda\)</span> that we will call the <strong>ridge coefficient</strong></p>
 <p>The ridge coefficient <span class="math notranslate nohighlight">\(\lambda\)</span> determines the <em>strength</em> of the regularization that’s applied in ridge regression:</p>
@@ -334,10 +336,10 @@ The second term is the sum of the squares of all the weights in <span class="mat
 <p>To get the ridge regression weights, <span class="math notranslate nohighlight">\(\beta_{ridge}\)</span>, you minimize the ridge loss function.
 We don’t need to go through the full derivation of the solution (though it’s pretty fun, and easy to do based on the matrix calculus we did for the OLS solution!), so let’s just take a look at the answer:</p>
 <div class="math notranslate nohighlight" id="equation-ridge-eq-7">
-<span class="eqno">(2.5)<a class="headerlink" href="#equation-ridge-eq-7" title="Permalink to this equation">¶</a></span>\[\beta_{ridge} = (X^\top X + \lambda I)^{-1} X^\top Y\]</div>
+<span class="eqno">(2.4)<a class="headerlink" href="#equation-ridge-eq-7" title="Permalink to this equation">¶</a></span>\[\beta_{ridge} = (X^\top X + \lambda I)^{-1} X^\top Y\]</div>
 <p>Compute <span class="math notranslate nohighlight">\(R\)</span> s.t. <span class="math notranslate nohighlight">\(|| XR - Y ||^2 + alpha ||R||^2\)</span> is minimized with CV.</p>
 <div class="math notranslate nohighlight" id="equation-ridge-eq-8">
-<span class="eqno">(2.6)<a class="headerlink" href="#equation-ridge-eq-8" title="Permalink to this equation">¶</a></span>\[||y - Xw||^2_2 + alpha * ||w||^2_2\]</div>
+<span class="eqno">(2.5)<a class="headerlink" href="#equation-ridge-eq-8" title="Permalink to this equation">¶</a></span>\[||y - Xw||^2_2 + alpha * ||w||^2_2\]</div>
 </div>
 <div class="section" id="implementing-directly-in-nilearn">
 <h2><span class="section-number">2.3. </span>Implementing directly in nilearn<a class="headerlink" href="#implementing-directly-in-nilearn" title="Permalink to this headline">¶</a></h2>

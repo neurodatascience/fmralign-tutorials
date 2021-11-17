@@ -14,10 +14,8 @@ kernelspec:
 # Ridge Regression
 
 Let's say that you'd like to predict one distribution _Y_ from the other distribution _X_.
-In previous work {cite:ts}`tavor2016task`, we've seen this method used to predict one task condition (such as a working memory task) from another (such as resting-state) within the same participant.
+In previous work such as {cite:ts}`tavor2016task`, we've seen this method used to predict one task condition (such as a working memory task) from another (such as resting-state) within the same participant.
 
-Here, we don't expect that every voxel will provide equal information across the two tasks.
-Instead, we'd like to learn more from informative voxels than from non-informative voxels.
 We can do so by predicting $Y$ as a _weighted combination_ of information from $X$.
 The corresponding model would look something like this,
 
@@ -26,24 +24,25 @@ The corresponding model would look something like this,
 Y = X \beta + \epsilon
 ```
 
-where
+where we have two unknowns:
 
-* $\beta$ refers to a matrix of weights, one for each voxel (we don't know what the weights are yet), and
-* $\epsilon$ refers to the noise, i.e. any part of $Y$ that you can't predict from $X$ (we don't know what this is yet either).
-  $\epsilon$ as a matrix of the same size as $Y$
+* $\beta$ refers to a matrix of weights, one for each voxel, and
+* $\epsilon$ refers to a matrix of noise, i.e. any part of $Y$ that you can't predict from $X$.
 
 ## Learning the $\beta$ weights
 
-Going forward, we're going to refer to this regression procedure as ordinary least squares or OLS, and the solution that we derived as "the OLS solution" or $\beta_{OLS}$.
+Our goal is to learn the $\beta$ weights that minimize our "noise" or error values, $\epsilon$.
+Ordinary Least Squares (OLS) is an ideal approach to solving this regression in that it provides the Best Linear Unbiased Estimator (BLUE).
+A nice introduction to OLS is available from [Mumford Brain Stats](https://mumfordbrainstats.tumblr.com/post/124743714561/day-2-simple-linear-regression).
 
-We can write $\epsilon$ mathematically as the difference between $Y$ and the predicted value based on $X$ and our estimated $\beta$ weights:
+Unfortunately, using OLS regression tends to overfit to a given data sample, meaning that our learned $\beta$ values will not generalize well to new data.
+This is important, as we do not want to learn mappings between only two sets of samples (i.e. one run each of resting-state and task).
+Instead, we want to learn mappings that _generalize_ to new samples collected under the same conditions.
+We therefore need to reduce how much we're overfitting to our training samples.
 
-```{math}
-:label: ridge_eq_2
-\epsilon = Y - X \beta_{OLS}
-```
-
-Huh. When we write it this way, it looks a lot like the loss function $\mathcal{L}(\beta)$, doesn't it? In fact, the loss function is exactly the sum of the squared errors. This means our OLS regression model made the assumption that _$\epsilon(t)$ is as small as possible_, because we selected $\beta_{OLS}$ to minimize the size of the loss.
+To do so, we can modify the learnt $\beta$ weights using a set rule.
+Although many different rules are possible, here we'll use "ridge," from which ridge regression gets its name.
+This is also known as an L2 penalty.
 
 ## Improving performance with an L2 penalty
 
