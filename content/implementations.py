@@ -19,12 +19,12 @@ def print_colorbar():
     """
     from matplotlib import cm, colors
 
-    cmap = cm.get_cmap('inferno', 100)
+    cmap = cm.get_cmap('magma', 100)
     cmap_bins = cmap(np.arange(cmap.N))
     fig = plt.figure(figsize=(10, 2), dpi=400)
     ax = fig.add_subplot(111, xticks=[], yticks=[])
     ax.imshow([cmap_bins], extent=[0, 10, 0, 1])
-    plt.savefig("inferno.svg", transparent=True, bbox_inches="tight")
+    plt.savefig("magma.svg", transparent=True, bbox_inches="tight")
     for n in range(3):
         idx = np.random.choice(np.arange(30, 100, 5), 9, replace=False)
         print([colors.rgb2hex(cmap_bins[i]) for i in idx])
